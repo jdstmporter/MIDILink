@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<installer-gui-script minSpecVersion="1">
+    <pkg-ref id="solutions.jpembedded.MIDILinker.help">
+        <bundle-version>
+            <bundle CFBundleShortVersionString="1.0" CFBundleVersion="1.0" id="solutions.jpembedded.MIDILinker.help" path="Contents/Resources/MIDILinkerHelp.help"/>
+        </bundle-version>
+    </pkg-ref>
+    <options customize="never" require-scripts="false"/>
+    <choices-outline>
+        <line choice="default">
+            <line choice="solutions.jpembedded.MIDILinker.help"/>
+        </line>
+    </choices-outline>
+    <choice id="default"/>
+    <choice id="solutions.jpembedded.MIDILinker.help" visible="false">
+        <pkg-ref id="solutions.jpembedded.MIDILinker.help"/>
+    </choice>
+    <pkg-ref id="solutions.jpembedded.MIDILinker.help" version="1.0.0" onConclusion="none" packageIdentifier="solutions.jpembedded.MIDILinker" installKBytes="732">#MIDILinker.pkg</pkg-ref>
+</installer-gui-script>

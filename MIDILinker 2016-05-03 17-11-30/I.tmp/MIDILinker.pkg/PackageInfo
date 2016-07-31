@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<pkg-info overwrite-permissions="true" relocatable="false" identifier="solutions.jpembedded.MIDILinker" postinstall-action="none" version="0" format-version="2" generator-version="InstallCmds-554 (15E65)" install-location="/Applications" auth="root">
+    <payload numberOfFiles="38" installKBytes="732"/>
+    <bundle path="./Contents/Resources/MIDILinkerHelp.help" id="solutions.jpembedded.MIDILinker.help" CFBundleShortVersionString="1.0" CFBundleVersion="1.0"/>
+    <bundle-version>
+        <bundle id="solutions.jpembedded.MIDILinker.help"/>
+    </bundle-version>
+    <upgrade-bundle>
+        <bundle id="solutions.jpembedded.MIDILinker.help"/>
+    </upgrade-bundle>
+    <update-bundle/>
+    <atomic-update-bundle/>
+    <strict-identifier/>
+    <relocate/>
+</pkg-info>
