@@ -72,9 +72,9 @@ void MIDINotifyFunction(const MIDINotification *message,void *clientRef) {
 }
 
 - (void)connectSourceTo:(MIDIThing *)source {
-    self.source=[[MIDIEndPointDescription alloc] initWithThing:source];
+    self.source=(source==nil) ? nil : [[MIDIEndPointDescription alloc] initWithThing:source];
     MIDIPortRef port;
-    CFStringRef name=(CFStringRef)CFBridgingRetain(self.source.Name);
+    CFStringRef name=(CFStringRef)CFBridgingRetain((self.source==nil) ? @"-" :self.source.Name);
     OSStatus error=MIDIInputPortCreate(self.raw, name,MIDIProcessingFunction,(__bridge void *)self,&port);
     if(error!=noErr) [MIDIThing errorWithCode:error andDescription:@"Cannot create input port"];
     CFRelease(name);
@@ -112,9 +112,23 @@ void MIDINotifyFunction(const MIDINotification *message,void *clientRef) {
 }
 
 
-
-
-
 @end
 
+@implementation MIDIInjector
 
+- (void)connect:(MIDIThing *)thing {
+    self.source=nil;
+    [self connectDestinationTo:thing];
+}
+
+- (void)disconnect {
+    OSStatus error=MIDIPortDispose(self.outputPort);
+    if(error!=noErr) [MIDIThing errorWithCode:error andDescription:@"Cannot dispose of output port"];
+}
+
+- (void)inject:(const MIDIPacketList *)packets {
+    OSStatus error=MIDISend(self.outputPort,self.destination.object,packets);
+    if(error!=noErr) [MIDIThing errorWithCode:error andDescription:@"CError sending packets"];
+}
+
+@end

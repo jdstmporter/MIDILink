@@ -12,15 +12,15 @@
 #import "Decoder.h"
 #import "InjectorView.h"
 
-@interface ScanViewController : NSViewController 
+@interface ScanViewController : NSViewController <NSDrawerDelegate>
 
 @property (weak) IBOutlet EndPointView *endpoints;
-@property (weak) IBOutlet Decoder *decoder;
-
+@property (weak) IBOutlet InjectorView *injector;
 
 - (IBAction)scanForEndpoints:(NSButton *)sender;
 - (IBAction)scanForEndpointsFromMenu:(NSMenuItem *)sender;
-- (IBAction)monitorEndpoint:(NSButton *)sender;
-- (IBAction)monitorENdpointFromMenu:(NSMenuItem *)sender;
+
+- (IBAction)injectPacket:(NSButton *)sender;
+
 
 @end

@@ -37,7 +37,14 @@
 		E113F7FA1CDA1CE400FE9CA6 /* MIDICSVSerialiser.h in Headers */ = {isa = PBXBuildFile; fileRef = E1DA4AC81CD808AE00FAE94E /* MIDICSVSerialiser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E113F7FB1CDA1CE400FE9CA6 /* MIDIJSONSerialiser.h in Headers */ = {isa = PBXBuildFile; fileRef = E1DA4ACB1CD81D5500FAE94E /* MIDIJSONSerialiser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16C1ED31D42C3740048EF1E /* MIDIManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E113F7DE1CDA1C8400FE9CA6 /* MIDIManager.framework */; };
-		E1753EB71D4AC68A00F91C17 /* InjectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1753EB61D4AC68A00F91C17 /* InjectorView.m */; };
+		E183029A1D4E56AF0092B9A9 /* MIDIManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E113F7DE1CDA1C8400FE9CA6 /* MIDIManager.framework */; };
+		E18302A51D4E57900092B9A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E18302A41D4E57900092B9A9 /* Assets.xcassets */; };
+		E18302A71D4E57CE0092B9A9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E18302A61D4E57CE0092B9A9 /* MainMenu.xib */; };
+		E18302AD1D4E58640092B9A9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E18302A81D4E58640092B9A9 /* AppDelegate.m */; };
+		E18302AF1D4E58640092B9A9 /* EndPointList.m in Sources */ = {isa = PBXBuildFile; fileRef = E18302AA1D4E58640092B9A9 /* EndPointList.m */; };
+		E18302B01D4E58640092B9A9 /* InjectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E18302AB1D4E58640092B9A9 /* InjectorView.m */; };
+		E18302B11D4E58640092B9A9 /* ViewControllerM.m in Sources */ = {isa = PBXBuildFile; fileRef = E18302AC1D4E58640092B9A9 /* ViewControllerM.m */; };
+		E18302B31D4E58790092B9A9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E18302B21D4E58790092B9A9 /* main.m */; };
 		E194C0F01D3D4B4A00F327E9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E194C0EF1D3D4B4A00F327E9 /* AppDelegate.m */; };
 		E194C0F31D3D4B4A00F327E9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E194C0F21D3D4B4A00F327E9 /* main.m */; };
 		E194C0F51D3D4B4A00F327E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E194C0F41D3D4B4A00F327E9 /* Assets.xcassets */; };
@@ -76,6 +83,13 @@
 			remoteGlobalIDString = E113F7DD1CDA1C8400FE9CA6;
 			remoteInfo = MIDIManager;
 		};
+		E18302911D4E56AF0092B9A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1DA4A4B1CCFA51A00FAE94E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E113F7DD1CDA1C8400FE9CA6;
+			remoteInfo = MIDIManager;
+		};
 		E194C0FF1D3D4BEB00F327E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E1DA4A4B1CCFA51A00FAE94E /* Project object */;
@@ -108,8 +122,18 @@
 		E113F7DE1CDA1C8400FE9CA6 /* MIDIManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MIDIManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E113F7E01CDA1C8400FE9CA6 /* MIDIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIDIManager.h; sourceTree = "<group>"; };
 		E113F7E21CDA1C8400FE9CA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E1753EB51D4AC68A00F91C17 /* InjectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InjectorView.h; sourceTree = "<group>"; };
-		E1753EB61D4AC68A00F91C17 /* InjectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InjectorView.m; sourceTree = "<group>"; };
+		E18302A11D4E56AF0092B9A9 /* MIDIInjector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MIDIInjector.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E18302A21D4E56AF0092B9A9 /* MIDIMonitor copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "MIDIMonitor copy-Info.plist"; path = "/Users/julianporter/Documents/workspace/MIDI/MIDILink/MIDIMonitor copy-Info.plist"; sourceTree = "<absolute>"; };
+		E18302A31D4E57290092B9A9 /* MIDIInjector */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MIDIInjector; sourceTree = "<group>"; };
+		E18302A41D4E57900092B9A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = MIDIInjector/Assets.xcassets; sourceTree = "<group>"; };
+		E18302A61D4E57CE0092B9A9 /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainMenu.xib; path = MIDIInjector/Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		E18302A81D4E58640092B9A9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = MIDIInjector/AppDelegate.m; sourceTree = "<group>"; };
+		E18302A91D4E58640092B9A9 /* Decoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Decoder.m; path = MIDIInjector/Decoder.m; sourceTree = "<group>"; };
+		E18302AA1D4E58640092B9A9 /* EndPointList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = EndPointList.m; path = MIDIInjector/EndPointList.m; sourceTree = "<group>"; };
+		E18302AB1D4E58640092B9A9 /* InjectorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = InjectorView.m; path = MIDIInjector/InjectorView.m; sourceTree = "<group>"; };
+		E18302AC1D4E58640092B9A9 /* ViewControllerM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ViewControllerM.m; path = MIDIInjector/ViewControllerM.m; sourceTree = "<group>"; };
+		E18302B21D4E58790092B9A9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MIDIInjector/main.m; sourceTree = "<group>"; };
+		E18302B41D4E59C50092B9A9 /* MIDIInjector.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = MIDIInjector.entitlements; path = MIDIInjector/MIDIInjector.entitlements; sourceTree = "<group>"; };
 		E194C0EC1D3D4B4A00F327E9 /* MIDIMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MIDIMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E194C0EE1D3D4B4A00F327E9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E194C0EF1D3D4B4A00F327E9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -183,6 +207,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E18302991D4E56AF0092B9A9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E183029A1D4E56AF0092B9A9 /* MIDIManager.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E194C0E91D3D4B4A00F327E9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -242,8 +274,6 @@
 				E194C1051D3D4D4C00F327E9 /* EndPointList.m */,
 				E194C10B1D3D5A8300F327E9 /* Decoder.h */,
 				E194C10C1D3D5A8300F327E9 /* Decoder.m */,
-				E1753EB51D4AC68A00F91C17 /* InjectorView.h */,
-				E1753EB61D4AC68A00F91C17 /* InjectorView.m */,
 			);
 			path = MIDIMonitor;
 			sourceTree = "<group>";
@@ -259,6 +289,16 @@
 		E1DA4A4A1CCFA51A00FAE94E = {
 			isa = PBXGroup;
 			children = (
+				E18302B41D4E59C50092B9A9 /* MIDIInjector.entitlements */,
+				E18302B21D4E58790092B9A9 /* main.m */,
+				E18302A81D4E58640092B9A9 /* AppDelegate.m */,
+				E18302A91D4E58640092B9A9 /* Decoder.m */,
+				E18302AA1D4E58640092B9A9 /* EndPointList.m */,
+				E18302AB1D4E58640092B9A9 /* InjectorView.m */,
+				E18302AC1D4E58640092B9A9 /* ViewControllerM.m */,
+				E18302A61D4E57CE0092B9A9 /* MainMenu.xib */,
+				E18302A41D4E57900092B9A9 /* Assets.xcassets */,
+				E18302A31D4E57290092B9A9 /* MIDIInjector */,
 				E1DA4A901CD4DF6F00FAE94E /* libcommonCrypto.tbd */,
 				E1DA4A601CCFA58000FAE94E /* CoreMIDI.framework */,
 				E1DA4A551CCFA51A00FAE94E /* MIDILink */,
@@ -268,6 +308,7 @@
 				E194C0ED1D3D4B4A00F327E9 /* MIDIMonitor */,
 				E1DA4A541CCFA51A00FAE94E /* Products */,
 				E1DA4ACF1CD960F500FAE94E /* OptimizationProfiles */,
+				E18302A21D4E56AF0092B9A9 /* MIDIMonitor copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -279,6 +320,7 @@
 				E1DA4AAF1CD7706600FAE94E /* MIDILinkerHelp.help */,
 				E113F7DE1CDA1C8400FE9CA6 /* MIDIManager.framework */,
 				E194C0EC1D3D4B4A00F327E9 /* MIDIMonitor.app */,
+				E18302A11D4E56AF0092B9A9 /* MIDIInjector.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -423,6 +465,24 @@
 			productReference = E113F7DE1CDA1C8400FE9CA6 /* MIDIManager.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		E183028F1D4E56AF0092B9A9 /* MIDIInjector */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E183029E1D4E56AF0092B9A9 /* Build configuration list for PBXNativeTarget "MIDIInjector" */;
+			buildPhases = (
+				E18302921D4E56AF0092B9A9 /* Sources */,
+				E18302991D4E56AF0092B9A9 /* Frameworks */,
+				E183029B1D4E56AF0092B9A9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E18302901D4E56AF0092B9A9 /* PBXTargetDependency */,
+			);
+			name = MIDIInjector;
+			productName = MIDIMonitor;
+			productReference = E18302A11D4E56AF0092B9A9 /* MIDIInjector.app */;
+			productType = "com.apple.product-type.application";
+		};
 		E194C0EB1D3D4B4A00F327E9 /* MIDIMonitor */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E194C0FC1D3D4B4A00F327E9 /* Build configuration list for PBXNativeTarget "MIDIMonitor" */;
@@ -507,6 +567,14 @@
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = XLKATCU397;
 					};
+					E183028F1D4E56AF0092B9A9 = {
+						DevelopmentTeam = XLKATCU397;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
+					};
 					E194C0EB1D3D4B4A00F327E9 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = XLKATCU397;
@@ -551,6 +619,7 @@
 				E1DA4AAE1CD7706600FAE94E /* MIDILinkerHelp */,
 				E113F7DD1CDA1C8400FE9CA6 /* MIDIManager */,
 				E194C0EB1D3D4B4A00F327E9 /* MIDIMonitor */,
+				E183028F1D4E56AF0092B9A9 /* MIDIInjector */,
 			);
 		};
 /* End PBXProject section */
@@ -560,6 +629,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E183029B1D4E56AF0092B9A9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E18302A51D4E57900092B9A9 /* Assets.xcassets in Resources */,
+				E18302A71D4E57CE0092B9A9 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,11 +690,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E18302921D4E56AF0092B9A9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E18302AD1D4E58640092B9A9 /* AppDelegate.m in Sources */,
+				E18302AF1D4E58640092B9A9 /* EndPointList.m in Sources */,
+				E18302B01D4E58640092B9A9 /* InjectorView.m in Sources */,
+				E18302B11D4E58640092B9A9 /* ViewControllerM.m in Sources */,
+				E18302B31D4E58790092B9A9 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E194C0E81D3D4B4A00F327E9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1753EB71D4AC68A00F91C17 /* InjectorView.m in Sources */,
 				E194C1031D3D4C6700F327E9 /* ViewControllerM.m in Sources */,
 				E194C0F31D3D4B4A00F327E9 /* main.m in Sources */,
 				E194C10D1D3D5A8300F327E9 /* Decoder.m in Sources */,
@@ -671,6 +760,11 @@
 			isa = PBXTargetDependency;
 			target = E113F7DD1CDA1C8400FE9CA6 /* MIDIManager */;
 			targetProxy = E16C1ED41D42C3FB0048EF1E /* PBXContainerItemProxy */;
+		};
+		E18302901D4E56AF0092B9A9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E113F7DD1CDA1C8400FE9CA6 /* MIDIManager */;
+			targetProxy = E18302911D4E56AF0092B9A9 /* PBXContainerItemProxy */;
 		};
 		E194C1001D3D4BEB00F327E9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -752,6 +846,38 @@
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		E183029F1D4E56AF0092B9A9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MIDIInjector/MIDIInjector.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = MIDIInjector/MIDIInjectorInfo.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = solutions.jpembedded.MIDIInjector;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		E18302A01D4E56AF0092B9A9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MIDIInjector/MIDIInjector.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = MIDIInjector/MIDIInjectorInfo.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = solutions.jpembedded.MIDIInjector;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -960,6 +1086,15 @@
 			buildConfigurations = (
 				E113F7E41CDA1C8400FE9CA6 /* Debug */,
 				E113F7E51CDA1C8400FE9CA6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E183029E1D4E56AF0092B9A9 /* Build configuration list for PBXNativeTarget "MIDIInjector" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E183029F1D4E56AF0092B9A9 /* Debug */,
+				E18302A01D4E56AF0092B9A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

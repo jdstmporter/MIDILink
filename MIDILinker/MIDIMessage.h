@@ -92,6 +92,8 @@ NSString * _(Byte b);
 @property (nonatomic) MIDICommandTypes type;
 
 - (instancetype)init;
+- (MIDIPacket) getPacket;
+- (MIDIPacketList) getPacketList;
 
 
 

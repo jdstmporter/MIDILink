@@ -43,11 +43,17 @@ typedef void(^MIDIActivityCallback)(const MIDIPacketList *packets,OSStatus error
 @interface MIDIListener : MIDIClient
 
 
-
-
 - (void) connect:(MIDIThing *)thing;
 - (void) disconnect;
 
 
 @end
 
+@interface MIDIInjector : MIDIClient
+
+- (void) connect:(MIDIThing *)thing;
+- (void) disconnect;
+
+- (void) inject:(const MIDIPacketList *)packets;
+
+@end

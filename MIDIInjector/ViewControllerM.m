@@ -17,25 +17,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self scanForEndpoints:nil];
+    [self.injector reset:nil];
 }
 
 - (IBAction)scanForEndpoints:(NSButton *)sender {
     [self.endpoints scan];
 }
 
-- (IBAction)monitorEndpoint:(NSButton *)sender {
-    EndpointWrapper *endpoint=[self.endpoints selected];
-    NSLog(@"Decoding %@ . . .",endpoint);
-    [self.decoder start:endpoint];
-}
-
-- (void)monitorENdpointFromMenu:(NSMenuItem *)sender {
-    [self monitorEndpoint:nil];
-}
 
 
 - (IBAction)scanForEndpointsFromMenu:(NSMenuItem *)sender {
     [self.endpoints scan];
+}
+
+- (void)injectPacket:(NSButton *)sender {
+    EndpointWrapper *endpoint=[self.endpoints selected];
+    MIDIBuilder *builder=[self.injector message];
+    
+    if(endpoint) {
+        MIDIInjector *injector=[[MIDIInjector alloc] initWithName:@"Injection"];
+        [injector connect:[endpoint.endpoint thing]];
+        MIDIPacketList list=[builder getPacketList];
+        [injector inject:&list];
+        [injector disconnect];
+    }
 }
 
 

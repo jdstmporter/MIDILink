@@ -308,6 +308,8 @@ static NSArray *controllerKeys=nil;
 
 
 
+
+
 - (instancetype)init {
     self=[super init];
     if(self) {
@@ -316,6 +318,10 @@ static NSArray *controllerKeys=nil;
         self.data2=0;
     }
     return self;
+}
+
+- (NSInteger) length {
+    return 1+[[MIDIBuilder dataBytesForType:self.status] count];
 }
 
 - (UInt8)channel {
@@ -332,6 +338,23 @@ static NSArray *controllerKeys=nil;
 
 - (void)setType:(MIDICommandTypes)type {
     self.status=type | self.channel;
+}
+
+- (MIDIPacket)getPacket {
+    MIDIPacket p={0};
+    p.timeStamp=0;
+    p.length=[self length];
+    p.data[0]=self.status;
+    p.data[1]=self.data1;
+    p.data[2]=self.data2;
+    return p;
+}
+
+- (MIDIPacketList)getPacketList {
+    MIDIPacketList l={0};
+    l.numPackets=1;
+    l.packet[0]=[self getPacket];
+    return l;
 }
 
 @end
