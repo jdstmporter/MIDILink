@@ -8,37 +8,6 @@
 
 #import "MIDIMessage.h"
 
-@implementation TimeStandard
-
-- (id)init {
-    self=[super init];
-    if(self) {
-        self.timebase=(mach_timebase_info_t) malloc(sizeof(mach_timebase_info_data_t));
-        mach_timebase_info(self.timebase);
-        self.startDate=[NSDate date];
-        self.start=mach_absolute_time();
-        
-        self.formatter=[[NSDateFormatter alloc] init];
-        self.formatter.locale=[NSLocale currentLocale];
-        self.formatter.dateFormat=@"HH:mm:ss.SSSS";
-        self.formatter.timeZone=[NSTimeZone defaultTimeZone];
-    }
-    return self;
-}
-
-- (void)dealloc {
-    free(self.timebase);
-}
-
-- (NSString *)convert:(MIDITimeStamp)time {
-    UInt64 nano=(time-self.start) * self.timebase->numer/self.timebase->denom;
-    NSDate *date=[NSDate dateWithTimeInterval:1.0e-9*nano sinceDate:self.startDate];
-    return [self.formatter stringFromDate:date];
-}
-
-
-
-@end
 
 static NSDictionary *commandNames;
 

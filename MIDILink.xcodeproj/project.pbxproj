@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E100BC911DBED4D800F089C2 /* MIDIManager.framework in Resources */ = {isa = PBXBuildFile; fileRef = E113F7DE1CDA1C8400FE9CA6 /* MIDIManager.framework */; };
+		E100BC921DBED4F000F089C2 /* MIDIManager.framework in Resources */ = {isa = PBXBuildFile; fileRef = E113F7DE1CDA1C8400FE9CA6 /* MIDIManager.framework */; };
 		E113F7D31CDA1B6B00FE9CA6 /* LinkWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DA4A8E1CD4D16C00FAE94E /* LinkWrapper.m */; };
 		E113F7D41CDA1B7600FE9CA6 /* MIDIDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DA4A931CD50A2C00FAE94E /* MIDIDecoder.m */; };
 		E113F7D51CDA1B7A00FE9CA6 /* MIDIMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DA4AC21CD7C38900FAE94E /* MIDIMessage.m */; };
@@ -37,6 +39,9 @@
 		E113F7FA1CDA1CE400FE9CA6 /* MIDICSVSerialiser.h in Headers */ = {isa = PBXBuildFile; fileRef = E1DA4AC81CD808AE00FAE94E /* MIDICSVSerialiser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E113F7FB1CDA1CE400FE9CA6 /* MIDIJSONSerialiser.h in Headers */ = {isa = PBXBuildFile; fileRef = E1DA4ACB1CD81D5500FAE94E /* MIDIJSONSerialiser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16C1ED31D42C3740048EF1E /* MIDIManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E113F7DE1CDA1C8400FE9CA6 /* MIDIManager.framework */; };
+		E18154DE1D91A77F00A50C91 /* MIDIManager.framework in Resources */ = {isa = PBXBuildFile; fileRef = E113F7DE1CDA1C8400FE9CA6 /* MIDIManager.framework */; };
+		E18154E41D91AC1C00A50C91 /* TimeBase.h in Headers */ = {isa = PBXBuildFile; fileRef = E18154E21D91AC1C00A50C91 /* TimeBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E18154E51D91AC1C00A50C91 /* TimeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = E18154E31D91AC1C00A50C91 /* TimeBase.m */; };
 		E183029A1D4E56AF0092B9A9 /* MIDIManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E113F7DE1CDA1C8400FE9CA6 /* MIDIManager.framework */; };
 		E18302A51D4E57900092B9A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E18302A41D4E57900092B9A9 /* Assets.xcassets */; };
 		E18302A71D4E57CE0092B9A9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E18302A61D4E57CE0092B9A9 /* MainMenu.xib */; };
@@ -122,6 +127,9 @@
 		E113F7DE1CDA1C8400FE9CA6 /* MIDIManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MIDIManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E113F7E01CDA1C8400FE9CA6 /* MIDIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIDIManager.h; sourceTree = "<group>"; };
 		E113F7E21CDA1C8400FE9CA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E18154E01D91A90C00A50C91 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
+		E18154E21D91AC1C00A50C91 /* TimeBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeBase.h; sourceTree = "<group>"; };
+		E18154E31D91AC1C00A50C91 /* TimeBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeBase.m; sourceTree = "<group>"; };
 		E18302A11D4E56AF0092B9A9 /* MIDIInjector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MIDIInjector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E18302A21D4E56AF0092B9A9 /* MIDIMonitor copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "MIDIMonitor copy-Info.plist"; path = "/Users/julianporter/Documents/workspace/MIDI/MIDILink/MIDIMonitor copy-Info.plist"; sourceTree = "<absolute>"; };
 		E18302A31D4E57290092B9A9 /* MIDIInjector */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MIDIInjector; sourceTree = "<group>"; };
@@ -148,19 +156,19 @@
 		E194C1051D3D4D4C00F327E9 /* EndPointList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EndPointList.m; sourceTree = "<group>"; };
 		E194C10B1D3D5A8300F327E9 /* Decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Decoder.h; sourceTree = "<group>"; };
 		E194C10C1D3D5A8300F327E9 /* Decoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Decoder.m; sourceTree = "<group>"; };
-		E194C10E1D3D5D7500F327E9 /* EndpointWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndpointWrapper.h; sourceTree = "<group>"; };
-		E194C10F1D3D5D7500F327E9 /* EndpointWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EndpointWrapper.m; sourceTree = "<group>"; };
+		E194C10E1D3D5D7500F327E9 /* EndpointWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EndpointWrapper.h; path = ../MIDILink/EndpointWrapper.h; sourceTree = "<group>"; };
+		E194C10F1D3D5D7500F327E9 /* EndpointWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EndpointWrapper.m; path = ../MIDILink/EndpointWrapper.m; sourceTree = "<group>"; };
 		E1DA4A531CCFA51A00FAE94E /* MIDILink */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MIDILink; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1DA4A561CCFA51A00FAE94E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		E1DA4A5D1CCFA55C00FAE94E /* MIDISystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIDISystem.h; sourceTree = "<group>"; };
-		E1DA4A5E1CCFA55C00FAE94E /* MIDISystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIDISystem.m; sourceTree = "<group>"; };
+		E1DA4A5D1CCFA55C00FAE94E /* MIDISystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MIDISystem.h; path = ../MIDILink/MIDISystem.h; sourceTree = "<group>"; };
+		E1DA4A5E1CCFA55C00FAE94E /* MIDISystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MIDISystem.m; path = ../MIDILink/MIDISystem.m; sourceTree = "<group>"; };
 		E1DA4A601CCFA58000FAE94E /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
-		E1DA4A621CD0111600FAE94E /* MIDIThing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIDIThing.h; sourceTree = "<group>"; };
-		E1DA4A631CD0111600FAE94E /* MIDIThing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIDIThing.m; sourceTree = "<group>"; };
-		E1DA4A651CD1713D00FAE94E /* Endpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Endpoint.h; sourceTree = "<group>"; };
-		E1DA4A661CD1713D00FAE94E /* Endpoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Endpoint.m; sourceTree = "<group>"; };
-		E1DA4A681CD2818F00FAE94E /* MIDILink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIDILink.h; sourceTree = "<group>"; };
-		E1DA4A691CD2818F00FAE94E /* MIDILink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIDILink.m; sourceTree = "<group>"; };
+		E1DA4A621CD0111600FAE94E /* MIDIThing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MIDIThing.h; path = ../MIDILink/MIDIThing.h; sourceTree = "<group>"; };
+		E1DA4A631CD0111600FAE94E /* MIDIThing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MIDIThing.m; path = ../MIDILink/MIDIThing.m; sourceTree = "<group>"; };
+		E1DA4A651CD1713D00FAE94E /* Endpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Endpoint.h; path = ../MIDILink/Endpoint.h; sourceTree = "<group>"; };
+		E1DA4A661CD1713D00FAE94E /* Endpoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Endpoint.m; path = ../MIDILink/Endpoint.m; sourceTree = "<group>"; };
+		E1DA4A681CD2818F00FAE94E /* MIDILink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MIDILink.h; path = ../MIDILink/MIDILink.h; sourceTree = "<group>"; };
+		E1DA4A691CD2818F00FAE94E /* MIDILink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MIDILink.m; path = ../MIDILink/MIDILink.m; sourceTree = "<group>"; };
 		E1DA4A6F1CD2BB9E00FAE94E /* MIDILinker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MIDILinker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1DA4A711CD2BB9E00FAE94E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E1DA4A721CD2BB9E00FAE94E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -177,16 +185,16 @@
 		E1DA4A8D1CD4D16C00FAE94E /* LinkWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinkWrapper.h; path = MIDILinker/LinkWrapper.h; sourceTree = SOURCE_ROOT; };
 		E1DA4A8E1CD4D16C00FAE94E /* LinkWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LinkWrapper.m; path = MIDILinker/LinkWrapper.m; sourceTree = SOURCE_ROOT; };
 		E1DA4A901CD4DF6F00FAE94E /* libcommonCrypto.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcommonCrypto.tbd; path = usr/lib/system/libcommonCrypto.tbd; sourceTree = SDKROOT; };
-		E1DA4A921CD50A2C00FAE94E /* MIDIDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIDIDecoder.h; sourceTree = "<group>"; };
-		E1DA4A931CD50A2C00FAE94E /* MIDIDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIDIDecoder.m; sourceTree = "<group>"; };
+		E1DA4A921CD50A2C00FAE94E /* MIDIDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MIDIDecoder.h; path = ../MIDILinker/MIDIDecoder.h; sourceTree = "<group>"; };
+		E1DA4A931CD50A2C00FAE94E /* MIDIDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MIDIDecoder.m; path = ../MIDILinker/MIDIDecoder.m; sourceTree = "<group>"; };
 		E1DA4A951CD57E3100FAE94E /* DecoderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecoderView.h; sourceTree = "<group>"; };
 		E1DA4A961CD57E3100FAE94E /* DecoderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecoderView.m; sourceTree = "<group>"; };
 		E1DA4AAF1CD7706600FAE94E /* MIDILinkerHelp.help */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MIDILinkerHelp.help; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1DA4ABA1CD774FC00FAE94E /* English.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = English.lproj; sourceTree = "<group>"; };
 		E1DA4ABB1CD774FC00FAE94E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1DA4ABE1CD7A91C00FAE94E /* MIDILinkerHelp.helpindex */ = {isa = PBXFileReference; lastKnownFileType = file; path = MIDILinkerHelp.helpindex; sourceTree = "<group>"; };
-		E1DA4AC11CD7C38900FAE94E /* MIDIMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIDIMessage.h; sourceTree = "<group>"; };
-		E1DA4AC21CD7C38900FAE94E /* MIDIMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIDIMessage.m; sourceTree = "<group>"; };
+		E1DA4AC11CD7C38900FAE94E /* MIDIMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MIDIMessage.h; path = ../MIDILinker/MIDIMessage.h; sourceTree = "<group>"; };
+		E1DA4AC21CD7C38900FAE94E /* MIDIMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MIDIMessage.m; path = ../MIDILinker/MIDIMessage.m; sourceTree = "<group>"; };
 		E1DA4AC41CD7F83700FAE94E /* MIDISerialiser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIDISerialiser.h; sourceTree = "<group>"; };
 		E1DA4AC51CD7F8F800FAE94E /* MIDIXMLSerialiser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIDIXMLSerialiser.h; sourceTree = "<group>"; };
 		E1DA4AC61CD7F8F800FAE94E /* MIDIXMLSerialiser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIDIXMLSerialiser.m; sourceTree = "<group>"; };
@@ -252,10 +260,37 @@
 		E113F7DF1CDA1C8400FE9CA6 /* MIDIManager */ = {
 			isa = PBXGroup;
 			children = (
+				E1DA4ACE1CD822B200FAE94E /* Serialisation */,
+				E1DA4A921CD50A2C00FAE94E /* MIDIDecoder.h */,
+				E1DA4A931CD50A2C00FAE94E /* MIDIDecoder.m */,
+				E1DA4AC11CD7C38900FAE94E /* MIDIMessage.h */,
+				E1DA4AC21CD7C38900FAE94E /* MIDIMessage.m */,
+				E194C10E1D3D5D7500F327E9 /* EndpointWrapper.h */,
+				E194C10F1D3D5D7500F327E9 /* EndpointWrapper.m */,
+				E1DA4A621CD0111600FAE94E /* MIDIThing.h */,
+				E1DA4A631CD0111600FAE94E /* MIDIThing.m */,
+				E1DA4A5D1CCFA55C00FAE94E /* MIDISystem.h */,
+				E1DA4A5E1CCFA55C00FAE94E /* MIDISystem.m */,
+				E1DA4A651CD1713D00FAE94E /* Endpoint.h */,
+				E1DA4A661CD1713D00FAE94E /* Endpoint.m */,
+				E1DA4A681CD2818F00FAE94E /* MIDILink.h */,
+				E1DA4A691CD2818F00FAE94E /* MIDILink.m */,
+				E1DA4A8D1CD4D16C00FAE94E /* LinkWrapper.h */,
+				E1DA4A8E1CD4D16C00FAE94E /* LinkWrapper.m */,
 				E113F7E01CDA1C8400FE9CA6 /* MIDIManager.h */,
 				E113F7E21CDA1C8400FE9CA6 /* Info.plist */,
+				E18154E21D91AC1C00A50C91 /* TimeBase.h */,
+				E18154E31D91AC1C00A50C91 /* TimeBase.m */,
 			);
 			path = MIDIManager;
+			sourceTree = "<group>";
+		};
+		E18154DF1D91A90B00A50C91 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E18154E01D91A90C00A50C91 /* Kernel.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		E194C0ED1D3D4B4A00F327E9 /* MIDIMonitor */ = {
@@ -309,6 +344,7 @@
 				E1DA4A541CCFA51A00FAE94E /* Products */,
 				E1DA4ACF1CD960F500FAE94E /* OptimizationProfiles */,
 				E18302A21D4E56AF0092B9A9 /* MIDIMonitor copy-Info.plist */,
+				E18154DF1D91A90B00A50C91 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -329,19 +365,7 @@
 			isa = PBXGroup;
 			children = (
 				E1DA4A561CCFA51A00FAE94E /* main.m */,
-				E1DA4A621CD0111600FAE94E /* MIDIThing.h */,
-				E1DA4A631CD0111600FAE94E /* MIDIThing.m */,
-				E1DA4A5D1CCFA55C00FAE94E /* MIDISystem.h */,
-				E1DA4A5E1CCFA55C00FAE94E /* MIDISystem.m */,
-				E1DA4A651CD1713D00FAE94E /* Endpoint.h */,
-				E1DA4A661CD1713D00FAE94E /* Endpoint.m */,
-				E1DA4A681CD2818F00FAE94E /* MIDILink.h */,
-				E1DA4A691CD2818F00FAE94E /* MIDILink.m */,
-				E1DA4A8D1CD4D16C00FAE94E /* LinkWrapper.h */,
-				E1DA4A8E1CD4D16C00FAE94E /* LinkWrapper.m */,
 				E1DA4AC01CD7C36700FAE94E /* MIDI */,
-				E194C10E1D3D5D7500F327E9 /* EndpointWrapper.h */,
-				E194C10F1D3D5D7500F327E9 /* EndpointWrapper.m */,
 			);
 			path = MIDILink;
 			sourceTree = "<group>";
@@ -389,11 +413,6 @@
 		E1DA4AC01CD7C36700FAE94E /* MIDI */ = {
 			isa = PBXGroup;
 			children = (
-				E1DA4A921CD50A2C00FAE94E /* MIDIDecoder.h */,
-				E1DA4A931CD50A2C00FAE94E /* MIDIDecoder.m */,
-				E1DA4AC11CD7C38900FAE94E /* MIDIMessage.h */,
-				E1DA4AC21CD7C38900FAE94E /* MIDIMessage.m */,
-				E1DA4ACE1CD822B200FAE94E /* Serialisation */,
 			);
 			name = MIDI;
 			path = MIDILinker;
@@ -411,6 +430,7 @@
 				E1DA4ACC1CD81D5500FAE94E /* MIDIJSONSerialiser.m */,
 			);
 			name = Serialisation;
+			path = ../MIDILinker;
 			sourceTree = "<group>";
 		};
 		E1DA4ACF1CD960F500FAE94E /* OptimizationProfiles */ = {
@@ -440,6 +460,7 @@
 				E113F7FA1CDA1CE400FE9CA6 /* MIDICSVSerialiser.h in Headers */,
 				E194C1101D3D5D7500F327E9 /* EndpointWrapper.h in Headers */,
 				E113F7FB1CDA1CE400FE9CA6 /* MIDIJSONSerialiser.h in Headers */,
+				E18154E41D91AC1C00A50C91 /* TimeBase.h in Headers */,
 				E113F7E11CDA1C8400FE9CA6 /* MIDIManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -636,6 +657,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E100BC921DBED4F000F089C2 /* MIDIManager.framework in Resources */,
 				E18302A51D4E57900092B9A9 /* Assets.xcassets in Resources */,
 				E18302A71D4E57CE0092B9A9 /* MainMenu.xib in Resources */,
 			);
@@ -645,6 +667,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E18154DE1D91A77F00A50C91 /* MIDIManager.framework in Resources */,
 				E194C0F51D3D4B4A00F327E9 /* Assets.xcassets in Resources */,
 				E194C0F81D3D4B4A00F327E9 /* MainMenu.xib in Resources */,
 			);
@@ -654,6 +677,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E100BC911DBED4D800F089C2 /* MIDIManager.framework in Resources */,
 				E1DA4AB91CD7748200FAE94E /* MIDILinkerHelp.help in Resources */,
 				E1DA4A781CD2BB9F00FAE94E /* Assets.xcassets in Resources */,
 				E1DA4A7B1CD2BB9F00FAE94E /* MainMenu.xib in Resources */,
@@ -683,6 +707,7 @@
 				E113F7EA1CDA1CB700FE9CA6 /* LinkWrapper.m in Sources */,
 				E113F7EB1CDA1CB700FE9CA6 /* MIDIDecoder.m in Sources */,
 				E113F7EC1CDA1CB700FE9CA6 /* MIDIMessage.m in Sources */,
+				E18154E51D91AC1C00A50C91 /* TimeBase.m in Sources */,
 				E113F7ED1CDA1CB700FE9CA6 /* MIDIXMLSerialiser.m in Sources */,
 				E194C1121D3D5D7500F327E9 /* EndpointWrapper.m in Sources */,
 				E113F7EE1CDA1CB700FE9CA6 /* MIDICSVSerialiser.m in Sources */,

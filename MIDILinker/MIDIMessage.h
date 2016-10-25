@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreMIDI/CoreMIDI.h>
+#import "TimeBase.h"
+
+
 
 typedef enum : Byte {
     NoteOffEvent    = 0x80,
@@ -36,17 +39,7 @@ typedef struct {
 MIDIMessageData MIDIMakeMessageData(const MIDIPacket *packet);
 NSString * _(Byte b);
 
-@interface TimeStandard : NSObject
 
-@property (nonatomic) UInt64 start;
-@property (strong,nonatomic) NSDate *startDate;
-@property (nonatomic)mach_timebase_info_t timebase;
-@property (strong,nonatomic) NSDateFormatter *formatter;
-
-- (id) init;
-- (NSString *)convert:(MIDITimeStamp)time;
-
-@end
 
 @interface MIDIMessage : NSObject
 
