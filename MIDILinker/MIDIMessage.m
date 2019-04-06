@@ -19,7 +19,7 @@ static NSDictionary *commandNames;
 
 
 @end
-
+/*
 MIDIMessageData MIDIMakeMessageData(const MIDIPacket *packet) {
     Byte *data=(Byte *)packet->data;
     MIDICommandTypes command=data[0]&0xf0;
@@ -33,9 +33,10 @@ MIDIMessageData MIDIMakeMessageData(const MIDIPacket *packet) {
 NSString * _(Byte b) {
     return [NSString stringWithFormat:@"%02x",b];
 }
+*/
 
 @implementation MIDIMessage
-
+/*
 + (NSString *)NameForCommand:(Byte)command {
     if (commandNames==nil) {
         commandNames=@{@(NoteOffEvent)    : @"Note Off",
@@ -50,6 +51,7 @@ NSString * _(Byte b) {
     }
     return [commandNames objectForKey:@(command)];
 }
+ */
 
 - (id)initFromPacket:(const MIDIPacket *)packet withTimebase:(TimeStandard *)timeStandard {
     

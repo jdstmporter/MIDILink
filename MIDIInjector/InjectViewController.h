@@ -8,13 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 #import <MIDIManager/MIDIManager.h>
-#import "EndPointList.h"
+#import "InjectEndPointList.h"
 #import "Decoder.h"
 #import "InjectorView.h"
 
-@interface ScanViewController : NSViewController <NSDrawerDelegate>
+@interface InjectViewController : NSViewController <NSDrawerDelegate>
 
-@property (weak) IBOutlet EndPointView *endpoints;
+@property (weak) IBOutlet InjectEndPointView *endpoints;
 @property (weak) IBOutlet InjectorView *injector;
 
 - (IBAction)scanForEndpoints:(NSButton *)sender;

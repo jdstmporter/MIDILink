@@ -11,7 +11,7 @@
 #import "TimeBase.h"
 
 
-
+/*
 typedef enum : Byte {
     NoteOffEvent    = 0x80,
     NoteOnEvent     = 0x90,
@@ -23,9 +23,9 @@ typedef enum : Byte {
     SystemMessage   = 0xf0,
     UNKNOWN         = 0
 } MIDICommandTypes;
+*/
 
-
-
+/*
 typedef struct {
     MIDITimeStamp timestamp;
     MIDICommandTypes command;
@@ -60,7 +60,7 @@ NSString * _(Byte b);
 
 
 @end
-
+*/
 
 
 @interface MIDIBuilder : NSObject

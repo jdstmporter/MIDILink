@@ -10,17 +10,18 @@
 #import <MIDIManager/MIDIManager.h>
 
 
-@interface EndPointView : NSView <NSTableViewDelegate,NSTableViewDataSource>
+@interface InjectEndPointView : NSView <NSTableViewDelegate,NSTableViewDataSource>
 
 @property (strong) NSArray *endpoints;
 @property NSInteger endpoint;
 @property (weak) IBOutlet NSTableView *view;
 
 
+
 - (IBAction) action:(NSTableView *)sender;
 - (IBAction) doubleAction:(NSTableView *)sender;
 
-- (EndpointWrapper *)selected;
+- (MIDIEndPointDescription *)selected;
 
 - (void) scan;
 

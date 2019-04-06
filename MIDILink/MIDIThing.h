@@ -29,7 +29,7 @@
 
 
 - (id)initWithObject:(MIDIObjectRef) object;
-- (id)initWithUID:(MIDIUniqueID) uid;
+//- (id)initWithUID:(MIDIUniqueID) uid;
 + (MIDIThing *) fromObject:(MIDIObjectRef) object;
 + (MIDIThing *) fromUID:(MIDIUniqueID) uid;
 

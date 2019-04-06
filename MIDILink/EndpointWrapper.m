@@ -31,6 +31,7 @@
     if(self) {
         self.listener=[[MIDIListener alloc] initWithName:name];
         [self.listener connect:endpoint];
+        NSLog(@"Connected listener to endpoint");
         __weak EndpointWrapper *this=self;
         [self.listener setCallback:^(const MIDIPacketList *packets, OSStatus error) {
             [this callbackWithPackets:packets andStatus:error];

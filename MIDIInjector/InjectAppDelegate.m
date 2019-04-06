@@ -6,16 +6,16 @@
 //  Copyright © 2016 JP Embedded Solutions. All rights reserved.
 //
 
-#import "AppDelegate.h"
-#import "ViewControllerM.h"
+#import "InjectAppDelegate.h"
+#import "InjectViewController.h"
 
-@interface AppDelegate ()
+@interface InjectAppDelegate ()
 
 @property (weak) IBOutlet NSWindow *Window;
-@property (weak) IBOutlet ScanViewController *Viewcontroller;
+@property (weak) IBOutlet InjectViewController *Viewcontroller;
 @end
 
-@implementation AppDelegate
+@implementation InjectAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application

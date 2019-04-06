@@ -6,11 +6,11 @@
 //  Copyright © 2016 JP Embedded Solutions. All rights reserved.
 //
 
-#import "EndPointList.h"
+#import "InjectEndPointList.h"
 
 
 
-@implementation EndPointView
+@implementation InjectEndPointView
 
 - (void)scan {
     self.endpoint=-1;
@@ -36,12 +36,14 @@
     NSLog(@"DOUBLE Table : ROW %ld COLUMN %ld",sender.selectedRow,sender.selectedColumn);
 }
 
-- (EndpointWrapper *)selected {
+- (MIDIEndPointDescription *)selected {
     if(self.endpoint<0 || self.endpoint>=[self.endpoints count]) return nil;
     MIDIEndPointDescription *d=[self.endpoints objectAtIndex:self.endpoint];
-    NSLog(@"Ebdpoint %@ UID %@",[d description],d.UID);
-    NSString *name=[[NSUUID UUID] UUIDString];
-    return [[EndpointWrapper alloc] initWithName:name andEndpoint:d.thing];
+    NSLog(@"Endpoint %@ UID %@",[d description],d.UID);
+    //NSString *name=[[NSUUID UUID] UUIDString];
+    //NSLog(@"Creating wrapper with name %@ and thing %@",name,[d.thing description]);
+    //return [[EndpointWrapper alloc] initWithName:name andEndpoint:d.thing];
+    return d;
     
 }
 

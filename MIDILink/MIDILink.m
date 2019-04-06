@@ -32,7 +32,7 @@ void MIDINotifyFunction(const MIDINotification *message,void *clientRef) {
         self.name=name;
         MIDIClientRef raw;
         OSStatus error=MIDIClientCreate((CFStringRef)CFBridgingRetain(name), MIDINotifyFunction,(__bridge void * _Nullable)(self), &raw);
-        if(error!=noErr) [MIDIThing errorWithCode:error andDescription:@"Cannot create application"];
+        if(error!=noErr) [MIDIThing errorWithCode:error andDescription:[NSString stringWithFormat:@"Cannot create application with name %@",self.name]];
         self.raw=raw;
         __weak MIDIClient *this=self;
         self.callback=^(const MIDIPacketList *p,OSStatus e) {
