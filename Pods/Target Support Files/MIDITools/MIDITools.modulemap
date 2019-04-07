@@ -1,0 +1,6 @@
+framework module MIDITools {
+  umbrella header "MIDITools-umbrella.h"
+
+  export *
+  module * { export * }
+}

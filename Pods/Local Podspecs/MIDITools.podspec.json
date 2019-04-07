@@ -1,0 +1,24 @@
+{
+  "name": "MIDITools",
+  "version": "0.1.0",
+  "summary": "OO Swift 5 wrapper around CoreMIDI",
+  "description": "A proper OO Swift 5 wrapper around CoreMIDI, specialising in methods used to link and monitor devices",
+  "homepage": "https://github.com/jdstmporter/MIDILink",
+  "license": {
+    "type": "BSD3",
+    "file": "MIDITools/LICENSE"
+  },
+  "authors": {
+    "jdstmporter": "julian.porter@auroralighting.com"
+  },
+  "source": {
+    "git": "https://github.com/jdstmporter/MIDILink.git",
+    "tag": "0.1.0"
+  },
+  "swift_version": "5",
+  "platforms": {
+    "osx": "10.14"
+  },
+  "source_files": "MIDITools/*.swift",
+  "frameworks": "CoreMIDI"
+}

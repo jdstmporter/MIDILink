@@ -1,0 +1,6 @@
+framework module Pods_MIDIUtils {
+  umbrella header "Pods-MIDIUtils-umbrella.h"
+
+  export *
+  module * { export * }
+}
