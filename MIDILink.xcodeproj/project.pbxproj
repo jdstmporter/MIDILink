@@ -181,41 +181,89 @@
 		E1CB506A225AB8AF00F0DDED /* MIDIUtils */ = {
 			isa = PBXGroup;
 			children = (
-				E1CB5105225AC17000F0DDED /* Launchable.swift */,
-				E1CB5106225AC17000F0DDED /* VButton.swift */,
-				E1CB5103225AC15F00F0DDED /* ControlExtensions.swift */,
-				E1CB50FC225AC10000F0DDED /* Coding.swift */,
-				E1CB5101225AC15A00F0DDED /* VTextField.swift */,
-				E1CB50FB225AC10000F0DDED /* CodingExtensions.swift */,
-				E1CB50FD225AC10000F0DDED /* Kleene.swift */,
-				E1CB50F8225AC0BE00F0DDED /* Extensions.swift */,
-				E1CB50F7225AC0BE00F0DDED /* Strings.swift */,
-				E1CB50F2225ABDC800F0DDED /* Decoder.xib */,
-				E1CB50F3225ABDC800F0DDED /* DecoderPanel.swift */,
-				E1CB50F1225ABDC800F0DDED /* MIDIDecodeTable.swift */,
-				E1CB50E0225ABCEF00F0DDED /* ColourPreferences.swift */,
-				E1CB50E3225ABCEF00F0DDED /* FontPreferences.swift */,
-				E1CB50E4225ABCEF00F0DDED /* PreferenceController.swift */,
-				E1CB50DF225ABCEE00F0DDED /* Preferences.swift */,
-				E1CB50E1225ABCEF00F0DDED /* Preferences.xib */,
-				E1CB50E2225ABCEF00F0DDED /* Previewer.swift */,
-				E1CB5084225ABCBD00F0DDED /* LinkManager.swift */,
-				E1CB5086225ABCBE00F0DDED /* LinkTable.swift */,
-				E1CB5085225ABCBE00F0DDED /* LinkTable.xib */,
-				E1CB5082225ABC9B00F0DDED /* RowCellSet.swift */,
-				E1CB5080225ABC9200F0DDED /* EndPointDelegate.swift */,
-				E1CB507E225ABC6800F0DDED /* Controller.swift */,
-				E1CB507D225ABC0600F0DDED /* MainMenu2.xib */,
 				E1CB506B225AB8AF00F0DDED /* AppDelegate.swift */,
-				E1CB50EC225ABD8100F0DDED /* About.xib */,
-				E1CB50EF225ABD9B00F0DDED /* Fonts.swift */,
-				E1CB50EB225ABD8100F0DDED /* AboutPanel.swift */,
+				E1CB510A225AC34B00F0DDED /* utils */,
+				E1CB510B225AC35800F0DDED /* decoder */,
+				E1CB5109225AC31F00F0DDED /* preferences */,
+				E1CB510C225AC36700F0DDED /* link */,
+				E1CB510D225AC37B00F0DDED /* main */,
+				E1CB510E225AC39800F0DDED /* about */,
 				E1CB506D225AB8B000F0DDED /* Assets.xcassets */,
 				E1CB506F225AB8B000F0DDED /* MainMenu.xib */,
 				E1CB5072225AB8B000F0DDED /* Info.plist */,
 				E1CB5073225AB8B000F0DDED /* MIDIUtils.entitlements */,
 			);
 			path = MIDIUtils;
+			sourceTree = "<group>";
+		};
+		E1CB5109225AC31F00F0DDED /* preferences */ = {
+			isa = PBXGroup;
+			children = (
+				E1CB50E0225ABCEF00F0DDED /* ColourPreferences.swift */,
+				E1CB50E3225ABCEF00F0DDED /* FontPreferences.swift */,
+				E1CB50E4225ABCEF00F0DDED /* PreferenceController.swift */,
+				E1CB50DF225ABCEE00F0DDED /* Preferences.swift */,
+				E1CB50E1225ABCEF00F0DDED /* Preferences.xib */,
+				E1CB50E2225ABCEF00F0DDED /* Previewer.swift */,
+			);
+			path = preferences;
+			sourceTree = "<group>";
+		};
+		E1CB510A225AC34B00F0DDED /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				E1CB5105225AC17000F0DDED /* Launchable.swift */,
+				E1CB5106225AC17000F0DDED /* VButton.swift */,
+				E1CB5103225AC15F00F0DDED /* ControlExtensions.swift */,
+				E1CB50FC225AC10000F0DDED /* Coding.swift */,
+				E1CB50EF225ABD9B00F0DDED /* Fonts.swift */,
+				E1CB5101225AC15A00F0DDED /* VTextField.swift */,
+				E1CB50FB225AC10000F0DDED /* CodingExtensions.swift */,
+				E1CB50FD225AC10000F0DDED /* Kleene.swift */,
+				E1CB50F8225AC0BE00F0DDED /* Extensions.swift */,
+				E1CB50F7225AC0BE00F0DDED /* Strings.swift */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
+		E1CB510B225AC35800F0DDED /* decoder */ = {
+			isa = PBXGroup;
+			children = (
+				E1CB50F2225ABDC800F0DDED /* Decoder.xib */,
+				E1CB50F3225ABDC800F0DDED /* DecoderPanel.swift */,
+				E1CB50F1225ABDC800F0DDED /* MIDIDecodeTable.swift */,
+			);
+			path = decoder;
+			sourceTree = "<group>";
+		};
+		E1CB510C225AC36700F0DDED /* link */ = {
+			isa = PBXGroup;
+			children = (
+				E1CB5084225ABCBD00F0DDED /* LinkManager.swift */,
+				E1CB5086225ABCBE00F0DDED /* LinkTable.swift */,
+				E1CB5085225ABCBE00F0DDED /* LinkTable.xib */,
+			);
+			path = link;
+			sourceTree = "<group>";
+		};
+		E1CB510D225AC37B00F0DDED /* main */ = {
+			isa = PBXGroup;
+			children = (
+				E1CB5082225ABC9B00F0DDED /* RowCellSet.swift */,
+				E1CB5080225ABC9200F0DDED /* EndPointDelegate.swift */,
+				E1CB507E225ABC6800F0DDED /* Controller.swift */,
+				E1CB507D225ABC0600F0DDED /* MainMenu2.xib */,
+			);
+			path = main;
+			sourceTree = "<group>";
+		};
+		E1CB510E225AC39800F0DDED /* about */ = {
+			isa = PBXGroup;
+			children = (
+				E1CB50EC225ABD8100F0DDED /* About.xib */,
+				E1CB50EB225ABD8100F0DDED /* AboutPanel.swift */,
+			);
+			path = about;
 			sourceTree = "<group>";
 		};
 		E1DA4A4A1CCFA51A00FAE94E = {
