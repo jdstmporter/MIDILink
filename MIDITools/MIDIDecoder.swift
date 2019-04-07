@@ -9,7 +9,7 @@
 import Foundation
 import CoreMIDI
 
-
+public typealias MIDIDecoderCallback = () -> ()
 
 public class MIDIDecoder : Sequence  {
     public static let MIDIDataToDecode = Notification.Name("__MIDIDataToDecode")
@@ -35,9 +35,9 @@ public class MIDIDecoder : Sequence  {
     fileprivate var messages : [MIDIMessage]
     private var timeStandard : MIDITimeStandard
     
-    public init?() {
+    public init() throws {
         messages=[]
-        if let ts = MIDITimeStandard() { timeStandard=ts } else { return nil }
+        timeStandard = try MIDITimeStandard()
     }
     
     
@@ -75,6 +75,5 @@ public class MIDIDecoder : Sequence  {
         return DispatchQueue.main.sync { return Iterator(self) }
     }
     
-    public static var instance : MIDIDecoder? { return MIDIDecoder() }
     
 }

@@ -21,17 +21,48 @@ public struct MIDIError : Error {
     public var localizedDescription: String { return "MIDIError : \(message) [code: \(code)]" }
 }
 
-public class MIDIObject {
+public enum MIDIObjectKind : CaseIterable {
+    case Endpoint
+    case Entity
+    case Device
+    case Unknown
+}
+
+protocol MIDIObjectProtocol : Equatable {
     
-    private var object : MIDIObjectRef
-    private var uid : MIDIUniqueID
-    private var kind : MIDIObjectType
+    var uid : MIDIUniqueID { get }
+    var object : MIDIObjectRef { get }
+    var UID : MIDIUniqueID { get }
+    var name : String? { get }
+    var model : String? { get }
+    var manufacturer : String? { get }
+    
+    var isValidEntity : Bool { get }
+    
+}
+
+extension MIDIObjectProtocol {
+    public static func ==(_ l : Self,_ r : Self) -> Bool {
+        return l.uid == r.uid
+    }
+    public static func !=(_ l : Self,_ r : Self) -> Bool {
+        return l.uid != r.uid
+    }
+    
+    public var isValidEntity : Bool { return uid != kMIDIInvalidUniqueID }
+}
+
+public class MIDIObject : MIDIObjectProtocol {
+    
+    public let object : MIDIObjectRef
+    public let uid : MIDIUniqueID
+    public let kind : MIDIObjectType
 
     private var dictionary : [CFString:Any] = [:]
     private var array : [Any] = []
     
-    private var entity : MIDIObject? = nil
-    private var device : MIDIObject? = nil
+    internal var entity : MIDIObject? = nil
+    internal var device : MIDIObject? = nil
    
     public init(uid u: MIDIUniqueID) throws {
         var obj : MIDIObjectRef = UInt32.zero
@@ -101,5 +132,7 @@ public class MIDIObject {
     public var model : String? { return stringProperty(key: kMIDIPropertyModel) }
     public var manufacturer : String? { return stringProperty(key: kMIDIPropertyManufacturer) }
     public var UID : MIDIUniqueID { return integerProperty(key: kMIDIPropertyUniqueID) }
+    
+    
 
 }

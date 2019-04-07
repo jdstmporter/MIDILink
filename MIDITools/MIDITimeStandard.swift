@@ -19,7 +19,7 @@ public class MIDITimeStandard {
     private var numer : UInt64
     private var denom : UInt64
     
-    public init?() {
+    public init() throws {
         var tb = mach_timebase_info()
         if mach_timebase_info(&tb) == noErr {
             numer=UInt64(tb.numer)
@@ -32,7 +32,7 @@ public class MIDITimeStandard {
             formatter.dateFormat="HH:mm:ss.SSSS"
             formatter.timeZone=TimeZone.current
         }
-        else { return nil }
+        else { throw MIDIError(12345 ,message: "Cannot instantiate timesource") }
     }
     
     public func convert(_ time : MIDITimeStamp) -> String {
