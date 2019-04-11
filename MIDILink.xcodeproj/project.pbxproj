@@ -7,11 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		46AF2454A213D320C1624827 /* Pods_MIDIUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F3783D62C5ABE015750EB73 /* Pods_MIDIUtils.framework */; };
 		E1CB50412259197400F0DDED /* MIDITools.h in Headers */ = {isa = PBXBuildFile; fileRef = E1CB503F2259197400F0DDED /* MIDITools.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1CB50452259198300F0DDED /* MIDISerialiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB50302258F3A700F0DDED /* MIDISerialiser.swift */; };
 		E1CB50462259198300F0DDED /* MIDIMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB50322258F82200F0DDED /* MIDIMessage.swift */; };
-		E1CB50472259198300F0DDED /* dict.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB50342258FDA800F0DDED /* dict.swift */; };
 		E1CB50482259198300F0DDED /* MIDITimeStandard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB50362259166000F0DDED /* MIDITimeStandard.swift */; };
 		E1CB504B2259395A00F0DDED /* MIDIEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB50492259355100F0DDED /* MIDIEnums.swift */; };
 		E1CB504D2259436800F0DDED /* MIDIDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB504C2259436800F0DDED /* MIDIDecoder.swift */; };
@@ -27,7 +25,6 @@
 		E1CB506C225AB8AF00F0DDED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB506B225AB8AF00F0DDED /* AppDelegate.swift */; };
 		E1CB506E225AB8B000F0DDED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1CB506D225AB8B000F0DDED /* Assets.xcassets */; };
 		E1CB5071225AB8B000F0DDED /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1CB506F225AB8B000F0DDED /* MainMenu.xib */; };
-		E1CB5078225AB8DB00F0DDED /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = E1CB5077225AB8DB00F0DDED /* Podfile */; };
 		E1CB507B225ABC0600F0DDED /* MainMenu2.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1CB507D225ABC0600F0DDED /* MainMenu2.xib */; };
 		E1CB507F225ABC6800F0DDED /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB507E225ABC6800F0DDED /* Controller.swift */; };
 		E1CB5081225ABC9200F0DDED /* EndPointDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB5080225ABC9200F0DDED /* EndPointDelegate.swift */; };
@@ -56,12 +53,36 @@
 		E1CB5104225AC15F00F0DDED /* ControlExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB5103225AC15F00F0DDED /* ControlExtensions.swift */; };
 		E1CB5107225AC17000F0DDED /* Launchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB5105225AC17000F0DDED /* Launchable.swift */; };
 		E1CB5108225AC17000F0DDED /* VButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB5106225AC17000F0DDED /* VButton.swift */; };
+		E1FA32C4225BD35C008FE734 /* MIDITools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CB503D2259197400F0DDED /* MIDITools.framework */; };
+		E1FA32C5225BD35C008FE734 /* MIDITools.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E1CB503D2259197400F0DDED /* MIDITools.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E1FA32C9225BDD92008FE734 /* dict.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB50342258FDA800F0DDED /* dict.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		E1FA32C6225BD35C008FE734 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1DA4A4B1CCFA51A00FAE94E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1CB503C2259197400F0DDED;
+			remoteInfo = MIDITools;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E1FA32C8225BD35C008FE734 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E1FA32C5225BD35C008FE734 /* MIDITools.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		2F3783D62C5ABE015750EB73 /* Pods_MIDIUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MIDIUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9B993F6024CFB45BB26B93B1 /* Pods-MIDIUtils.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MIDIUtils.debug.xcconfig"; path = "Target Support Files/Pods-MIDIUtils/Pods-MIDIUtils.debug.xcconfig"; sourceTree = "<group>"; };
-		9F0DF2BF7EFE71633C497472 /* Pods-MIDIUtils.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MIDIUtils.release.xcconfig"; path = "Target Support Files/Pods-MIDIUtils/Pods-MIDIUtils.release.xcconfig"; sourceTree = "<group>"; };
 		E1CB50302258F3A700F0DDED /* MIDISerialiser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDISerialiser.swift; sourceTree = "<group>"; };
 		E1CB50322258F82200F0DDED /* MIDIMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIMessage.swift; sourceTree = "<group>"; };
 		E1CB50342258FDA800F0DDED /* dict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dict.swift; sourceTree = "<group>"; };
@@ -131,27 +152,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				46AF2454A213D320C1624827 /* Pods_MIDIUtils.framework in Frameworks */,
+				E1FA32C4225BD35C008FE734 /* MIDITools.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6C637BB56B9D54ADC2018580 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				9B993F6024CFB45BB26B93B1 /* Pods-MIDIUtils.debug.xcconfig */,
-				9F0DF2BF7EFE71633C497472 /* Pods-MIDIUtils.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		E18154DF1D91A90B00A50C91 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				E1CB5063225AB85A00F0DDED /* CoreMIDI.framework */,
-				2F3783D62C5ABE015750EB73 /* Pods_MIDIUtils.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -162,7 +173,6 @@
 				E1CB504C2259436800F0DDED /* MIDIDecoder.swift */,
 				E1CB50302258F3A700F0DDED /* MIDISerialiser.swift */,
 				E1CB50322258F82200F0DDED /* MIDIMessage.swift */,
-				E1CB50342258FDA800F0DDED /* dict.swift */,
 				E1CB50362259166000F0DDED /* MIDITimeStandard.swift */,
 				E1CB50492259355100F0DDED /* MIDIEnums.swift */,
 				E1CB504F22595E3600F0DDED /* MIDIObject.swift */,
@@ -212,6 +222,7 @@
 		E1CB510A225AC34B00F0DDED /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				E1CB50342258FDA800F0DDED /* dict.swift */,
 				E1CB5105225AC17000F0DDED /* Launchable.swift */,
 				E1CB5106225AC17000F0DDED /* VButton.swift */,
 				E1CB5103225AC15F00F0DDED /* ControlExtensions.swift */,
@@ -276,7 +287,6 @@
 				E1DA4A541CCFA51A00FAE94E /* Products */,
 				E1DA4ACF1CD960F500FAE94E /* OptimizationProfiles */,
 				E18154DF1D91A90B00A50C91 /* Frameworks */,
-				6C637BB56B9D54ADC2018580 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -333,15 +343,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E1CB5074225AB8B000F0DDED /* Build configuration list for PBXNativeTarget "MIDIUtils" */;
 			buildPhases = (
-				03185FB4948F93C0888A8B3B /* [CP] Check Pods Manifest.lock */,
 				E1CB5065225AB8AF00F0DDED /* Sources */,
 				E1CB5066225AB8AF00F0DDED /* Frameworks */,
 				E1CB5067225AB8AF00F0DDED /* Resources */,
-				178DE6E6D7BCD5B4DEB6E53C /* [CP] Embed Pods Frameworks */,
+				E1FA32C8225BD35C008FE734 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E1FA32C7225BD35C008FE734 /* PBXTargetDependency */,
 			);
 			name = MIDIUtils;
 			productName = MIDIUtils;
@@ -412,7 +422,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1CB5078225AB8DB00F0DDED /* Podfile in Resources */,
 				E1CB5088225ABCBE00F0DDED /* LinkTable.xib in Resources */,
 				E1CB50F5225ABDC900F0DDED /* Decoder.xib in Resources */,
 				E1CB506E225AB8B000F0DDED /* Assets.xcassets in Resources */,
@@ -425,53 +434,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		03185FB4948F93C0888A8B3B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MIDIUtils-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		178DE6E6D7BCD5B4DEB6E53C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MIDIUtils/Pods-MIDIUtils-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/MIDITools/MIDITools.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MIDITools.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MIDIUtils/Pods-MIDIUtils-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		E1CB50392259197400F0DDED /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -482,7 +444,6 @@
 				E1CB50482259198300F0DDED /* MIDITimeStandard.swift in Sources */,
 				E1CB504D2259436800F0DDED /* MIDIDecoder.swift in Sources */,
 				E1CB5058225A751B00F0DDED /* AtomicValues.swift in Sources */,
-				E1CB50472259198300F0DDED /* dict.swift in Sources */,
 				E1CB505A225A99F800F0DDED /* MIDIMonitor.swift in Sources */,
 				E1CB5054225A413C00F0DDED /* MIDIClient.swift in Sources */,
 				E1CB504B2259395A00F0DDED /* MIDIEnums.swift in Sources */,
@@ -509,6 +470,7 @@
 				E1CB50E8225ABCF000F0DDED /* Previewer.swift in Sources */,
 				E1CB5081225ABC9200F0DDED /* EndPointDelegate.swift in Sources */,
 				E1CB50ED225ABD8100F0DDED /* AboutPanel.swift in Sources */,
+				E1FA32C9225BDD92008FE734 /* dict.swift in Sources */,
 				E1CB5089225ABCBE00F0DDED /* LinkTable.swift in Sources */,
 				E1CB507F225ABC6800F0DDED /* Controller.swift in Sources */,
 				E1CB5083225ABC9C00F0DDED /* RowCellSet.swift in Sources */,
@@ -524,6 +486,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E1FA32C7225BD35C008FE734 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1CB503C2259197400F0DDED /* MIDITools */;
+			targetProxy = E1FA32C6225BD35C008FE734 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		E1CB506F225AB8B000F0DDED /* MainMenu.xib */ = {
@@ -553,7 +523,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Mac Developer: Julian Porter (VDSR2W89VU)";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -588,7 +558,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Mac Developer: Julian Porter (VDSR2W89VU)";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -615,8 +585,8 @@
 		};
 		E1CB5075225AB8B000F0DDED /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9B993F6024CFB45BB26B93B1 /* Pods-MIDIUtils.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -643,8 +613,8 @@
 		};
 		E1CB5076225AB8B000F0DDED /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9F0DF2BF7EFE71633C497472 /* Pods-MIDIUtils.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

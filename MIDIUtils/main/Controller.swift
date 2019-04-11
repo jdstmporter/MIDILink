@@ -9,11 +9,6 @@
 import Cocoa
 import MIDITools
 
-
-
-
-
-
 class Controller : NSViewController {
     
     static let OpenLinkPanelRequest=NSNotification.Name("OpenLinkPanelRequest")
@@ -39,7 +34,7 @@ class Controller : NSViewController {
         preferences.addListener(sDelegate)
     }
     
-    func load(sources s: [MIDIEndPoint], destinations d: [MIDIEndPoint]) {
+    func load(sources s: [MIDIEndpoint], destinations d: [MIDIEndpoint]) {
         links=LinkManager(froms: s,tos: d)
         debugPrint("Loading data : \(s.count) sources and \(d.count) destinations")
         NotificationCenter.default.addObserver(self, selector: #selector(Controller.showLinks(_:)), name: Controller.OpenLinkPanelRequest, object: nil)

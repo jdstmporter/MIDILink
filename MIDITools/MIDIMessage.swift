@@ -13,8 +13,11 @@ import CoreMIDI
 
 public struct MIDIMessageData {
     let timestamp : MIDITimeStamp
+    let bytes : [UInt8]
+    
     let command : MIDICommandTypes
     let channel : UInt8
+    
     let arg0 : UInt8
     let arg1 : UInt8
     let arg2 : UInt8
@@ -22,10 +25,13 @@ public struct MIDIMessageData {
     
     init(_ packet : MIDIPacket) {
         var pkt = packet.data
-        let ptr = UnsafeRawBufferPointer.init(start: &pkt, count: 3)
+        let len = Int(packet.length)
+        let ptr = UnsafeRawBufferPointer.init(start: &pkt, count: len)
         let arr = ptr.bindMemory(to: UInt8.self)
-        let (arg0,arg1,arg2) = (arr[0],arr[1],arr[2])
+        let bytes = (0..<len).map { arr[$0] }
+        let (arg0,arg1,arg2) = (bytes[0],bytes[1],bytes[2])
         
+        self.bytes = bytes
         self.command = MIDICommandTypes(arg0)
         self.channel = 1 + (arg0&0x0f)
         self.arg0 = arg0
@@ -34,6 +40,8 @@ public struct MIDIMessageData {
         self.word = (UInt16(arg2)<<8) + UInt16(arg1)
         self.timestamp = packet.timeStamp
     }
+    
+    public var count : Int { return bytes.count }
     
     public var name : String { return command.name }
     public var attrs : [KVPair] {
@@ -72,7 +80,7 @@ public class MIDIMessage : CustomStringConvertible {
     public var Command : String { return packet.command.name }
     public var Arguments : String { return packet.attrs.map { "\($0.key) = \($0.value.str)" }.joined(separator: ", ") }
     public var Channel : String { return packet.command == .SystemMessage ? "" : packet.channel.str }
-    
+    public var Raw : [UInt8] { return packet.bytes }
     public init(_ packet : MIDIPacket,timebase: MIDITimeStandard) {
         self.packet=MIDIMessageData(packet)
     }
@@ -93,6 +101,7 @@ public class MIDIMessage : CustomStringConvertible {
         if key == "Channel" { return Channel }
         return nil
     }
+    public var dispatch : DispatchTime { return DispatchTime(uptimeNanoseconds: packet.timestamp) }
     
     
     

@@ -9,6 +9,19 @@
 import Foundation
 import CoreMIDI
 
+public struct MIDIUID : Hashable, CustomStringConvertible {
+    private let id : MIDIUniqueID
+    
+    public init(_ id : MIDIUniqueID) {
+        self.id=id
+    }
+    public var hashValue : Int { return id.hashValue }
+    public func hash(into: inout Hasher) { id.hash(into: &into) }
+    public static func ==(_ l : MIDIUID, _ r : MIDIUID) -> Bool { return l.id == r.id }
+    public static func !=(_ l : MIDIUID, _ r : MIDIUID) -> Bool { return l.id != r.id }
+    public var description: String { return id.description }
+}
+
 public struct MIDIError : Error {
     public let code : OSStatus
     public let message : String
@@ -32,7 +45,6 @@ protocol MIDIObjectProtocol : Equatable {
     
     var uid : MIDIUniqueID { get }
     var object : MIDIObjectRef { get }
-    var UID : MIDIUniqueID { get }
     var name : String? { get }
     var model : String? { get }
     var manufacturer : String? { get }

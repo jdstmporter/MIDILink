@@ -15,20 +15,20 @@ internal class RowCellSet {
     private var cells : [String:NSView]
     private let uid : MIDIUniqueID
     private var switchCell : NSButton!
-    private let mode : MIDIEntity.Mode
+    private let mode : MIDIEndpoint.Mode
     private let cb : (_:MIDIUniqueID,_:Bool) -> ()
     
-    init(endpoint: MIDIEndPointWrapper,handler:@escaping (_:MIDIUniqueID,_:Bool) -> ()) {
+    init(endpoint: MIDIEndpoint,handler:@escaping (_:MIDIUniqueID,_:Bool) -> ()) {
         uid=endpoint.uid
         mode=endpoint.mode
         cb=handler
         cells=[String:NSView]()
         
-        cells["Name"]=VTextField(labelWithString: endpoint.Name)
-        cells["Model"]=VTextField(labelWithString: endpoint.Model)
-        cells["Manufacturer"]=VTextField(labelWithString: endpoint.Manufacturer)
+        cells["Name"]=VTextField(labelWithString: endpoint.name ?? "name")
+        cells["Model"]=VTextField(labelWithString: endpoint.model ?? "model")
+        cells["Manufacturer"]=VTextField(labelWithString: endpoint.manufacturer ?? "manufacturer")
         
-        let uidCell=VTextField(labelWithString: endpoint.UID)
+        let uidCell=VTextField(labelWithString: endpoint.uid.description)
         uidCell.font=FontDescriptor(family: .Monospace, size: .Small, weight: .black).font
         cells["UID"]=uidCell
         
@@ -50,8 +50,8 @@ internal class RowCellSet {
     }
     
     public subscript(_ name: String) -> NSView? {
-        if name=="Inject" { return (mode == .Destination) ? switchCell : nil }
-        else if name=="Decode" { return (mode == .Source) ? switchCell : nil }
+        if name=="Inject" { return (mode == .destination) ? switchCell : nil }
+        else if name=="Decode" { return (mode == .source) ? switchCell : nil }
         else {return cells[name] }
     }
     

@@ -17,9 +17,11 @@ public enum MIDIDeviceType {
 
 public class MIDISystem {
     
-    private var objects : [MIDIDeviceType : [MIDIEndpointDescription]]
+    private var objects : [MIDIDeviceType : [MIDIEndpoint]]
     private var counts : [MIDIDeviceType : Int]
     private var lastEnumerated : Date
+    
+    
     
     public init() {
         self.objects=[:]
@@ -32,13 +34,13 @@ public class MIDISystem {
         let nDestinations = MIDIGetNumberOfDestinations()
         let nAll = MIDIGetNumberOfDevices()
         
-        let sources : [MIDIEndpointDescription] = (0..<nSources).compactMap { n in
+        let sources : [MIDIEndpoint] = (0..<nSources).compactMap { n in
             guard let obj = try? MIDIObject(object: MIDIGetSource(n)) else { return nil }
-            return MIDIEndpointDescription(obj)
+            return MIDIEndpoint(obj)
         }
-        let destinations : [MIDIEndpointDescription] = (0..<nDestinations).compactMap { n in
+        let destinations : [MIDIEndpoint] = (0..<nDestinations).compactMap { n in
             guard let obj = try? MIDIObject(object: MIDIGetDestination(n)) else { return nil }
-            return MIDIEndpointDescription(obj)
+            return MIDIEndpoint(obj) 
         }
         let all = destinations.reduce(sources) { (items,item) in
             if items.contains(item) { return items }
@@ -60,7 +62,7 @@ public class MIDISystem {
     
     public var sinceLastEnumerated : TimeInterval { return -lastEnumerated.timeIntervalSinceNow }
     
-    public subscript(_ key : MIDIDeviceType) -> [MIDIEndpointDescription] { return objects[key] ?? [] } 
+    public subscript(_ key : MIDIDeviceType) -> [MIDIEndpoint] { return objects[key] ?? [] }
     public func count(_ key : MIDIDeviceType) -> Int { return counts[key] ?? 0 }
     
     

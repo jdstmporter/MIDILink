@@ -9,6 +9,9 @@
 import Cocoa
 
 class AboutPanel : NSPanel, LaunchableItem {
+    static let CopyrightTag = "NSHumanReadableCopyright"
+    static let AppVersionTag = "CFBundleShortVersionString"
+    
     static var nibname = NSNib.Name("About")
     static var lock = NSLock()
     
@@ -19,8 +22,8 @@ class AboutPanel : NSPanel, LaunchableItem {
         if the==nil {
             the = instance()
             let dict=Bundle.main.infoDictionary ?? [:]
-            let copyright = (dict["NSHumanReadableCopyright"] as! String? ?? "Copyright JP Embedded Solutions Limited").trimmingCharacters(in: .whitespacesAndNewlines)
-            let appVersion = (dict["CFBundleShortVersionString"] as! String? ?? "1").trimmingCharacters(in: .whitespacesAndNewlines)
+            let copyright = (dict[CopyrightTag] as! String? ?? "Copyright Tyburn Arts Tech").trimmingCharacters(in: .whitespacesAndNewlines)
+            let appVersion = (dict[AppVersionTag] as! String? ?? "1").trimmingCharacters(in: .whitespacesAndNewlines)
             the?.copyright.stringValue="MIDIUtils version \(appVersion), \(copyright)";
         }
         the?.makeKeyAndOrderFront(nil)

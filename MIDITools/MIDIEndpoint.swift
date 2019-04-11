@@ -9,10 +9,32 @@
 import Foundation
 import CoreMIDI
 
-public class MIDIEndpointDescription : MIDIObjectProtocol {
+
+
+public class MIDIEndpoint : MIDIObjectProtocol {
+    
+    public enum Mode {
+        case source
+        case destination
+        case unknown
+        
+        public init(_ kind: MIDIObjectType) {
+            switch kind {
+            case .source:
+                self = .source
+                break
+            case .destination:
+                self = .destination
+                break
+            default:
+                self = .unknown
+            }
+        }
+    }
+    
     
     public let kind : MIDIObjectKind
-    private let thing : MIDIObject
+    public let thing : MIDIObject
     
     public init(_ obj : MIDIObject) {
         self.thing=obj
@@ -29,9 +51,11 @@ public class MIDIEndpointDescription : MIDIObjectProtocol {
         
     }
     
+    public var mode : Mode { return Mode(self.thing.kind) } 
+
+    
     public var object: MIDIObjectRef { return thing.object }
     public var uid: MIDIUniqueID { return thing.uid }
-    public var UID : MIDIUniqueID { return thing.UID }
     public var name: String? { return thing.name }
     public var manufacturer: String? { return thing.manufacturer }
     public var model: String? { return thing.model }
@@ -58,4 +82,5 @@ public struct MIDIEndpointPair {
         self.destination = destination
     }
 }
+
 

@@ -35,8 +35,8 @@ public class MIDIClient {
     private var activeSince : Date?
     internal var callback : MIDICallback?
     
-    internal var source : MIDIEndpointDescription?
-    internal var destination : MIDIEndpointDescription?
+    internal var source : MIDIEndpoint?
+    internal var destination : MIDIEndpoint?
     internal var sourcePort : MIDIPortRef = 0
     internal var destinationPort : MIDIPortRef = 0
     
@@ -62,7 +62,7 @@ public class MIDIClient {
     public func connect(destination: MIDIObject?) throws {
         var portName : String = ""
         if let destination=destination {
-            self.destination=MIDIEndpointDescription(destination)
+            self.destination=MIDIEndpoint(destination)
             portName = destination.name ?? "destination"
         }
         else { self.destination=nil }
@@ -75,7 +75,7 @@ public class MIDIClient {
     public func connect(source: MIDIObject?) throws {
         var portName : String = ""
         if let source=source {
-            self.source=MIDIEndpointDescription(source)
+            self.source=MIDIEndpoint(source)
             portName = source.name ?? "source"
         }
         else { self.source=nil }

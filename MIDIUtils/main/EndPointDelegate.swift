@@ -22,51 +22,39 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
         case Switch
     }
     
-    internal var registered : OrderedDictionary<MIDIUniqueID,MIDIEndPointWrapper>
+    internal var registered : OrderedDictionary<MIDIUniqueID,MIDIEndpointWrapper>
     @IBOutlet weak var table : NSTableView!
     private var enableActivityIndicators : Bool = true
     internal var cells : OrderedDictionary<MIDIUniqueID,RowCellSet>
     
     public override init() {
-        registered=OrderedDictionary<MIDIUniqueID,MIDIEndPointWrapper>()
+        registered=OrderedDictionary<MIDIUniqueID,MIDIEndpointWrapper>()
         cells = OrderedDictionary<MIDIUniqueID,RowCellSet>()
         super.init()
         
-        
-        NotificationCenter.default.addObserver(forName: MIDIListener.MIDIListenerEventNotification, object: nil, queue: nil, using: { (notification) in
-            let uid = (notification.userInfo?["uid"] as! MIDIUniqueID?) ?? kMIDIInvalidUniqueID
-            let endpoint=self.registered[uid]
-            if endpoint != nil {
-                let packets = notification.userInfo!["packets"] as! MIDIPacketList?
-                if packets != nil { endpoint!.process(packets!) }
-            }
-        })
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(MIDIEndPointHandler.linkChanged(_:)), name: LinkManager.MIDILinkTableChanged, object: nil);
+
         
     }
     
-    @objc private func linkChanged(_ n : NSNotification) {
-        let info = n.userInfo
-        if info==nil { return }
-        let from=info!["from"] as! MIDIUniqueID? ?? kMIDIInvalidUniqueID
-        let to=info!["to"] as! MIDIUniqueID? ?? kMIDIInvalidUniqueID
-        let status=info!["linked"] as! Bool? ?? false
+    @objc private func linkChanged(_ n : Notification) {
+        guard let info = n.userInfo else { return }
+        let from=info["from"] as? MIDIUniqueID ?? kMIDIInvalidUniqueID
+        let to=info["to"] as? MIDIUniqueID ?? kMIDIInvalidUniqueID
+        let status=info["linked"] as? Bool ?? false
         cells[from]?.Linked = status ? to : kMIDIInvalidUniqueID
         cells[to]?.Linked = status ? from : kMIDIInvalidUniqueID
         table.reloadData()
     }
     
     
-    public func register(endpoint : MIDIEndPoint) throws {
-        let wrapper = try MIDIWrapEndPoint(endpoint: endpoint)
+    public func register(endpoint : MIDIEndpoint) throws {
+        let wrapper = try MIDIEndpointWrapper(endpoint)
         if wrapper.isSource {
-            let w = wrapper as! MIDISourceWrapper
-            w.filtered=true
-            w.setActivityAction({ (uid,active) in self.statusChange(uid,active) })
+            //w.filtered=true
+            wrapper.setActivityCallback { (uid,active) in self.statusChange(uid,active) }
         }
         registered[endpoint.uid]=wrapper
-        cells[endpoint.uid]=RowCellSet(endpoint: wrapper, handler: { (uid,status) in self.handleSwitches(uid,status) })
+        cells[endpoint.uid]=RowCellSet(endpoint: wrapper.endpoint, handler: { (uid,status) in self.handleSwitches(uid,status) })
         //return wrapper
     }
     
@@ -74,18 +62,18 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
         registered.removeAll()
     }
     
-    public func load(endpoints: [MIDIEndPoint]) throws {
+    public func load(endpoints: [MIDIEndpoint]) throws {
         try endpoints.forEach { (endpoint) in
-            debugPrint("Creating session for \(endpoint) with name \(endpoint.Name)")
+            debugPrint("Creating session for \(endpoint) with name \(endpoint.name ?? "-")")
             try self.register(endpoint: endpoint)
         }
     }
     
     public func filtered(_ f: Bool) {
         registered.forEach { (arg) in
-            let (_, wrapper) = arg
-            if wrapper != nil && wrapper!.isSource {
-                (wrapper! as! MIDISourceWrapper).filtered=f
+            let wrapper = arg.value
+            if wrapper.isSource {
+                //(wrapper as? MIDISourceWrapper)?.filtered=f
             }
         }
     }
@@ -96,32 +84,34 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
         enableActivityIndicators=preference.get(key: "enableActivity") ?? false
     }
     
-    public func statusChange(_ uid: MIDIUniqueID, _ active: Bool) {
+    public func statusChange(_ uid: MIDIUniqueID, _ active: MIDIMonitor.Activity) {
         if enableActivityIndicators { DispatchQueue.main.async { self.table.reloadData() } }
     }
     
     public func handleSwitches(_ uid: MIDIUniqueID,_ status : Bool) {
         debugPrint("Handling switch for \(uid) with status \(status)")
-        let wrapper=registered[uid]
-        if wrapper==nil { return }
-        switch wrapper!.mode {
-        case .Source:
-            if status {
-                let panel=DecoderPanel.launch(uid: uid)
-                (wrapper! as! MIDISourceWrapper).startDecoding(interface: panel!)
+        if let wrapper=registered[uid] {
+            switch wrapper.mode {
+            case .source:
+                if status {
+                    if let panel=DecoderPanel.launch(uid: uid) {
+                        wrapper.link(panel)
+                    }
+                }
+                else {
+                    if let panel=DecoderPanel.close(uid: uid) {
+                        panel.unlink()
+                    }
+                }
+                break
+            case .destination:
+                break
+            default:
+                break
             }
-            else {
-                let panel=DecoderPanel.close(uid: uid)
-                panel?.unlink()
-            }
-            break
-        case .Destination:
-            break
-        default:
-            break
         }
         
-            }
+    }
     
     // Table data source functions
     
@@ -132,16 +122,15 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
 
     
     public func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let wrapper=registered.at(index: row)
-        if wrapper==nil { return nil }
-        if tableColumn==nil { return nil }
-        
-        let column : String = tableColumn!.title
-        let uid=wrapper!.uid
-        let cellSet = cells[uid]
-        if cellSet==nil { return nil }
-        cellSet!.Active=wrapper!.isActive
-        return cellSet![column]
+        if let wrapper=registered.at(row), let tableColumn=tableColumn {
+            let column : String = tableColumn.title
+            let uid=wrapper.uid
+            if let cellSet = cells[uid] {
+                cellSet.Active=wrapper.active
+                return cellSet[column]
+            }
+        }
+        return nil
     }
     
     // Table delegate methods

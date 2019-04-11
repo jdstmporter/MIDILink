@@ -13,7 +13,7 @@ import CoreMIDI
 
 
 
-class DecoderPanel : NSPanel, LaunchableItem , MIDIDecoderInterface {
+class DecoderPanel : NSPanel, LaunchableItem , MIDIDecoderClient {
     
     static var lock = NSLock()
    static var nibname : NSNib.Name = NSNib.Name("Decoder")

@@ -96,7 +96,7 @@ class LinkageWindow : NSPanel, LaunchableItem, NSTableViewDelegate, NSTableViewD
             columns.forEach { (to) in
                 let tag=toTag(from,to)
                 let field = (matrix[tag] as! MIDIIndicatorView?) ?? MIDIIndicatorView()
-                field.status=links[from,to]
+                field.status=links?[from,to]
                 matrix[tag]=field
             }
         }
@@ -139,8 +139,8 @@ class LinkageWindow : NSPanel, LaunchableItem, NSTableViewDelegate, NSTableViewD
 
     public func setDevices(_ manager: ILinkTableSource) {
         links=manager
-        rows=links.fromLabels
-        columns=links.toLabels
+        rows=links.fromLabels.map { $0.description }
+        columns=links.toLabels.map { $0.description }
         updateTables()
         
         rows.forEach { (from) in
@@ -211,8 +211,8 @@ class LinkageWindow : NSPanel, LaunchableItem, NSTableViewDelegate, NSTableViewD
         debugPrint("\(table.clickedColumn) - \(table.clickedRow)")
         if table.clickedColumn<1 || table.clickedColumn > columns.count { return }
         if table.clickedRow<0 || table.clickedRow >= rows.count { return }
-        let source=rows[table.clickedRow]
-        let destination=columns[table.clickedColumn-1]
+        let source=links.fromLabels[table.clickedRow]
+        let destination=links.toLabels[table.clickedColumn-1]
         let status=links[source,destination]
         
         do {

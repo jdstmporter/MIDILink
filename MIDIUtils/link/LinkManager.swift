@@ -24,21 +24,21 @@ extension MIDIUniqueID {
 
 protocol ILinkTableSource {
     
-    var fromLabels : [String] { get }
-    var toLabels : [String] { get }
-    subscript(_ from: String,_ to: String) -> Bool { get }
-    func link(from f: String,to t: String) throws
-    func unlink(from f: String,to t: String) throws
-    func tooltip(_ uid: String) -> String?
+    var fromLabels : [MIDIUniqueID] { get }
+    var toLabels : [MIDIUniqueID] { get }
+    subscript(_ from: MIDIUniqueID,_ to: MIDIUniqueID) -> Bool { get }
+    func link(from f: MIDIUniqueID,to t: MIDIUniqueID) throws
+    func unlink(from f: MIDIUniqueID,to t: MIDIUniqueID) throws
+    func tooltip(_ uid: MIDIUniqueID) -> String?
     
 }
 
 protocol IMIDILinkManager {
     
-    init(froms: [MIDIEndPoint], tos: [MIDIEndPoint])
-    subscript(_ from: MIDIEndPoint,_ to: MIDIEndPoint) -> MIDILink? { get }
-    func link(from: MIDIEndPoint,to: MIDIEndPoint) throws
-    func unlink(from: MIDIEndPoint,to: MIDIEndPoint) throws
+    init(froms: [MIDIEndpoint], tos: [MIDIEndpoint])
+    subscript(_ from: MIDIEndpoint,_ to: MIDIEndpoint) -> MIDILink? { get }
+    func link(from: MIDIEndpoint,to: MIDIEndpoint) throws
+    func unlink(from: MIDIEndpoint,to: MIDIEndpoint) throws
     func clear()
     
 }
@@ -57,6 +57,14 @@ enum LinkTableError : Error {
 
 
 class LinkManager : ILinkTableSource, IMIDILinkManager, IMIDILinkEnumerator {
+    subscript(from: MIDIUniqueID, to: MIDIUniqueID) -> Bool {
+        <#code#>
+    }
+    
+    
+    
+    
+    
     static let MIDILinkTableChanged = NSNotification.Name("MIDILinkTableChangedEvent")
     static let MIDILinkCreated = NSNotification.Name("MIDILinkCreatedEvent")
     static let MIDILinkUndone = NSNotification.Name("MIDILinkUndoneEvent")
@@ -65,10 +73,10 @@ class LinkManager : ILinkTableSource, IMIDILinkManager, IMIDILinkEnumerator {
     
     private var links : [MIDIUniqueID: MIDILink] = [:]
     private var matrix : [MIDIUniqueID: MIDIUniqueID] = [:]
-    private var froms : [MIDIEndPoint]
-    private var tos : [MIDIEndPoint]
+    private var froms : [MIDIEndpoint]
+    private var tos : [MIDIEndpoint]
     
-    public required init(froms: [MIDIEndPoint], tos: [MIDIEndPoint]) {
+    public required init(froms: [MIDIEndpoint], tos: [MIDIEndpoint]) {
         self.froms=froms
         self.tos=tos
         initialise()
@@ -88,11 +96,11 @@ class LinkManager : ILinkTableSource, IMIDILinkManager, IMIDILinkEnumerator {
         return self.tos.contains { $0.uid==to }
     }
     
-    private func isValid(from: MIDIEndPoint,to: MIDIEndPoint) -> Bool {
+    private func isValid(from: MIDIEndpoint,to: MIDIEndpoint) -> Bool {
         return self.isValid(from: from.uid,to: to.uid)
     }
     
-    private func isValid(to: MIDIEndPoint) -> Bool {
+    private func isValid(to: MIDIEndpoint) -> Bool {
         return self.isValid(to: to.uid)
     }
     
@@ -109,15 +117,15 @@ class LinkManager : ILinkTableSource, IMIDILinkManager, IMIDILinkEnumerator {
         return matrix.filter { $0.value == from }.count>0
     }
     
-    private func isLinked(from: MIDIEndPoint,to: MIDIEndPoint) -> Bool {
+    private func isLinked(from: MIDIEndpoint,to: MIDIEndpoint) -> Bool {
         return isLinked(from: from.uid,to: to.uid)
     }
     
-    private func isLinked(to: MIDIEndPoint) -> Bool {
+    private func isLinked(to: MIDIEndpoint) -> Bool {
         return isLinked(to: to.uid)
     }
     
-    private func isLinked(from: MIDIEndPoint) -> Bool {
+    private func isLinked(from: MIDIEndpoint) -> Bool {
         return isLinked(from: from.uid)
     }
     
@@ -147,31 +155,31 @@ class LinkManager : ILinkTableSource, IMIDILinkManager, IMIDILinkEnumerator {
         NotificationCenter.default.post(name: LinkManager.MIDILinkTableChanged, object: nil)
     }
 
-    public subscript(_ from: MIDIEndPoint,_ to: MIDIEndPoint) -> MIDILink? {
+    public subscript(_ from: MIDIEndpoint,_ to: MIDIEndpoint) -> MIDILink? {
         return self[from.uid,to.uid]
     }
 
-    public func link(from: MIDIEndPoint,to: MIDIEndPoint) throws {
+    public func link(from: MIDIEndpoint,to: MIDIEndpoint) throws {
         
         if !isValid(from: from, to: to) { throw LinkTableError.NoSuchEndpoint }
         if isLinked(to: to) { throw LinkTableError.LinkToItemAlreadyExists }
         if isLinked(from: from) { throw LinkTableError.LinkFromItemAlreadyExists }
         
-        let link=try MIDILink(source: from, destination: to)
-        try link.bind()
+        let link=try MIDILink(name: "link", source: from, destination: to)
+        try link.link()
         
         links[to.uid]=link
         matrix[to.uid]=from.uid
         NotificationCenter.default.post(name: LinkManager.MIDILinkTableChanged, object: nil, userInfo : ["from": from.uid, "to": to.uid, "linked" : true])
     }
     
-    public func unlink(from: MIDIEndPoint,to: MIDIEndPoint) throws {
+    public func unlink(from: MIDIEndpoint,to: MIDIEndpoint) throws {
         if !isValid(to:to) { throw LinkTableError.NoSuchEndpoint }
         if !isLinked(from: from,to: to) { throw LinkTableError.NoSuchLink }
         
         let link = links[to.uid]
         if link==nil { throw LinkTableError.NoSuchLink }
-        try link!.unbind()
+        try link!.unlink()
         
         links.removeValue(forKey: to.uid)
         matrix[to.uid]=kMIDIInvalidUniqueID
@@ -179,39 +187,37 @@ class LinkManager : ILinkTableSource, IMIDILinkManager, IMIDILinkEnumerator {
         
     }
     
-    public func unlink(endpoint : MIDIEndPoint) throws {
+    public func unlink(endpoint : MIDIEndpoint) throws {
         // unlink from or to this endpoint
     }
     
     // iLinkTableSource methods
     
-    public var fromLabels : [String] { return froms.map { $0.UID } }
+    public var fromLabels : [MIDIUniqueID] { return froms.map { $0.uid } }
     
-    public var toLabels : [String] { return tos.map { $0.UID } }
+    public var toLabels : [MIDIUniqueID] { return tos.map { $0.uid } }
     
-    public subscript(_ from: String,_ to: String) -> Bool {
-        return self[MIDIUniqueID(string: from),MIDIUniqueID(string: to)] != nil
-    }
     
-    public func link(from f: String,to t: String) throws {
-        let from=froms.first { $0.UID==f }
-        let to=tos.first { $0.UID==t }
+    
+    public func link(from f: MIDIUniqueID,to t: MIDIUniqueID) throws {
+        let from=froms.first { $0.uid==f }
+        let to=tos.first { $0.uid==t }
         if from==nil || to==nil { throw LinkTableError.NoSuchEndpoint }
         try link(from: from!, to: to!)
     }
     
-    public func unlink(from f: String,to t: String) throws {
-        let from=froms.first { $0.UID==f }
-        let to=tos.first { $0.UID==t }
+    public func unlink(from f: MIDIUniqueID,to t: MIDIUniqueID) throws {
+        let from=froms.first { $0.uid==f }
+        let to=tos.first { $0.uid==t }
         if from==nil || to==nil { throw LinkTableError.NoSuchEndpoint }
         try unlink(from: from!, to: to!)
     }
     
-    public func tooltip(_ uid: String) -> String? {
-        let from=froms.first { $0.UID==uid }
-        if from != nil { return from!.description }
-        let to=tos.first { $0.UID==uid }
-        if to != nil { return to!.description }
+    public func tooltip(_ uid: MIDIUniqueID) -> String? {
+        let from=froms.first { $0.uid==uid }
+        if from != nil { return from!.name }
+        let to=tos.first { $0.uid==uid }
+        if to != nil { return to!.name }
         return nil
     }
     

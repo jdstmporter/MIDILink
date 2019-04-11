@@ -32,8 +32,9 @@ public class MIDIDecoder : Sequence  {
     }
 
     
-    fileprivate var messages : [MIDIMessage]
+    internal var messages : [MIDIMessage]
     private var timeStandard : MIDITimeStandard
+    public var callback : MIDIDecoderCallback? = nil
     
     public init() throws {
         messages=[]
@@ -58,6 +59,7 @@ public class MIDIDecoder : Sequence  {
                 packet=MIDIPacketNext(packet)
             }
             NotificationCenter.default.post(name: MIDIDecoder.MIDIDataToDecode, object: nil)
+            callback?()
         }
     }
     
@@ -71,9 +73,16 @@ public class MIDIDecoder : Sequence  {
     }
     
     public var count : Int { return DispatchQueue.main.sync { return messages.count } }
+    public subscript(_ n : Int) -> MIDIMessage? {
+        return DispatchQueue.main.sync {
+            return (0<=n && n<messages.count) ? messages[n] : nil
+        }
+    }
+    
     public __consuming func makeIterator() -> Iterator {
         return DispatchQueue.main.sync { return Iterator(self) }
     }
+    
     
     
 }

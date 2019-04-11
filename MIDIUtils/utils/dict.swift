@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class OrderedDict<K,V> : Sequence where K : Hashable {
+public class OrderedDictionary<K,V> : Sequence where K : Hashable {
     fileprivate var dict : [K:V]
     fileprivate var keys : [K]
     
@@ -19,7 +19,7 @@ public class OrderedDict<K,V> : Sequence where K : Hashable {
         private let keys : [K]
         private var index : Int
         
-        public init(_ dict : OrderedDict<K,V>) {
+        public init(_ dict : OrderedDictionary<K,V>) {
             self.dict=dict.dict
             self.keys=dict.keys
             self.index=0
@@ -63,9 +63,10 @@ public class OrderedDict<K,V> : Sequence where K : Hashable {
             }
         }
     }
-    public __consuming func makeIterator() -> OrderedDict<K, V>.Iterator {
+    public __consuming func makeIterator() -> OrderedDictionary<K, V>.Iterator {
         return Iterator(self)
     }
+    public func at(_ index : Int) -> V? { return dict[keys[index]] }
     
     
 }
