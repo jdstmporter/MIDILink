@@ -16,6 +16,10 @@ public protocol PreferenceListener {
 }
 
 public class PreferenceFallbacks : Sequence {
+    
+    private enum NullError : Error { case null }
+    
+    
     private static var the : PreferenceFallbacks?
     public typealias Keys = Dictionary<String,String>.Keys
     public let fallbacks : [String : String]
@@ -23,10 +27,11 @@ public class PreferenceFallbacks : Sequence {
     
     public init(fallbackSource: String = "UserDefaults") {
         do {
-            let url=Bundle.main.url(forResource: fallbackSource, withExtension: "plist")
-            let data=try Data.init(contentsOf: url!)
+            guard let url=Bundle.main.url(forResource: fallbackSource, withExtension: "plist") else { throw NullError.null }
+            let data=try Data.init(contentsOf: url)
             var format : PropertyListSerialization.PropertyListFormat = .xml
             fallbacks = try PropertyListSerialization.propertyList(from: data, options: .mutableContainersAndLeaves, format: &format) as! [String : String]
+            
         }
         catch {
             fallbacks=[:]

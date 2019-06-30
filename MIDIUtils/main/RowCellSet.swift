@@ -15,7 +15,7 @@ internal class RowCellSet {
     private var cells : [String:NSView]
     private let uid : MIDIUniqueID
     private var switchCell : NSButton!
-    private let mode : MIDIEndpoint.Mode
+    private let mode : MIDIObjectMode
     private let cb : (_:MIDIUniqueID,_:Bool) -> ()
     
     init(endpoint: MIDIEndpoint,handler:@escaping (_:MIDIUniqueID,_:Bool) -> ()) {
@@ -24,9 +24,9 @@ internal class RowCellSet {
         cb=handler
         cells=[String:NSView]()
         
-        cells["Name"]=VTextField(labelWithString: endpoint.name ?? "name")
-        cells["Model"]=VTextField(labelWithString: endpoint.model ?? "model")
-        cells["Manufacturer"]=VTextField(labelWithString: endpoint.manufacturer ?? "manufacturer")
+        cells["Name"]=VTextField(labelWithString: endpoint.name)
+        cells["Model"]=VTextField(labelWithString: endpoint.model)
+        cells["Manufacturer"]=VTextField(labelWithString: endpoint.manufacturer)
         
         let uidCell=VTextField(labelWithString: endpoint.uid.description)
         uidCell.font=FontDescriptor(family: .Monospace, size: .Small, weight: .black).font
@@ -75,10 +75,10 @@ internal class RowCellSet {
     }
     
     public var Linked : MIDIUniqueID {
-        get { return MIDIUniqueID(string: (cells["Linked"] as! VTextField).stringValue) }
+        get { return MIDIUniqueID((cells["Linked"] as! VTextField).stringValue) ?? kMIDIInvalidUniqueID }
         set(v) {
             if v==kMIDIInvalidUniqueID { (cells["Linked"] as! VTextField).stringValue="" }
-            else { (cells["Linked"] as! VTextField).stringValue=v.UID }
+            else { (cells["Linked"] as! VTextField).stringValue=v.description }
         }
     }
 }

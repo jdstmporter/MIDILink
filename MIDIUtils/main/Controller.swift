@@ -53,9 +53,9 @@ class Controller : NSViewController {
      func scanForEndPoints() {
         debugPrint("Loading view controller")
         do {
-            let m = MIDISystem.common
-            m.enumerate()
-            load(sources: m[.source], destinations: m[.destination])
+            let m = try MIDISystem()
+            m.endpoints.forEach { debugPrint($0.description) }
+            load(sources: m.sources, destinations: m.destinations)
         }
         catch {
             debugPrint("There was an error")

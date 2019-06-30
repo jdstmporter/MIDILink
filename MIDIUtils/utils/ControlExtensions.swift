@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import MIDITools
 
 internal extension NSProgressIndicator {
     
@@ -146,20 +147,21 @@ internal extension NSButton {
         set { allowsMixedState=newValue }
     }
     
-    func setBool(value: UInt8,thresholder: Thresholder? = nil) {
-        if thresholder==nil {
+    func setBool(value: UInt8,code: MIDIControlMessages? = nil) {
+        if let boolean = code?.threshold(value) {
+            isEnabled=true
+            boolValue = boolean.str == "ON"
+            isKleene=false
+        }
+        else {
             isKleene=true
             kleeneValue = Kleene.Mid
             isEnabled=false
-        } else {
-            isEnabled=true
-            boolValue = thresholder![value]
-            isKleene=false
         }
     }
     
-    func getBool(thresholder: Thresholder) -> UInt8 {
-        return boolValue ? thresholder.on : thresholder.off
+    func getBool(code: MIDIControlMessages) -> UInt8 {
+        return code.unthreshold(boolValue) ?? 0
     }
     
 }

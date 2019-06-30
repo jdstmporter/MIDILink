@@ -13,7 +13,7 @@ import CoreMIDI
 
 
 
-class DecoderPanel : NSPanel, LaunchableItem , MIDIDecoderClient {
+class DecoderPanel : NSPanel, LaunchableItem , MIDIDecoderInterface {
     
     static var lock = NSLock()
    static var nibname : NSNib.Name = NSNib.Name("Decoder")
@@ -45,7 +45,7 @@ class DecoderPanel : NSPanel, LaunchableItem , MIDIDecoderClient {
    
     
     public func unlink() {
-        NotificationCenter.default.removeObserver(self, name: MIDIListener.MIDIListenerEventNotification, object: nil)
+        decoder?.action = nil
         tableDelegate=nil
         decoder=nil
     }
@@ -66,12 +66,12 @@ class DecoderPanel : NSPanel, LaunchableItem , MIDIDecoderClient {
             }
             break
         case .Save:
-            let saver=SavePackets(decoder: decoder)
-            saver.action(window: self)
+            //let saver=SavePackets(decoder: decoder)
+            //saver.action(window: self)
             break
         case .Print:
-            let printer=PrintPackets(decoder: decoder)
-            printer.action(window: self)
+            //let printer=PrintPackets(decoder: decoder)
+            //printer.action(window: self)
             break
         default:
             break

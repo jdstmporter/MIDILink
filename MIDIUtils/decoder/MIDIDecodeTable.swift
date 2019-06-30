@@ -20,7 +20,7 @@ class MIDIDecodeTable : NSObject, NSTableViewDataSource, NSTableViewDelegate, Pr
     private var font : NSFont!
     let colours : Colours
     private let table : NSTableView!
-    private var decoder : MIDIDecoder?
+    private var decoder : MIDIDecoderBase?
     
     init(table t: NSTableView!,withColour c: Bool = true) {
         table = t
@@ -43,9 +43,9 @@ class MIDIDecodeTable : NSObject, NSTableViewDataSource, NSTableViewDelegate, Pr
         }
     }
     
-    func link(decoder d:MIDIDecoder) {
+    func link(decoder d:MIDIDecoderBase) {
         decoder=d
-        decoder?.callback = { self.Touch() }
+        decoder?.action = { self.Touch() }
     }
     
     func preferencesChanged(_ preference: PreferencesReader) {

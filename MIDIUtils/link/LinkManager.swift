@@ -10,17 +10,7 @@ import Foundation
 import MIDITools
 import CoreMIDI
 
-extension MIDIUniqueID {
-    var UID : String {
-        return String(format:"%08x",UInt32(bitPattern: self))
-    }
-    
-    init(string: String)  {
-        let x = UInt32(string,radix: 16)
-        if x==nil { self=kMIDIInvalidUniqueID }
-        self=Int32(bitPattern: x!)
-    }
-}
+
 
 protocol ILinkTableSource {
     
@@ -30,6 +20,7 @@ protocol ILinkTableSource {
     func link(from f: MIDIUniqueID,to t: MIDIUniqueID) throws
     func unlink(from f: MIDIUniqueID,to t: MIDIUniqueID) throws
     func tooltip(_ uid: MIDIUniqueID) -> String?
+    func tooltip(_ uid: String) -> String?
     
 }
 
@@ -58,7 +49,16 @@ enum LinkTableError : Error {
 
 class LinkManager : ILinkTableSource, IMIDILinkManager, IMIDILinkEnumerator {
     subscript(from: MIDIUniqueID, to: MIDIUniqueID) -> Bool {
-        <#code#>
+        return self[from,to] != nil 
+    }
+    
+    private subscript(_ from: MIDIUniqueID,_ to: MIDIUniqueID) -> MIDILink? {
+        if !isValid(from:from,to:to) { return nil }
+        return isLinked(from: from,to: to) ? links[to] : nil
+    }
+    
+    public subscript(_ from: MIDIEndpoint,_ to: MIDIEndpoint) -> MIDILink? {
+        return self[from.uid,to.uid]
     }
     
     
@@ -129,10 +129,7 @@ class LinkManager : ILinkTableSource, IMIDILinkManager, IMIDILinkEnumerator {
         return isLinked(from: from.uid)
     }
     
-    private subscript(_ from: MIDIUniqueID,_ to: MIDIUniqueID) -> MIDILink? {
-        if !isValid(from:from,to:to) { return nil }
-        return isLinked(from: from,to: to) ? links[to] : nil
-    }
+    
     
     private func initialise() {
         links.removeAll()
@@ -148,16 +145,14 @@ class LinkManager : ILinkTableSource, IMIDILinkManager, IMIDILinkEnumerator {
             let (to, from) = arg
             if from != kMIDIInvalidUniqueID {
                 let link=links[to]
-                try? link?.unlink()
+                try? link?.unbind()
             }
         }
         initialise()
         NotificationCenter.default.post(name: LinkManager.MIDILinkTableChanged, object: nil)
     }
 
-    public subscript(_ from: MIDIEndpoint,_ to: MIDIEndpoint) -> MIDILink? {
-        return self[from.uid,to.uid]
-    }
+    
 
     public func link(from: MIDIEndpoint,to: MIDIEndpoint) throws {
         
@@ -165,8 +160,8 @@ class LinkManager : ILinkTableSource, IMIDILinkManager, IMIDILinkEnumerator {
         if isLinked(to: to) { throw LinkTableError.LinkToItemAlreadyExists }
         if isLinked(from: from) { throw LinkTableError.LinkFromItemAlreadyExists }
         
-        let link=try MIDILink(name: "link", source: from, destination: to)
-        try link.link()
+        let link=try MIDILink(source: from, destination: to)
+        try link.bind()
         
         links[to.uid]=link
         matrix[to.uid]=from.uid
@@ -179,7 +174,7 @@ class LinkManager : ILinkTableSource, IMIDILinkManager, IMIDILinkEnumerator {
         
         let link = links[to.uid]
         if link==nil { throw LinkTableError.NoSuchLink }
-        try link!.unlink()
+        try link!.unbind()
         
         links.removeValue(forKey: to.uid)
         matrix[to.uid]=kMIDIInvalidUniqueID
@@ -219,6 +214,10 @@ class LinkManager : ILinkTableSource, IMIDILinkManager, IMIDILinkEnumerator {
         let to=tos.first { $0.uid==uid }
         if to != nil { return to!.name }
         return nil
+    }
+    public func tooltip(_ label: String) -> String? {
+        if let uid = MIDIUniqueID(label) { return tooltip(uid) }
+        else { return nil }
     }
     
     // iMIDILinkeEnumerator methods

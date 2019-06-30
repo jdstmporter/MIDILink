@@ -7,6 +7,7 @@
 //
 
 import AppKit
+import MIDITools
 
 
 
@@ -56,11 +57,11 @@ public class PreferencesController : NSPanel, LaunchableItem, PreferenceListener
         colours=ColourPreferences(preferences, views: [colourContainer,colourContainer2])
         
         decoderDelegate=MIDIDecodeTable(table: decoderTable, withColour: false)
-        decoderDelegate.link(decoder: MIDIDummyDecoder())
+        decoderDelegate.link(decoder: try! MIDIDummyDecoder())
         preferences.addListener(decoderDelegate)
         
         xmlDelegate=Highlighter(view: xmlView)
-        xmlDelegate.link(decoder: MIDIDummyDecoder())
+        xmlDelegate.link(decoder: try! MIDIDummyDecoder())
         preferences.addListener(xmlDelegate)
         
         preferences.push()

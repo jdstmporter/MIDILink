@@ -22,13 +22,13 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
         case Switch
     }
     
-    internal var registered : OrderedDictionary<MIDIUniqueID,MIDIEndpointWrapper>
+    internal var registered : OrderedDictionary<MIDIUniqueID,MIDISource>
     @IBOutlet weak var table : NSTableView!
     private var enableActivityIndicators : Bool = true
     internal var cells : OrderedDictionary<MIDIUniqueID,RowCellSet>
     
     public override init() {
-        registered=OrderedDictionary<MIDIUniqueID,MIDIEndpointWrapper>()
+        registered=OrderedDictionary<MIDIUniqueID,MIDISource>()
         cells = OrderedDictionary<MIDIUniqueID,RowCellSet>()
         super.init()
         
@@ -48,13 +48,13 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
     
     
     public func register(endpoint : MIDIEndpoint) throws {
-        let wrapper = try MIDIEndpointWrapper(endpoint)
+        let wrapper = try MIDISource(endpoint)
         if wrapper.isSource {
             //w.filtered=true
-            wrapper.setActivityCallback { (uid,active) in self.statusChange(uid,active) }
+            wrapper.activityCallback = { (uid,active) in self.statusChange(uid,active) }
         }
         registered[endpoint.uid]=wrapper
-        cells[endpoint.uid]=RowCellSet(endpoint: wrapper.endpoint, handler: { (uid,status) in self.handleSwitches(uid,status) })
+        cells[endpoint.uid]=RowCellSet(endpoint: wrapper.endpoint as! MIDIEndpoint, handler: { (uid,status) in self.handleSwitches(uid,status) })
         //return wrapper
     }
     
@@ -64,7 +64,7 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
     
     public func load(endpoints: [MIDIEndpoint]) throws {
         try endpoints.forEach { (endpoint) in
-            debugPrint("Creating session for \(endpoint) with name \(endpoint.name ?? "-")")
+            debugPrint("Creating session for \(endpoint) with name \(endpoint.name)")
             try self.register(endpoint: endpoint)
         }
     }
@@ -84,7 +84,7 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
         enableActivityIndicators=preference.get(key: "enableActivity") ?? false
     }
     
-    public func statusChange(_ uid: MIDIUniqueID, _ active: MIDIMonitor.Activity) {
+    public func statusChange(_ uid: MIDIUniqueID, _ active: Any) {
         if enableActivityIndicators { DispatchQueue.main.async { self.table.reloadData() } }
     }
     
@@ -95,11 +95,12 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
             case .source:
                 if status {
                     if let panel=DecoderPanel.launch(uid: uid) {
-                        wrapper.link(panel)
+                        wrapper.startDecoding(interface: panel)
                     }
                 }
                 else {
                     if let panel=DecoderPanel.close(uid: uid) {
+                        //wrapper.stopDecoding()
                         panel.unlink()
                     }
                 }
@@ -126,7 +127,7 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
             let column : String = tableColumn.title
             let uid=wrapper.uid
             if let cellSet = cells[uid] {
-                cellSet.Active=wrapper.active
+                cellSet.Active=wrapper.isActive
                 return cellSet[column]
             }
         }

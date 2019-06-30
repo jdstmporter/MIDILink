@@ -46,8 +46,7 @@ class MIDIIndicatorView : NSBox {
         get { return _status }
         set {
             _status=newValue
-            let name=(status) ? NSImage.Name.statusAvailable : NSImage.Name.statusNone
-            image.image=NSImage(named: name)
+            image.setStatusImage(status)
         }
     }
     
@@ -59,8 +58,8 @@ class MIDIIndicatorView : NSBox {
 
 extension NSImageView {
     
-    func setStatusImage(_ status : Bool = false) -> NSImageView {
-        let name=(status) ? NSImage.Name.statusAvailable : NSImage.Name.statusNone
+    @discardableResult func setStatusImage(_ status : Bool = false) -> NSImageView {
+        let name=(status) ? NSImage.statusAvailableName : NSImage.statusNoneName
         self.image=NSImage(named: name)
         return self
     }
@@ -84,11 +83,11 @@ class LinkageWindow : NSPanel, LaunchableItem, NSTableViewDelegate, NSTableViewD
     
     private var links : ILinkTableSource!
     private var matrix : [String: NSView] = [:]
-    private var rows : [String] = []
-    private var columns : [String] = []
+    private var rows : [MIDIUniqueID] = []
+    private var columns : [MIDIUniqueID] = []
 
-    private func toTag(_ from: String, _ to: String) -> String {
-        return "\(from):\(to)"
+    private func toTag(_ from: CustomStringConvertible, _ to: CustomStringConvertible) -> String {
+        return "\(from.description):\(to.description)"
     }
     
     @objc private func updateTables(_ n: NSNotification? = nil) {
@@ -96,7 +95,7 @@ class LinkageWindow : NSPanel, LaunchableItem, NSTableViewDelegate, NSTableViewD
             columns.forEach { (to) in
                 let tag=toTag(from,to)
                 let field = (matrix[tag] as! MIDIIndicatorView?) ?? MIDIIndicatorView()
-                field.status=links?[from,to]
+                if let status=links?[from,to] { field.status=status }
                 matrix[tag]=field
             }
         }
@@ -139,8 +138,8 @@ class LinkageWindow : NSPanel, LaunchableItem, NSTableViewDelegate, NSTableViewD
 
     public func setDevices(_ manager: ILinkTableSource) {
         links=manager
-        rows=links.fromLabels.map { $0.description }
-        columns=links.toLabels.map { $0.description }
+        rows=links.fromLabels.map { $0 }
+        columns=links.toLabels.map { $0 }
         updateTables()
         
         rows.forEach { (from) in
@@ -148,7 +147,7 @@ class LinkageWindow : NSPanel, LaunchableItem, NSTableViewDelegate, NSTableViewD
                 let tag=toTag(from,to)
                 matrix[tag]=MIDIIndicatorView()
             }
-            let cell=makeCell(content: from)
+            let cell=makeCell(content: from.description)
             cell.toolTip=links.tooltip(from)
             matrix[toTag(from,"source")]=cell
         }
@@ -156,7 +155,7 @@ class LinkageWindow : NSPanel, LaunchableItem, NSTableViewDelegate, NSTableViewD
         DispatchQueue.main.async {
             self.table.tableColumns.forEach { self.table.removeTableColumn($0) }
             self.table.addTableColumn(self.columnNamed(name: "source"))
-            self.columns.forEach { self.table.addTableColumn(self.columnNamed(name: $0 )) }
+            self.columns.forEach { self.table.addTableColumn(self.columnNamed(name: $0.description )) }
         }
         
     }
