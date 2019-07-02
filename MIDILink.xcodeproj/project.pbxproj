@@ -21,12 +21,8 @@
 		E192C5BA226D1C3B00E48557 /* MIDIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C599226D1C3A00E48557 /* MIDIError.swift */; };
 		E192C5BB226D1C3B00E48557 /* MIDIentities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C59B226D1C3A00E48557 /* MIDIentities.swift */; };
 		E192C5BC226D1C3B00E48557 /* MIDIDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C59D226D1C3A00E48557 /* MIDIDecoder.swift */; };
-		E192C5C3226D1C3B00E48557 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C5A6226D1C3A00E48557 /* Strings.swift */; };
 		E192C5C4226D1C3B00E48557 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C5A7226D1C3A00E48557 /* Extensions.swift */; };
 		E192C5C5226D1C3B00E48557 /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C5A8226D1C3A00E48557 /* Atomic.swift */; };
-		E192C5C6226D1C3B00E48557 /* OrderedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C5A9226D1C3A00E48557 /* OrderedDictionary.swift */; };
-		E192C5C7226D1C3B00E48557 /* BiDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C5AA226D1C3B00E48557 /* BiDictionary.swift */; };
-		E192C5CD226D348600E48557 /* MIDIEndpointWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C5CC226D348600E48557 /* MIDIEndpointWrapper.swift */; };
 		E1CB50412259197400F0DDED /* MIDITools.h in Headers */ = {isa = PBXBuildFile; fileRef = E1CB503F2259197400F0DDED /* MIDITools.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1CB505F225AA0A200F0DDED /* MIDITools.podspec in Resources */ = {isa = PBXBuildFile; fileRef = E1CB505E225AA0A200F0DDED /* MIDITools.podspec */; };
 		E1CB5061225AA35200F0DDED /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = E1CB5060225AA35200F0DDED /* LICENSE */; };
@@ -104,12 +100,8 @@
 		E192C59D226D1C3A00E48557 /* MIDIDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIDecoder.swift; sourceTree = "<group>"; };
 		E192C59E226D1C3A00E48557 /* MIDIPacketLists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIPacketLists.swift; sourceTree = "<group>"; };
 		E192C59F226D1C3A00E48557 /* MIDIMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIMessage.swift; sourceTree = "<group>"; };
-		E192C5A6226D1C3A00E48557 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		E192C5A7226D1C3A00E48557 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		E192C5A8226D1C3A00E48557 /* Atomic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
-		E192C5A9226D1C3A00E48557 /* OrderedDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderedDictionary.swift; sourceTree = "<group>"; };
-		E192C5AA226D1C3B00E48557 /* BiDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BiDictionary.swift; sourceTree = "<group>"; };
-		E192C5CC226D348600E48557 /* MIDIEndpointWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIEndpointWrapper.swift; sourceTree = "<group>"; };
 		E1CB50342258FDA800F0DDED /* dict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dict.swift; sourceTree = "<group>"; };
 		E1CB503D2259197400F0DDED /* MIDITools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MIDITools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1CB503F2259197400F0DDED /* MIDITools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIDITools.h; sourceTree = "<group>"; };
@@ -214,7 +206,6 @@
 			isa = PBXGroup;
 			children = (
 				E192C59B226D1C3A00E48557 /* MIDIentities.swift */,
-				E192C5CC226D348600E48557 /* MIDIEndpointWrapper.swift */,
 			);
 			path = Endpoints;
 			sourceTree = "<group>";
@@ -232,11 +223,8 @@
 		E192C5A5226D1C3A00E48557 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				E192C5A6226D1C3A00E48557 /* Strings.swift */,
 				E192C5A7226D1C3A00E48557 /* Extensions.swift */,
 				E192C5A8226D1C3A00E48557 /* Atomic.swift */,
-				E192C5A9226D1C3A00E48557 /* OrderedDictionary.swift */,
-				E192C5AA226D1C3B00E48557 /* BiDictionary.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -496,15 +484,12 @@
 			files = (
 				E192C5B7226D1C3B00E48557 /* MIDITimeStandard.swift in Sources */,
 				E192C5B5226D1C3B00E48557 /* MIDIConnections.swift in Sources */,
-				E192C5CD226D348600E48557 /* MIDIEndpointWrapper.swift in Sources */,
 				E192C5B2226D1C3B00E48557 /* MIDISystemMessages.swift in Sources */,
 				E192C5B9226D1C3B00E48557 /* MIDIIdentifiers.swift in Sources */,
-				E192C5C3226D1C3B00E48557 /* Strings.swift in Sources */,
 				E1CEE38222C9447700CB4839 /* MIDIMessage.swift in Sources */,
 				E192C5B0226D1C3B00E48557 /* MIDIMessages.swift in Sources */,
 				E192C5B8226D1C3B00E48557 /* MIDISystem.swift in Sources */,
 				E192C5BA226D1C3B00E48557 /* MIDIError.swift in Sources */,
-				E192C5C6226D1C3B00E48557 /* OrderedDictionary.swift in Sources */,
 				E192C5B6226D1C3B00E48557 /* MIDIPorts.swift in Sources */,
 				E1CEE38322C945A300CB4839 /* MIDIPacketLists.swift in Sources */,
 				E192C5C5226D1C3B00E48557 /* Atomic.swift in Sources */,
@@ -515,7 +500,6 @@
 				E137053F228B9B530093D065 /* MIDISysExMessages.swift in Sources */,
 				E192C5B1226D1C3B00E48557 /* MIDIControlMessages.swift in Sources */,
 				E192C5BB226D1C3B00E48557 /* MIDIentities.swift in Sources */,
-				E192C5C7226D1C3B00E48557 /* BiDictionary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
