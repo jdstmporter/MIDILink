@@ -44,7 +44,7 @@
 		E1CB50F5225ABDC900F0DDED /* Decoder.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1CB50F2225ABDC800F0DDED /* Decoder.xib */; };
 		E1CB50F6225ABDC900F0DDED /* DecoderPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB50F3225ABDC800F0DDED /* DecoderPanel.swift */; };
 		E1CB50F9225AC0BE00F0DDED /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB50F7225AC0BE00F0DDED /* Strings.swift */; };
-		E1CB50FA225AC0BE00F0DDED /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB50F8225AC0BE00F0DDED /* Extensions.swift */; };
+		E1CB50FA225AC0BE00F0DDED /* Nameable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB50F8225AC0BE00F0DDED /* Nameable.swift */; };
 		E1CB5100225AC10100F0DDED /* Kleene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB50FD225AC10000F0DDED /* Kleene.swift */; };
 		E1CB5102225AC15A00F0DDED /* VTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB5101225AC15A00F0DDED /* VTextField.swift */; };
 		E1CB5104225AC15F00F0DDED /* ControlExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB5103225AC15F00F0DDED /* ControlExtensions.swift */; };
@@ -128,7 +128,7 @@
 		E1CB50F2225ABDC800F0DDED /* Decoder.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Decoder.xib; sourceTree = "<group>"; };
 		E1CB50F3225ABDC800F0DDED /* DecoderPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecoderPanel.swift; sourceTree = "<group>"; };
 		E1CB50F7225AC0BE00F0DDED /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
-		E1CB50F8225AC0BE00F0DDED /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		E1CB50F8225AC0BE00F0DDED /* Nameable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nameable.swift; sourceTree = "<group>"; };
 		E1CB50FD225AC10000F0DDED /* Kleene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kleene.swift; sourceTree = "<group>"; };
 		E1CB5101225AC15A00F0DDED /* VTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VTextField.swift; sourceTree = "<group>"; };
 		E1CB5103225AC15F00F0DDED /* ControlExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlExtensions.swift; sourceTree = "<group>"; };
@@ -268,7 +268,7 @@
 				E1CB50EF225ABD9B00F0DDED /* Fonts.swift */,
 				E1CB5101225AC15A00F0DDED /* VTextField.swift */,
 				E1CB50FD225AC10000F0DDED /* Kleene.swift */,
-				E1CB50F8225AC0BE00F0DDED /* Extensions.swift */,
+				E1CB50F8225AC0BE00F0DDED /* Nameable.swift */,
 				E1CB50F7225AC0BE00F0DDED /* Strings.swift */,
 			);
 			path = utils;
@@ -513,7 +513,7 @@
 				E1CB5089225ABCBE00F0DDED /* LinkTable.swift in Sources */,
 				E1CB507F225ABC6800F0DDED /* Controller.swift in Sources */,
 				E1CB5083225ABC9C00F0DDED /* RowCellSet.swift in Sources */,
-				E1CB50FA225AC0BE00F0DDED /* Extensions.swift in Sources */,
+				E1CB50FA225AC0BE00F0DDED /* Nameable.swift in Sources */,
 				E1CB5087225ABCBE00F0DDED /* LinkManager.swift in Sources */,
 				E1CB5108225AC17000F0DDED /* VButton.swift in Sources */,
 				E1CB5104225AC15F00F0DDED /* ControlExtensions.swift in Sources */,

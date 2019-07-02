@@ -28,7 +28,7 @@ extension DispatchTime {
         self.init(uptimeNanoseconds: p.timeStamp)
     }
     
-    init(fromNowInSeconds n : Float) {
+    public init(fromNowInSeconds n : Float) {
         let d=UInt64(n*1.0e9)
         let n=DispatchTime.now()
         self.init(uptimeNanoseconds: n.uptimeNanoseconds+d)
@@ -130,7 +130,7 @@ extension UInt32 {
 }
 
 extension UInt8 {
-    func hex() -> String { return String(format: "%02x", self) }
+    public func hex() -> String { return String(format: "%02x", self) }
     
     init?(number : Int?) {
         if number==nil || number!>255 || number! < -256 { return nil }
