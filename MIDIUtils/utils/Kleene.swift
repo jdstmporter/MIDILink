@@ -8,6 +8,8 @@
 
 import Cocoa
 
+
+
 struct Kleene : Equatable {
     private enum Value {
         case True
@@ -64,3 +66,4 @@ struct Kleene : Equatable {
         return (value == .True) ? .False : ((value == .False) ? .True : .Mid)
     }
 }
+

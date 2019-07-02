@@ -8,25 +8,34 @@
 
 import Cocoa
 
-public struct FontDescriptor : Codable, CustomStringConvertible {
+extension NSFont.Weight {
+    
+    public init(bold : Bool) {
+        self = bold ? .bold : .regular
+    }
+    
+}
+
+public struct FontDescriptor  {
 
     public enum Sizes {
         case Normal
         case Medium
         case Small
+        
+        internal static let sizes : [Sizes: CGFloat] = [ .Small: 10, .Medium: NSFont.smallSystemFontSize, .Normal: NSFont.systemFontSize ]
+        public var size : CGFloat { return Sizes.sizes[self] ?? 0 }
     }
 
-    public enum Families : Int {
-        case Monospace = 0
-        case Standard = 1
-        case Table = 2
+    public enum Families {
+        case Monospace
+        case Standard
+        case Table
     }
     
     public var size : CGFloat = 0
     public var weight: NSFont.Weight = .regular
     public let family : Families
-    
-    private var sizes : [FontDescriptor.Sizes: CGFloat] = [:]
     
     init(_ f: Families = .Standard, _ s : CGFloat = 0,_ w: NSFont.Weight = .regular) {
         family=f
@@ -35,30 +44,18 @@ public struct FontDescriptor : Codable, CustomStringConvertible {
     }
     
     init(family f: Families, size s: Sizes = .Normal, weight w: NSFont.Weight = .regular) {
-        sizes   = [ .Small: 10, .Medium: NSFont.smallSystemFontSize, .Normal: NSFont.systemFontSize ]
-
         family = f
-        size=sizes[s] ?? 0
+        size=s.size
         weight=w
     }
     
     
     init(monospaceOfSize s: Sizes, isBold b: Bool = false) {
-        self.init(family: .Monospace)
-        size = sizes[s] ?? 0
-        weight = b ? .bold : .regular
+        self.init(family: .Monospace,size: s, weight: NSFont.Weight(bold: b))
     }
     
     init(standardOfSize s: Sizes, isBold b: Bool = false) {
-        self.init(family: .Standard)
-        size = sizes[s] ?? 0
-        weight = b ? .bold : .regular
-    }
-    
-    init(standardWithTextSize s: CGFloat, isBold b: Bool = false) {
-        self.init(family: .Standard)
-        size = s
-        weight = b ? .bold : .regular
+        self.init(family: .Standard,size: s, weight: NSFont.Weight(bold: b))
     }
     
     public var font : NSFont {
@@ -72,38 +69,8 @@ public struct FontDescriptor : Codable, CustomStringConvertible {
         }
     }
     
-    enum CodingKeys : String, CodingKey {
-        case size
-        case weight
-        case family
-    }
     
-    public init(from decoder: Decoder) throws {
-        let container=try decoder.container(keyedBy: CodingKeys.self)
-        size=CGFloat(try container.decode(Double.self,forKey: .size))
-        weight=NSFont.Weight(rawValue: CGFloat(try container.decode(Double.self,forKey: .weight)))
-        family = Families(rawValue: try container.decode(Int.self,forKey: .family)) ?? .Standard
-    }
-    
-    public func encode(to encoder: Encoder) throws {
-        var container=encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(Double(size), forKey: .size)
-        try container.encode(Double(weight.rawValue), forKey: .weight)
-        try container.encode(family.rawValue, forKey: .family)
-    }
-    
-    public var description : String {
-        return "\(size):\(weight.rawValue):\(family.rawValue)"
-    }
-    
-    public init?(from string: String?) {
-        if string == nil { return nil }
-        let parts=string!.split(separator: ":").map { Double(String($0)) }
-        if parts.count != 3 { return nil }
-        if parts[0] != nil { size=CGFloat(parts[0]!)} else { return nil }
-        if parts[1] != nil { weight=NSFont.Weight(rawValue: CGFloat(parts[1]!))} else { return nil }
-        if parts[2] != nil { family=Families(rawValue: Int(parts[2]!)) ?? .Standard } else { return nil }
-    }
+   
     
     public static let Monospace=FontDescriptor(monospaceOfSize: .Normal)
     public static let MonospaceSmall=FontDescriptor(monospaceOfSize: .Small)
