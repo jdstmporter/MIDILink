@@ -44,18 +44,18 @@ public struct FontDescriptor  {
     }
     
     init(family f: Families, size s: Sizes = .Normal, weight w: NSFont.Weight = .regular) {
-        family = f
-        size=s.size
-        weight=w
+        self.init(f,s.size,w)
+    }
+    init(family f: Families, size s: Sizes = .Normal, bold: Bool = false) {
+        self.init(f,s.size,NSFont.Weight(bold: bold))
     }
     
-    
     init(monospaceOfSize s: Sizes, isBold b: Bool = false) {
-        self.init(family: .Monospace,size: s, weight: NSFont.Weight(bold: b))
+        self.init(family: .Monospace,size: s, bold: b)
     }
     
     init(standardOfSize s: Sizes, isBold b: Bool = false) {
-        self.init(family: .Standard,size: s, weight: NSFont.Weight(bold: b))
+        self.init(family: .Standard,size: s, bold: b)
     }
     
     public var font : NSFont {
@@ -65,7 +65,7 @@ public struct FontDescriptor  {
         case .Monospace:
             return NSFont.monospacedDigitSystemFont(ofSize: size, weight: weight)
         case .Table:
-            return NSFont(name: "CourierNewPSMT", size: size)!
+            return NSFont(name: "CourierNewPSMT", size: size) ?? NSFont.systemFont(ofSize: size, weight: weight)
         }
     }
     
