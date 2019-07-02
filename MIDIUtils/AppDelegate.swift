@@ -49,9 +49,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return false
     }
     
-    @IBAction func applicationShouldOpenPreferencesPanel(_ sender: Any) {
-        PreferencesController.launch()
-    }
+    
     
     @IBAction func applicationShouldOpenAboutPanel(_ sender: Any) {
         AboutPanel.launch()

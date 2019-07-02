@@ -23,43 +23,23 @@ class Controller : NSViewController {
     
     private var links : LinkManager!
     private var linkView : LinkageWindow!
-    private var preferences : PreferencesReader!
+    
     
     private var inj : NSWindow!
     
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        preferences=PreferencesReader()
-        preferences.addListener(sDelegate)
-    }
-    
-    func load(sources s: [MIDIEndpoint], destinations d: [MIDIEndpoint]) {
-        links=LinkManager(froms: s,tos: d)
-        debugPrint("Loading data : \(s.count) sources and \(d.count) destinations")
         NotificationCenter.default.addObserver(self, selector: #selector(Controller.showLinks(_:)), name: Controller.OpenLinkPanelRequest, object: nil)
-        try? sDelegate.load(endpoints: s)
-        try? dDelegate.load(endpoints: d)
-        DispatchQueue.main.async {
-            self.sources?.reloadData()
-            self.destinations?.reloadData()
-        }
-        //inj=InjectionWindow.Create(endpoint: nil)
-        //inj.makeKeyAndOrderFront(nil)
-
         
     }
     
+    
+    
      func scanForEndPoints() {
         debugPrint("Loading view controller")
-        do {
-            let m = try MIDISystem()
-            m.endpoints.forEach { debugPrint($0.description) }
-            load(sources: m.sources, destinations: m.destinations)
-        }
-        catch {
-            debugPrint("There was an error")
-        }
+        if self.links==nil { self.links = LinkManager() }
+        reloadAction(nil)
     }
     
     @objc func showLinks(_ n: NSNotification? = nil) {
@@ -75,8 +55,29 @@ class Controller : NSViewController {
         showLinks()
     }
     
+    @IBAction func reloadAction(_ sender: Any!) {
+        do {
+            let m = try MIDISystem()
+            m.endpoints.forEach { debugPrint($0.description) }
+            try sDelegate.load(endpoints: m.sources)
+            try dDelegate.load(endpoints: m.destinations)
+            DispatchQueue.main.async {
+                self.sources?.reloadData()
+                self.destinations?.reloadData()
+                
+                self.links.load(from: m.sources, to: m.destinations)
+                self.linkView?.table.reloadData()
+            }
+            
+        }
+        catch let e {
+            print("Error was \(e)")
+        }
+    }
+    
+    
     @IBAction func filterAction(_ sender: Any) {
-        let filter : Bool = preferences.get(key: "ignoreRT") ?? true
+        let filter : Bool =  true
         sDelegate.filtered(!filter)
     }
 }

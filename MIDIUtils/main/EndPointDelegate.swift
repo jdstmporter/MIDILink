@@ -11,8 +11,9 @@ import CoreMIDI
 import MIDITools
 
 
-public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewDelegate, PreferenceListener {
+public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
+   
     
     
     enum Column {
@@ -22,13 +23,13 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
         case Switch
     }
     
-    internal var registered : OrderedDictionary<MIDIUniqueID,MIDISource>
+    internal var registered : OrderedDictionary<MIDIUniqueID,ActiveMIDIObject>
     @IBOutlet weak var table : NSTableView!
     private var enableActivityIndicators : Bool = true
     internal var cells : OrderedDictionary<MIDIUniqueID,RowCellSet>
     
     public override init() {
-        registered=OrderedDictionary<MIDIUniqueID,MIDISource>()
+        registered=OrderedDictionary<MIDIUniqueID,ActiveMIDIObject>()
         cells = OrderedDictionary<MIDIUniqueID,RowCellSet>()
         super.init()
         
@@ -48,12 +49,14 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
     
     
     public func register(endpoint : MIDIEndpoint) throws {
-        let wrapper = try MIDISource(endpoint)
-        if wrapper.isSource {
-            //w.filtered=true
-            wrapper.activityCallback = { (uid,active) in self.statusChange(uid,active) }
+        let wrapper = try ActiveMIDIObject.make(endpoint)
+        if let w = wrapper as? MIDISource {
+            w.activityCallback = { (uid,active) in
+                if let row = self.cells[uid] { row.Active=active }
+            }
         }
         registered[endpoint.uid]=wrapper
+        
         cells[endpoint.uid]=RowCellSet(endpoint: wrapper.endpoint as! MIDIEndpoint, handler: { (uid,status) in self.handleSwitches(uid,status) })
         //return wrapper
     }
@@ -63,10 +66,29 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
     }
     
     public func load(endpoints: [MIDIEndpoint]) throws {
-        try endpoints.forEach { (endpoint) in
-            debugPrint("Creating session for \(endpoint) with name \(endpoint.name)")
-            try self.register(endpoint: endpoint)
+
+        let add : [MIDIEndpoint] = endpoints.compactMap { registered.has($0.uid) ? nil : $0 }
+        
+        let remove = registered.keySet.subtracting(endpoints.map { $0.uid })
+        remove.forEach { uid in
+            debugPrint("Deleting session for \(uid)")
+            cells.remove(key: uid)
+            registered.remove(key: uid)
         }
+        
+        try add.forEach { (endpoint) in
+            debugPrint("Creating session for \(endpoint) with name \(endpoint.targetName)")
+            do {
+                try self.register(endpoint: endpoint)
+            }
+            catch let e {
+                print("Error when creating session for \(endpoint) with name \(endpoint.targetName) : \(e)")
+                throw e
+            }
+        }
+        
+        
+        
     }
     
     public func filtered(_ f: Bool) {
@@ -80,9 +102,7 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
     
     // Callbacks
     
-    public func preferencesChanged(_ preference: PreferencesReader) {
-        enableActivityIndicators=preference.get(key: "enableActivity") ?? false
-    }
+    
     
     public func statusChange(_ uid: MIDIUniqueID, _ active: Any) {
         if enableActivityIndicators { DispatchQueue.main.async { self.table.reloadData() } }
@@ -94,8 +114,8 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
             switch wrapper.mode {
             case .source:
                 if status {
-                    if let panel=DecoderPanel.launch(uid: uid) {
-                        wrapper.startDecoding(interface: panel)
+                    if let panel=DecoderPanel.launch(uid: uid), let w = wrapper as? MIDISource {
+                        w.startDecoding(interface: panel)
                     }
                 }
                 else {

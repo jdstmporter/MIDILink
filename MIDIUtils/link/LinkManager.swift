@@ -26,7 +26,7 @@ protocol ILinkTableSource {
 
 protocol IMIDILinkManager {
     
-    init(froms: [MIDIEndpoint], tos: [MIDIEndpoint])
+    func load(from: [MIDIEndpoint],to: [MIDIEndpoint]) 
     subscript(_ from: MIDIEndpoint,_ to: MIDIEndpoint) -> MIDILink? { get }
     func link(from: MIDIEndpoint,to: MIDIEndpoint) throws
     func unlink(from: MIDIEndpoint,to: MIDIEndpoint) throws
@@ -73,14 +73,17 @@ class LinkManager : ILinkTableSource, IMIDILinkManager, IMIDILinkEnumerator {
     
     private var links : [MIDIUniqueID: MIDILink] = [:]
     private var matrix : [MIDIUniqueID: MIDIUniqueID] = [:]
-    private var froms : [MIDIEndpoint]
-    private var tos : [MIDIEndpoint]
+    private var froms : [MIDIEndpoint] = []
+    private var tos : [MIDIEndpoint] = []
     
-    public required init(froms: [MIDIEndpoint], tos: [MIDIEndpoint]) {
-        self.froms=froms
-        self.tos=tos
-        initialise()
+    public func load(from: [MIDIEndpoint], to: [MIDIEndpoint]) {
+        links.removeAll()
+        matrix.removeAll()
+        froms=from
+        tos=to
+        to.forEach { matrix[$0.uid] = kMIDIInvalidUniqueID }
     }
+   
     
     // Lots of utility methods
     

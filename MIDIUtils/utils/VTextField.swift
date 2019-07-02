@@ -60,7 +60,7 @@ public class VTextField : NSTextField {
         
         internal override func drawingRect(forBounds rect: NSRect) -> NSRect {
             let def = super.drawingRect(forBounds: rect)
-            debugPrint("font height is \(fontHeight), rect height is \(rect.height)")
+            //debugPrint("font height is \(fontHeight), rect height is \(rect.height)")
             switch vAlign {
             case .bottom:
                 return def

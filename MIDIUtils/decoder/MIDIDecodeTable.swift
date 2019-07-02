@@ -11,28 +11,26 @@ import MIDITools
 
 
 
-class MIDIDecodeTable : NSObject, NSTableViewDataSource, NSTableViewDelegate, PreferenceListener {
+class MIDIDecodeTable : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
   
     
     //private static let colourNames : [String]=["textColour","rawByteColour","channelColour","commandColour","valueColour"]
     
     private var font : NSFont!
-    let colours : Colours
     private let table : NSTableView!
     private var decoder : MIDIDecoderBase?
     
     init(table t: NSTableView!,withColour c: Bool = true) {
         table = t
-        let preferences=PreferencesReader()
-        colours=Colours(preferences: preferences)
+        
         
         super.init()
         
         table.delegate=self
         table.dataSource=self
         
-        preferencesChanged(preferences)
+       
         
     }
     
@@ -48,12 +46,7 @@ class MIDIDecodeTable : NSObject, NSTableViewDataSource, NSTableViewDelegate, Pr
         decoder?.action = { self.Touch() }
     }
     
-    func preferencesChanged(_ preference: PreferencesReader) {
-        let f : Font? = preference.get(key: "decodeFont")
-        if f != nil { font=f!.font }
-        colours.preferencesChanged(preference)
-        Touch()
-    }
+    
     
     
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -68,7 +61,7 @@ class MIDIDecodeTable : NSObject, NSTableViewDataSource, NSTableViewDelegate, Pr
         
         guard let packet=decoder?[row] else { return nil }
         
-        let string = FormattedString(font: font, colour: colours[.textColour])
+        let string = FormattedString(font: font, colour: .black)
         
         switch tableColumn!.title {
         case "Timestamp":
@@ -76,14 +69,14 @@ class MIDIDecodeTable : NSObject, NSTableViewDataSource, NSTableViewDelegate, Pr
             break
         case "Packet":
             let raw=packet.Raw.map { String(format:"%02x",$0) }
-            string.append(raw.joined(separator: "-"),colour: colours[.rawByteColour])
+            string.append(raw.joined(separator: "-"),colour: .brown)
             break
         case "Channel":
-            string.append(packet.Channel,colour: colours[.channelColour])
+            string.append(packet.Channel.str,colour: .blue)
             break
         case "Description":
-            string.append(packet.Command+" ",colour: colours[.commandColour])
-            string.append("\(packet.Arguments)",colour: colours[.valueColour])
+            string.append(packet.Command.str+" ",colour: .red)
+            string.append("\(packet)",colour: .blue)
             break
         default:
             return nil

@@ -12,7 +12,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="2192" y="-188" width="502" height="415"/>
-            <rect key="screenRect" x="1920" y="-112" width="2560" height="1417"/>
+            <rect key="screenRect" x="1920" y="-112" width="2560" height="1440"/>
             <view key="contentView" misplaced="YES" id="CIc-0r-TyO">
                 <rect key="frame" x="0.0" y="0.0" width="502" height="415"/>
                 <autoresizingMask key="autoresizingMask"/>

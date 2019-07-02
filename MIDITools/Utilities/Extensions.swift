@@ -84,6 +84,8 @@ extension MIDIPacket {
         }
     }
     
+    var bytes : OffsetArray<UInt8> { return OffsetArray(dataArray) }
+    
     var dataPointer : UnsafeMutablePointer<UInt8>? {
         var d=self.data
         return conv(length:Int(self.length),&d).baseAddress
@@ -120,34 +122,15 @@ extension Int {
     
 }
 
-public protocol Nameable {
-    var str : String { get }
-}
-
-extension UInt32 : Nameable {
+extension UInt32 {
     var bytes : [UInt8] {
         let out=(0..<4).map { UInt8(self>>UInt32(8*$0)) & UInt8(0xff) }
         return out.reversed()
     }
-    
-    var hex : String {
-        return String(format: "%08x",self)
-    }
-    public var str : String { return hex }
 }
 
-extension Int32 : Nameable {
-    
-    var hex : String {
-        return UInt32(truncatingIfNeeded: self).hex
-    }
-     public var str : String { return hex }
-    
-}
-
-extension UInt8 : Nameable {
+extension UInt8 {
     func hex() -> String { return String(format: "%02x", self) }
-    public var str : String { return hex() }
     
     init?(number : Int?) {
         if number==nil || number!>255 || number! < -256 { return nil }
@@ -165,14 +148,13 @@ extension UInt8 : Nameable {
     }
 }
 
-extension String : Nameable {
+extension String {
     
     
     
     var range: NSRange {
         return NSRange(location: 0, length: count)
     }
-    public var str : String { return self }
     
     
     
@@ -214,7 +196,6 @@ extension String : Nameable {
         subscript(_ index : Int) -> UInt8 {
             return bytes[index]
         }
-        
         
         var string : String { return String(bytes: bytes, encoding: .ascii)! }
         

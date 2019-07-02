@@ -50,6 +50,10 @@ public class OrderedDictionary<K,V> : Sequence where K : Hashable {
         dict.removeAll()
         keys.removeAll()
     }
+    public func remove(key: K) {
+        keys = keys.filter { $0 != key }
+        dict.removeValue(forKey: key)
+    }
     public subscript(_ key : K) -> V? {
         get {
             return dict[key]
@@ -63,6 +67,8 @@ public class OrderedDictionary<K,V> : Sequence where K : Hashable {
             }
         }
     }
+    public var keySet : Set<K> { return Set(keys) }
+    public func has(_ k : K) -> Bool { return keys.contains(k) }
     public __consuming func makeIterator() -> OrderedDictionary<K, V>.Iterator {
         return Iterator(self)
     }

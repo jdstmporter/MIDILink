@@ -42,9 +42,14 @@ public class MIDIBase : CustomStringConvertible, Hashable {
     public var isSource : Bool { return mode == .source }
     public var isDestination : Bool { return mode == .destination }
     
+    
     public var Object : MIDIObjectRef { return this }
     public var UID : String { return String(format:"%08X",uid) }
     public var typeName : String { return "\(kind)" }
+    
+    public var targetName : String {
+            return "\(UID)-\(mode.name)"
+    }
     
     public func test(reason: MIDIError.Reason, _ m: MIDIObjectMode) throws {
         if mode != m { throw MIDIError(reason: reason) }
@@ -68,6 +73,10 @@ public typealias MIDIPair = (source:MIDIBase,destination:MIDIBase)
 
 
 public class MIDIEndpoint : MIDIBase {
+    
+    
+    
+    
     
     internal var entity : MIDIEntity?
     

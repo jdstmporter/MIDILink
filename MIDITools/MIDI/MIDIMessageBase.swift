@@ -27,6 +27,24 @@ public class OffsetArray<T> {
     
 }
 
+public protocol NamedEnumeration : CaseIterable, Hashable {
+    
+    static var names : [Self:String] { get }
+    var name : String { get }
+    init?(_ : String)
+}
+
+extension NamedEnumeration {
+    
+    public var name : String { return Self.names[self] ?? "" }
+    public var str : String { return self.name }
+    
+    public init?(_ name : String) {
+        if let kv = (Self.names.first { $0.value==name }) { self=kv.key }
+        else { return nil }
+    }
+}
+
 
 protocol MIDIEnumeration : RawRepresentable, Serialisable, CaseIterable, Hashable, Comparable where RawValue == UInt8, AllCases == [Self] {
     
