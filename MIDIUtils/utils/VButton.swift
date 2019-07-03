@@ -196,8 +196,8 @@ public class VButton : NSButton {
         
     }
     
-    public static let defaultFont = FontDescriptor.Standard.font
-    public static let defaultMonospaceFont = FontDescriptor.Monospace.font
+    public static let defaultFont = Font.Standard
+    public static let defaultMonospaceFont = Font.Monospace
     
     override public init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
@@ -221,8 +221,8 @@ public class VButton : NSButton {
     
     
     
-    public func useDefaultFont(_ f : FontDescriptor = .Monospace) {
-        font=f.font
+    public func useDefaultFont(_ f : NSFont = Font.Monospace) {
+        font=f
     }
     
     override public var font : NSFont? {

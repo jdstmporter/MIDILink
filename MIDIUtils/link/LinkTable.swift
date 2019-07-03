@@ -70,6 +70,7 @@ extension NSImageView {
     }
 }
 
+
 class LinkageWindow : NSPanel, LaunchableItem, NSTableViewDelegate, NSTableViewDataSource {
     
     struct Tag : CustomStringConvertible, Hashable, Equatable   {
@@ -129,8 +130,6 @@ class LinkageWindow : NSPanel, LaunchableItem, NSTableViewDelegate, NSTableViewD
         column.maxWidth=CGFloat.greatestFiniteMagnitude
         column.minWidth=0
         column.width=table.bounds.width/CGFloat(1+columns.count)
-        column.headerCell.alignment = .center
-        column.headerToolTip=links.tooltip(name)
         return column
     }
     
@@ -138,9 +137,15 @@ class LinkageWindow : NSPanel, LaunchableItem, NSTableViewDelegate, NSTableViewD
         let field=VTextField(labelWithString: content)
         field.textColor=colour
         
-        field.font=FontDescriptor.Small.font
+        field.font=Font.Small
         field.alignment = .center
         field.verticalAlignment = .middle
+        
+        return field
+    }
+    private func makeCell(content: MIDIUniqueID,colour : NSColor = .black) -> VTextField {
+        let field = makeCell(content: content.hex, colour: colour)
+        field.toolTip = links.tooltip(content)
         return field
     }
     
@@ -166,9 +171,13 @@ class LinkageWindow : NSPanel, LaunchableItem, NSTableViewDelegate, NSTableViewD
                 let tag=Tag(from,to)
                 matrix[tag]=MIDIIndicatorView()
             }
-            let cell=makeCell(content: from.hex,colour: .white)
-            cell.toolTip=links.tooltip(from)
+            let cell=makeCell(content: from,colour: .white)
             matrix[Tag(from,"source")]=cell
+        }
+        columns.forEach { to in
+            let cell=makeCell(content: to.hex,colour: .white)
+            cell.toolTip=links.tooltip(to)
+            matrix[Tag("sink",to)]=cell
         }
         debugPrint("\(matrix)")
         DispatchQueue.main.async {
@@ -184,32 +193,31 @@ class LinkageWindow : NSPanel, LaunchableItem, NSTableViewDelegate, NSTableViewD
         self.viewsNeedDisplay=true
     }
     
- /*   func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        debugPrint("Object for row \(row) column \(tableColumn?.title)")
-        if row < 0 || row >= rows.count { return nil }
-        if tableColumn==nil { return nil }
-        let source=rows[row]
-        let tag=toTag(source,tableColumn!.title)
-        return matrix[tag]
-    }*/
+ 
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         debugPrint("View for row \(row) column \(String(describing: tableColumn?.title))")
-        if row < 0 || row >= rows.count { return nil }
-        if tableColumn==nil { return nil }
-        let source=rows[row]
-        let tag=Tag(source,tableColumn!.title)
-        return matrix[tag]
+        guard let column = tableColumn else { return nil }
+        let hex = column.title
+        if row==0 { return matrix[Tag("sink",hex)] }
+        else if row>0 && row <= rows.count {
+            let source=rows[row-1]
+            let tag=Tag(source,hex)
+            return matrix[tag]
+        }
+        else { return nil }
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int {
         debugPrint("Number of rows is \(rows.count)")
-        return rows.count
+        return rows.count+1
     }
     
     
+    
+    
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        return 18
+        return row==0 ? 32 : 18
     }
     
     func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
@@ -228,8 +236,8 @@ class LinkageWindow : NSPanel, LaunchableItem, NSTableViewDelegate, NSTableViewD
     @IBAction func didClick(_ tableView : NSTableView) {
         debugPrint("\(table.clickedColumn) - \(table.clickedRow)")
         if table.clickedColumn<1 || table.clickedColumn > columns.count { return }
-        if table.clickedRow<0 || table.clickedRow >= rows.count { return }
-        let source=links.fromLabels[table.clickedRow]
+        if table.clickedRow<1 || table.clickedRow > rows.count { return }
+        let source=links.fromLabels[table.clickedRow-1]
         let destination=links.toLabels[table.clickedColumn-1]
         let status=links[source,destination]
         

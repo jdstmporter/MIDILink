@@ -74,7 +74,7 @@ internal class RowCellSet {
         cells.Manufacturer=VTextField(labelWithString: endpoint.manufacturer)
         
         let uidCell=VTextField(labelWithString: endpoint.uid.hex)
-        uidCell.font=FontDescriptor(family: .Monospace, size: .Small, weight: .black).font
+        uidCell.font=Font(family: .Monospace, size: .Small, weight: .black).font
         cells.UID=uidCell
         
         let activeCell=MIDIIndicatorView() //NSTextField(labelWithString: "")
@@ -90,7 +90,7 @@ internal class RowCellSet {
         let linkCell=VTextField(labelWithString: "")
         linkCell.alignment = .center
         linkCell.tag=Int(uid)
-        linkCell.font=FontDescriptor(family: .Monospace, size: .Small, weight: .black).font
+        linkCell.font=Font(family: .Monospace, size: .Small, weight: .black).font
         cells.Linked=linkCell
     }
     

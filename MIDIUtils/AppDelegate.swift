@@ -24,7 +24,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Insert code here to initialize your application
         debugPrint("Setting font")
-        tableFont=FontDescriptor.Table.font
+        tableFont=Font.Table
         NSFontManager.shared.setSelectedFont(tableFont, isMultiple: false)
         NotificationCenter.default.post(name: AppDelegate.FontChangedEvent, object: nil, userInfo: ["font": tableFont as Any ])
         debugPrint("Set font")

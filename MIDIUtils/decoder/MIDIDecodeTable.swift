@@ -82,7 +82,7 @@ class MIDIDecodeTable : NSObject, NSTableViewDataSource, NSTableViewDelegate {
             return nil
         }
         
-        let view = VTextField(labelWithAttributedString: string.Value)
+        let view = VTextField(labelWithAttributedString: string.str)
         view.verticalAlignment = .middle
         if tableColumn!.title != "Description" { view.alignment = .center }
         return view

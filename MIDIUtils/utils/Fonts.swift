@@ -16,7 +16,7 @@ extension NSFont.Weight {
     
 }
 
-public struct FontDescriptor  {
+public struct Font  {
 
     public enum Sizes {
         case Normal
@@ -28,55 +28,51 @@ public struct FontDescriptor  {
     }
 
     public enum Families {
+        public typealias Maker = (CGFloat,NSFont.Weight) -> NSFont
+        
         case Monospace
         case Standard
         case Table
+        
+        public var maker : Maker {
+            switch self {
+            case .Table:
+                return { (s,w) in NSFont(name: "CourierNewPSMT", size: s) ?? NSFont.systemFont(ofSize: s, weight: w) }
+            case .Standard:
+                return { (s,w) in NSFont.systemFont(ofSize: s, weight: w) }
+            case .Monospace:
+                return { (s,w) in NSFont.monospacedDigitSystemFont(ofSize: s, weight: w) }
+            }
+        }
+        
     }
     
-    public var size : CGFloat = 0
-    public var weight: NSFont.Weight = .regular
-    public let family : Families
+    public let font : NSFont
     
-    init(_ f: Families = .Standard, _ s : CGFloat = 0,_ w: NSFont.Weight = .regular) {
-        family=f
-        size=s
-        weight=w
+    public init(_ family: Families = .Standard, _ size : CGFloat = 0,_ weight: NSFont.Weight = .regular) {
+        font = family.maker(size,weight)
     }
     
-    init(family f: Families, size s: Sizes = .Normal, weight w: NSFont.Weight = .regular) {
+    public init(family f: Families, size s: Sizes = .Normal, weight w: NSFont.Weight = .regular) {
         self.init(f,s.size,w)
     }
-    init(family f: Families, size s: Sizes = .Normal, bold: Bool = false) {
+    public init(family f: Families, size s: Sizes = .Normal, bold: Bool = false) {
         self.init(f,s.size,NSFont.Weight(bold: bold))
     }
     
-    init(monospaceOfSize s: Sizes, isBold b: Bool = false) {
+    public init(monospaceOfSize s: Sizes, isBold b: Bool = false) {
         self.init(family: .Monospace,size: s, bold: b)
     }
     
-    init(standardOfSize s: Sizes, isBold b: Bool = false) {
+    public init(standardOfSize s: Sizes, isBold b: Bool = false) {
         self.init(family: .Standard,size: s, bold: b)
     }
     
-    public var font : NSFont {
-        switch family {
-        case .Standard:
-            return NSFont.systemFont(ofSize: size, weight: weight)
-        case .Monospace:
-            return NSFont.monospacedDigitSystemFont(ofSize: size, weight: weight)
-        case .Table:
-            return NSFont(name: "CourierNewPSMT", size: size) ?? NSFont.systemFont(ofSize: size, weight: weight)
-        }
-    }
-    
-    
-   
-    
-    public static let Monospace=FontDescriptor(monospaceOfSize: .Normal)
-    public static let MonospaceSmall=FontDescriptor(monospaceOfSize: .Small)
-    public static let Standard=FontDescriptor(standardOfSize: .Normal)
-    public static let Small=FontDescriptor(standardOfSize: .Small)
-    public static let Table=FontDescriptor(.Table)
+    public static let Monospace=Font(monospaceOfSize: .Normal).font
+    public static let MonospaceSmall=Font(monospaceOfSize: .Small).font
+    public static let Standard=Font(standardOfSize: .Normal).font
+    public static let Small=Font(standardOfSize: .Small).font
+    public static let Table=Font(.Table).font
 }
 
 

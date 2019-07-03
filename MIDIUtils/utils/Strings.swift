@@ -9,7 +9,7 @@
 import Cocoa
 
 public class FormattedString {
-    private static let defaultFont = FontDescriptor.Small.font
+    private static let defaultFont = Font.Small
     private static let defaultColour = NSColor.black
     private static let underline=NSUnderlineStyle.single.rawValue | NSUnderlineStyle.byWord.rawValue
     private static let nounderline=NSUnderlineStyle().rawValue
@@ -32,27 +32,27 @@ public class FormattedString {
         attributes[.underlineStyle]=FormattedString.nounderline
     }
     
-    public var Font : NSFont? {
+    public var font : NSFont? {
         get { return attributes[.font] as! NSFont? }
         set { attributes[.font] = newValue ?? baseFont }
     }
     
-    public var Colour : NSColor? {
+    public var colour : NSColor? {
         get { return attributes[.foregroundColor] as! NSColor? }
         set { attributes[.foregroundColor] = newValue ?? baseColour }
     }
     
-    public var Underline : Bool {
+    public var underline : Bool {
         get { return (attributes[.underlineStyle]! as! Int) != FormattedString.nounderline }
         set { attributes[.underlineStyle] = (newValue) ? FormattedString.underline : FormattedString.nounderline }
     }
     
     public func append(_ s: String, colour c: NSColor? = nil) {
-        let old = Colour
-        if c != nil { Colour=c! }
+        let old = colour
+        if c != nil { colour=c! }
         string.append(NSAttributedString(string: s, attributes: attributes))
-        Colour = old
+        colour = old
     }
     
-    public var Value : NSAttributedString { return string }
+    public var str : NSAttributedString { return string }
 }
