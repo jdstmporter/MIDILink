@@ -72,9 +72,62 @@ public class MIDILink {
         client=nil
     }
     
+    
     public var uid : String { return _uid }
     public func bind() throws { try inputPort.bind() }
     public func unbind() throws { try inputPort.unbind() }
+    
+}
+
+public class MIDIThru : CustomStringConvertible {
+    private var thru : MIDIThruConnectionRef?
+    public let source : MIDIUniqueID
+    public let sink : MIDIUniqueID
+    
+    private static let ownerID = "solutions.jpembedded.midi"
+    private static let channelMap : (UInt8,UInt8,UInt8,UInt8,UInt8,UInt8,UInt8,UInt8,UInt8,UInt8,UInt8,UInt8,UInt8,UInt8,UInt8,UInt8) = (0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
+    private static let transform = MIDITransform(transform: .none, param: 0)
+    private static let noEndpoint = MIDIThruConnectionEndpoint(endpointRef: 0, uniqueID: kMIDIInvalidUniqueID)
+    
+    public init(source : MIDIBase, sink: MIDIBase) throws {
+        
+        let sources = (source.thru,MIDIThru.noEndpoint,MIDIThru.noEndpoint,MIDIThru.noEndpoint,MIDIThru.noEndpoint,MIDIThru.noEndpoint,MIDIThru.noEndpoint,MIDIThru.noEndpoint)
+        let destinations = (sink.thru,MIDIThru.noEndpoint,MIDIThru.noEndpoint,MIDIThru.noEndpoint,MIDIThru.noEndpoint,MIDIThru.noEndpoint,MIDIThru.noEndpoint,MIDIThru.noEndpoint)
+        
+        var params = MIDIThruConnectionParams(version: 0,
+                                              numSources: 1, sources: sources,
+                                              numDestinations: 1, destinations: destinations,
+                                              channelMap: MIDIThru.channelMap,
+                                              lowVelocity: 0, highVelocity: 255, lowNote: 0, highNote: 255,
+                                              noteNumber: MIDIThru.transform, velocity: MIDIThru.transform, keyPressure: MIDIThru.transform, channelPressure: MIDIThru.transform, programChange: MIDIThru.transform, pitchBend: MIDIThru.transform,
+                                              filterOutSysEx: 0, filterOutMTC: 0, filterOutBeatClock: 0, filterOutTuneRequest: 0,
+                                              reserved2: (0,0,0),
+                                              filterOutAllControls: 0, numControlTransforms: 0, numMaps: 0, reserved3: (0,0,0,0))
+        
+        let size = MemoryLayout<MIDIThruConnectionParams>.size(ofValue: params)
+        let ptr = UnsafeMutableRawPointer(&params)
+        let data = Data(bytes: ptr, count: size)
+        
+        var ref : MIDIThruConnectionRef = 0
+        let out = MIDIThruConnectionCreate(MIDIThru.ownerID as CFString, data as CFData, &ref)
+        if out != noErr { throw MIDIError(status: out) }
+        self.thru = ref
+        self.source = source.uid
+        self.sink = sink.uid
+    }
+    
+    deinit {
+        if let t=thru { MIDIThruConnectionDispose(t) }
+    }
+    
+    public func stop() {
+        if let t=thru { MIDIThruConnectionDispose(t) }
+        thru=nil
+    }
+    
+    public var active : Bool { return thru != nil }
+    public var description: String { return "\(source) -> \(sink) : \(active)" }
+    
     
 }
 

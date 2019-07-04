@@ -65,6 +65,7 @@ public class MIDIBase : CustomStringConvertible, Hashable {
     }
     public var hashValue : Int { return uid.hashValue }
     
+    public var thru : MIDIThruConnectionEndpoint { return MIDIThruConnectionEndpoint(endpointRef: this, uniqueID: uid) }
     
 }
 

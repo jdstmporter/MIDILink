@@ -10,6 +10,78 @@ import Foundation
 import MIDITools
 import CoreMIDI
 
+class LinkedEndpoints {
+    
+    public class Link {
+        let from: MIDIUniqueID
+        let to : MIDIUniqueID
+        let link: MIDILink
+        var bound : Bool
+     
+        init(from: MIDIBase,to: MIDIBase) throws {
+            self.from=from.uid
+            self.to=to.uid
+            self.link=try MIDILink(source: from, destination: to)
+            self.bound=false
+        }
+        deinit {
+            if self.bound { try? self.link.unbind() }
+        }
+        func bind() throws {
+            try link.bind()
+            bound=true
+        }
+        func unbind() throws {
+            bound=false
+            try link.unbind()
+        }
+        
+    }
+    private var links : [Link] = []
+    
+    
+    
+    public subscript(_ vals : (MIDIUniqueID,MIDIUniqueID)) -> Link? {
+        return (links.first { $0.from==vals.0 && $0.to==vals.1 })
+    }
+    public subscript(_ from : MIDIUniqueID,_ to : MIDIUniqueID) -> Link? {
+       return (links.first { $0.from==from && $0.to==to })
+    }
+    
+    public func ids(from: MIDIUniqueID) -> [MIDIUniqueID] {
+        return links.compactMap { $0.from==from ? $0.to : nil }
+    }
+    public func ids(to: MIDIUniqueID) -> [MIDIUniqueID] {
+        return links.compactMap { $0.to==to ? $0.from : nil }
+    }
+    public var count : Int { return links.count }
+    public func count(from: MIDIUniqueID) -> Int { return ids(from: from).count }
+    public func count(to: MIDIUniqueID) -> Int { return ids(to: to).count }
+    
+    public func linked(_ from : MIDIUniqueID,_ to : MIDIUniqueID) -> Bool { return self[from,to] != nil }
+    public func linked(from: MIDIUniqueID) -> Bool { return count(from: from)>0 }
+    public func linked(to: MIDIUniqueID) -> Bool { return count(to: to)>0 }
+    
+    public func create(from: MIDIBase,to: MIDIBase) throws -> Bool {
+        if linked(from:from.uid) || linked(to:to.uid) { return false }
+        try links.append(Link(from: from,to: to))
+        return true
+    }
+    
+    public func remove(from: MIDIBase,to: MIDIBase) {
+        links.removeAll { $0.from==from.uid && $0.to==to.uid }
+    }
+    
+    public func reset() { links.removeAll() }
+    public func reset(from: [MIDIUniqueID]) { links.removeAll { !from.contains($0.from) } }
+    public func reset(to: [MIDIUniqueID]) { links.removeAll { !to.contains($0.to) } }
+    public func reset(_ all : [MIDIUniqueID]) {
+        let aSet = Set(all)
+        links.removeAll { aSet.isDisjoint(with: [$0.from,$0.to]) }
+    }
+}
+
+
 
 
 protocol ILinkTableSource {
