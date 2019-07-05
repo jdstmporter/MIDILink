@@ -205,10 +205,10 @@
                             <string key="keyEquivalent" base64-UTF8="YES">
 DQ
 </string>
-                            <connections>
-                                <action selector="action:" target="Lta-dA-m9w" id="xjx-xf-cXD"/>
-                            </connections>
                         </buttonCell>
+                        <connections>
+                            <action selector="linkAction:" target="Lta-dA-m9w" id="q4X-0l-eM8"/>
+                        </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fd6-lb-GZe">
                         <rect key="frame" x="8" y="474" width="1033" height="17"/>
@@ -498,6 +498,7 @@ DQ
                                         </tableColumn>
                                     </tableColumns>
                                     <connections>
+                                        <action selector="rowSelected:" target="cT0-4W-MZy" id="x7A-v1-IIq"/>
                                         <outlet property="dataSource" destination="cT0-4W-MZy" id="sFH-JY-L4A"/>
                                         <outlet property="delegate" destination="cT0-4W-MZy" id="S2R-H5-HJd"/>
                                     </connections>
@@ -798,6 +799,7 @@ DQ
                                         </tableColumn>
                                     </tableColumns>
                                     <connections>
+                                        <action selector="rowSelected:" target="n3U-Sn-NEB" id="YK8-Gz-X1c"/>
                                         <outlet property="dataSource" destination="n3U-Sn-NEB" id="IYw-xn-715"/>
                                         <outlet property="delegate" destination="n3U-Sn-NEB" id="tJ6-Ka-Ioa"/>
                                     </connections>
@@ -839,6 +841,7 @@ DQ
                     <constraint firstItem="cmX-pS-05C" firstAttribute="top" secondItem="pxl-s6-9vc" secondAttribute="bottom" constant="10" id="it3-Ob-3Il"/>
                     <constraint firstAttribute="trailing" secondItem="cmX-pS-05C" secondAttribute="trailing" constant="10" id="jGi-Xw-03k"/>
                     <constraint firstAttribute="trailing" secondItem="pxl-s6-9vc" secondAttribute="trailing" constant="10" id="jiy-zg-01x"/>
+                    <constraint firstItem="uDZ-nb-lEa" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="JG2-bw-EgJ" secondAttribute="trailing" id="kfm-Xd-Cdg"/>
                     <constraint firstItem="uDZ-nb-lEa" firstAttribute="centerY" secondItem="JG2-bw-EgJ" secondAttribute="centerY" id="lEa-9i-ehm"/>
                     <constraint firstItem="Zww-2O-RV2" firstAttribute="top" secondItem="uDZ-nb-lEa" secondAttribute="bottom" constant="10" id="qO3-HV-Bd6"/>
                 </constraints>

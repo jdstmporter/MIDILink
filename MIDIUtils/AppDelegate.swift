@@ -55,9 +55,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         AboutPanel.launch()
     }
     
-    @IBAction func openLinkMatrix(_ sender: Any) {
-        controller.showLinks()
-    }
 
     
 

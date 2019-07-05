@@ -114,16 +114,13 @@ internal class RowCellSet {
         cb(uid,switchCell.boolValue)
     }
     
-    @objc func linkHandler(_ sender : NSButton) {
-        debugPrint("Go!")
-        NotificationCenter.default.post(name: Controller.OpenLinkPanelRequest, object: nil)
-    }
+    
     
     public var Linked : MIDIUniqueID {
         get { return MIDIUniqueID((cells.Linked as! VTextField).stringValue) ?? kMIDIInvalidUniqueID }
         set(v) {
             if v==kMIDIInvalidUniqueID { (cells.Linked as! VTextField).stringValue="" }
-            else { (cells.Linked as! VTextField).stringValue=v.description }
+            else { (cells.Linked as! VTextField).stringValue=v.hex }
         }
     }
 }

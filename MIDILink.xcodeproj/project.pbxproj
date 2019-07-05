@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E137053F228B9B530093D065 /* MIDISysExMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E137053E228B9B530093D065 /* MIDISysExMessages.swift */; };
+		E15293DB22CEB298006AB313 /* indicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15293DA22CEB298006AB313 /* indicator.swift */; };
 		E192C5B0226D1C3B00E48557 /* MIDIMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C58D226D1C3A00E48557 /* MIDIMessages.swift */; };
 		E192C5B1226D1C3B00E48557 /* MIDIControlMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C58E226D1C3A00E48557 /* MIDIControlMessages.swift */; };
 		E192C5B2226D1C3B00E48557 /* MIDISystemMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C58F226D1C3A00E48557 /* MIDISystemMessages.swift */; };
@@ -35,8 +36,6 @@
 		E1CB5081225ABC9200F0DDED /* EndPointDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB5080225ABC9200F0DDED /* EndPointDelegate.swift */; };
 		E1CB5083225ABC9C00F0DDED /* RowCellSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB5082225ABC9B00F0DDED /* RowCellSet.swift */; };
 		E1CB5087225ABCBE00F0DDED /* LinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB5084225ABCBD00F0DDED /* LinkManager.swift */; };
-		E1CB5088225ABCBE00F0DDED /* LinkTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1CB5085225ABCBE00F0DDED /* LinkTable.xib */; };
-		E1CB5089225ABCBE00F0DDED /* LinkTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB5086225ABCBE00F0DDED /* LinkTable.swift */; };
 		E1CB50ED225ABD8100F0DDED /* AboutPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB50EB225ABD8100F0DDED /* AboutPanel.swift */; };
 		E1CB50EE225ABD8100F0DDED /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1CB50EC225ABD8100F0DDED /* About.xib */; };
 		E1CB50F0225ABD9B00F0DDED /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CB50EF225ABD9B00F0DDED /* Fonts.swift */; };
@@ -83,6 +82,7 @@
 
 /* Begin PBXFileReference section */
 		E137053E228B9B530093D065 /* MIDISysExMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDISysExMessages.swift; sourceTree = "<group>"; };
+		E15293DA22CEB298006AB313 /* indicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = indicator.swift; sourceTree = "<group>"; };
 		E192C58D226D1C3A00E48557 /* MIDIMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIMessages.swift; sourceTree = "<group>"; };
 		E192C58E226D1C3A00E48557 /* MIDIControlMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIControlMessages.swift; sourceTree = "<group>"; };
 		E192C58F226D1C3A00E48557 /* MIDISystemMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDISystemMessages.swift; sourceTree = "<group>"; };
@@ -119,8 +119,6 @@
 		E1CB5080225ABC9200F0DDED /* EndPointDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndPointDelegate.swift; sourceTree = "<group>"; };
 		E1CB5082225ABC9B00F0DDED /* RowCellSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RowCellSet.swift; sourceTree = "<group>"; };
 		E1CB5084225ABCBD00F0DDED /* LinkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkManager.swift; sourceTree = "<group>"; };
-		E1CB5085225ABCBE00F0DDED /* LinkTable.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LinkTable.xib; sourceTree = "<group>"; };
-		E1CB5086225ABCBE00F0DDED /* LinkTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkTable.swift; sourceTree = "<group>"; };
 		E1CB50EB225ABD8100F0DDED /* AboutPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutPanel.swift; sourceTree = "<group>"; };
 		E1CB50EC225ABD8100F0DDED /* About.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = About.xib; sourceTree = "<group>"; };
 		E1CB50EF225ABD9B00F0DDED /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -270,6 +268,7 @@
 				E1CB50FD225AC10000F0DDED /* Kleene.swift */,
 				E1CB50F8225AC0BE00F0DDED /* Nameable.swift */,
 				E1CB50F7225AC0BE00F0DDED /* Strings.swift */,
+				E15293DA22CEB298006AB313 /* indicator.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -288,8 +287,6 @@
 			isa = PBXGroup;
 			children = (
 				E1CB5084225ABCBD00F0DDED /* LinkManager.swift */,
-				E1CB5086225ABCBE00F0DDED /* LinkTable.swift */,
-				E1CB5085225ABCBE00F0DDED /* LinkTable.xib */,
 			);
 			path = link;
 			sourceTree = "<group>";
@@ -460,7 +457,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1CB5088225ABCBE00F0DDED /* LinkTable.xib in Resources */,
 				E1CB50F5225ABDC900F0DDED /* Decoder.xib in Resources */,
 				E1CB506E225AB8B000F0DDED /* Assets.xcassets in Resources */,
 				E1CB5071225AB8B000F0DDED /* MainMenu.xib in Resources */,
@@ -510,7 +506,6 @@
 				E1CB5081225ABC9200F0DDED /* EndPointDelegate.swift in Sources */,
 				E1CB50ED225ABD8100F0DDED /* AboutPanel.swift in Sources */,
 				E1FA32C9225BDD92008FE734 /* dict.swift in Sources */,
-				E1CB5089225ABCBE00F0DDED /* LinkTable.swift in Sources */,
 				E1CB507F225ABC6800F0DDED /* Controller.swift in Sources */,
 				E1CB5083225ABC9C00F0DDED /* RowCellSet.swift in Sources */,
 				E1CB50FA225AC0BE00F0DDED /* Nameable.swift in Sources */,
@@ -519,6 +514,7 @@
 				E1CB5104225AC15F00F0DDED /* ControlExtensions.swift in Sources */,
 				E1CB5107225AC17000F0DDED /* Launchable.swift in Sources */,
 				E1CB5102225AC15A00F0DDED /* VTextField.swift in Sources */,
+				E15293DB22CEB298006AB313 /* indicator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
