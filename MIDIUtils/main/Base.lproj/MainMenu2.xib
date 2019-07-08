@@ -34,7 +34,7 @@
                 <outlet property="dDelegate" destination="n3U-Sn-NEB" id="Glr-8f-RK1"/>
                 <outlet property="destinations" destination="6NL-Ry-hd9" id="IhS-Tl-DgX"/>
                 <outlet property="fontManager" destination="YLy-65-1bz" id="5tQ-Tk-1H2"/>
-                <outlet property="reloadAction" destination="pxl-s6-9vc" id="4tK-ya-T8R"/>
+                <outlet property="linkButton" destination="uDZ-nb-lEa" id="sEO-M5-YQX"/>
                 <outlet property="sDelegate" destination="cT0-4W-MZy" id="VAT-XF-j4e"/>
                 <outlet property="sources" destination="1WR-Yg-RLf" id="Oxm-tj-cwQ"/>
             </connections>
@@ -52,11 +52,7 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
-                            <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW">
-                                <connections>
-                                    <action selector="applicationShouldOpenPreferencesPanel:" target="Voe-Tx-rLC" id="Tut-yO-PHh"/>
-                                </connections>
-                            </menuItem>
+                            <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
                             <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
                             <menuItem title="Services" id="NMo-om-nkz">
                                 <modifierMask key="keyEquivalentModifierMask"/>
@@ -101,11 +97,7 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="View" id="HyV-fh-RgO">
                         <items>
-                            <menuItem title="Show Link Matrix" keyEquivalent="l" id="snW-S8-Cw5">
-                                <connections>
-                                    <action selector="openLinkMatrix:" target="Voe-Tx-rLC" id="6gC-YK-Lov"/>
-                                </connections>
-                            </menuItem>
+                            <menuItem title="Show Link Matrix" keyEquivalent="l" id="snW-S8-Cw5"/>
                             <menuItem title="Show Device Details" keyEquivalent="d" id="1UK-8n-QPP"/>
                             <menuItem isSeparatorItem="YES" id="1Gl-zn-1qx"/>
                             <menuItem title="Enter Full Screen" keyEquivalent="f" id="4J7-dP-txa">
@@ -178,20 +170,20 @@
                         </textFieldCell>
                     </textField>
                     <button toolTip="refresh devices" translatesAutoresizingMaskIntoConstraints="NO" id="pxl-s6-9vc">
-                        <rect key="frame" x="1007" y="466" width="32" height="32"/>
+                        <rect key="frame" x="967" y="466" width="72" height="32"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="32" id="UM4-ch-SAr"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="72" id="8nK-VL-IoN"/>
                             <constraint firstAttribute="height" constant="32" id="nBO-1y-nXm"/>
                         </constraints>
-                        <buttonCell key="cell" type="square" title="Reload" bezelStyle="shadowlessSquare" image="NSRefreshFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="mHr-l2-bSb">
+                        <buttonCell key="cell" type="square" title="Reload" bezelStyle="shadowlessSquare" image="NSRefreshFreestandingTemplate" imagePosition="left" alignment="center" controlSize="small" imageScaling="proportionallyUpOrDown" inset="2" id="mHr-l2-bSb">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="smallSystem"/>
                             <string key="keyEquivalent">r</string>
-                            <connections>
-                                <action selector="reloadAction:" target="Lta-dA-m9w" id="pY1-xM-6pT"/>
-                            </connections>
                         </buttonCell>
                         <accessibility description="refresh devices"/>
+                        <connections>
+                            <action selector="reloadAction:" target="Lta-dA-m9w" id="lur-wU-E37"/>
+                        </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uDZ-nb-lEa">
                         <rect key="frame" x="911" y="216" width="128" height="33"/>
@@ -199,7 +191,7 @@
                             <constraint firstAttribute="height" constant="32" id="P2x-Ai-aES"/>
                             <constraint firstAttribute="width" constant="128" id="dgC-bf-SOD"/>
                         </constraints>
-                        <buttonCell key="cell" type="roundTextured" title="Link" bezelStyle="texturedRounded" alignment="center" borderStyle="border" inset="2" id="ALE-ff-GtI">
+                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" alignment="center" enabled="NO" borderStyle="border" inset="2" id="ALE-ff-GtI">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="systemHeavy" size="18"/>
                             <string key="keyEquivalent" base64-UTF8="YES">
@@ -212,7 +204,7 @@ DQ
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fd6-lb-GZe">
                         <rect key="frame" x="8" y="474" width="1033" height="17"/>
-                        <textFieldCell key="cell" lineBreakMode="clipping" title="Sources" id="pWF-hU-eVO">
+                        <textFieldCell key="cell" lineBreakMode="truncatingTail" title="Sources" id="pWF-hU-eVO">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -498,7 +490,7 @@ DQ
                                         </tableColumn>
                                     </tableColumns>
                                     <connections>
-                                        <action selector="rowSelected:" target="cT0-4W-MZy" id="x7A-v1-IIq"/>
+                                        <action selector="clickedAction:" target="Lta-dA-m9w" id="M42-EI-aX8"/>
                                         <outlet property="dataSource" destination="cT0-4W-MZy" id="sFH-JY-L4A"/>
                                         <outlet property="delegate" destination="cT0-4W-MZy" id="S2R-H5-HJd"/>
                                     </connections>
@@ -799,7 +791,7 @@ DQ
                                         </tableColumn>
                                     </tableColumns>
                                     <connections>
-                                        <action selector="rowSelected:" target="n3U-Sn-NEB" id="YK8-Gz-X1c"/>
+                                        <action selector="clickedAction:" target="Lta-dA-m9w" id="g9Q-cq-esx"/>
                                         <outlet property="dataSource" destination="n3U-Sn-NEB" id="IYw-xn-715"/>
                                         <outlet property="delegate" destination="n3U-Sn-NEB" id="tJ6-Ka-Ioa"/>
                                     </connections>
@@ -846,7 +838,7 @@ DQ
                     <constraint firstItem="Zww-2O-RV2" firstAttribute="top" secondItem="uDZ-nb-lEa" secondAttribute="bottom" constant="10" id="qO3-HV-Bd6"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="-353" y="-107"/>
+            <point key="canvasLocation" x="-353.5" y="-107"/>
         </window>
     </objects>
     <resources>

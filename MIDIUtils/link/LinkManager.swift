@@ -60,9 +60,9 @@ public class LinkedEndpoints {
     public func count(from: MIDIUniqueID) -> Int { return ids(from: from).count }
     public func count(to: MIDIUniqueID) -> Int { return ids(to: to).count }
     
-    public func linked(_ from : MIDIUniqueID,_ to : MIDIUniqueID) -> Bool { return self[from,to] != nil }
-    public func linked(from: MIDIUniqueID) -> Bool { return count(from: from)>0 }
-    public func linked(to: MIDIUniqueID) -> Bool { return count(to: to)>0 }
+    public func linked(_ from : MIDIUniqueID?,_ to : MIDIUniqueID?) -> Bool { return self[from ?? kMIDIInvalidUniqueID,to ?? kMIDIInvalidUniqueID] != nil }
+    public func linked(from: MIDIUniqueID?) -> Bool { return count(from: from ?? kMIDIInvalidUniqueID)>0 }
+    public func linked(to: MIDIUniqueID?) -> Bool { return count(to: to ?? kMIDIInvalidUniqueID)>0 }
     
     public func create(from: MIDIBase,to: MIDIBase) throws {
         if linked(from:from.uid) || linked(to:to.uid) { return }
@@ -76,6 +76,14 @@ public class LinkedEndpoints {
             try link.unbind()
             links.removeAll { $0.from==from && $0.to==to }
         }
+    }
+    public func remove(from: MIDIUniqueID) throws {
+        try ids(from: from).forEach { try self[from,$0]?.unbind() }
+        links.removeAll { $0.from==from }
+    }
+    public func remove(to: MIDIUniqueID) throws {
+        try ids(to: to).forEach { try self[$0,to]?.unbind() }
+        links.removeAll { $0.to==to }
     }
     public func remove(from: MIDIBase,to: MIDIBase) throws {
         try remove(from: from.uid,to: to.uid)

@@ -28,6 +28,7 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
     private var enableActivityIndicators : Bool = true
     internal var cells : OrderedDictionary<MIDIUniqueID,RowCellSet>
     private var clicked : MIDIUniqueID? = nil
+    private var clickedIndex : Int? = nil
     
     
     public override init() {
@@ -58,33 +59,36 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
         registered.removeAll()
     }
     
-    public func load(endpoints: [MIDIEndpoint],links: LinkedEndpoints) throws {
+    public func load(endpoints: [MIDIEndpoint]? = nil,links: LinkedEndpoints) throws {
+        
+        if let endpoints = endpoints {
 
-        let add : [MIDIEndpoint] = endpoints.compactMap { registered.has($0.uid) ? nil : $0 }
+            let add : [MIDIEndpoint] = endpoints.compactMap { registered.has($0.uid) ? nil : $0 }
         
-        let remove = registered.keySet.subtracting(endpoints.map { $0.uid })
-        remove.forEach { uid in
-            debugPrint("Deleting session for \(uid)")
-            cells.remove(key: uid)
-            registered.remove(key: uid)
-        }
-        
-        try add.forEach { (endpoint) in
-            debugPrint("Creating session for \(endpoint) with name \(endpoint.targetName)")
-            do {
-                let wrapper = try ActiveMIDIObject.make(endpoint)
-                if let w = wrapper as? MIDISource {
-                    w.activityCallback = { (uid,active) in
-                        if let row = self.cells[uid] { row.Active=active }
-                    }
-                }
-                registered[endpoint.uid]=wrapper
-                
-                cells[endpoint.uid]=RowCellSet(endpoint: wrapper.endpoint as! MIDIEndpoint, handler: { (uid,status) in self.handleSwitches(uid,status) })
+            let remove = registered.keySet.subtracting(endpoints.map { $0.uid })
+            remove.forEach { uid in
+                debugPrint("Deleting session for \(uid)")
+                cells.remove(key: uid)
+                registered.remove(key: uid)
             }
-            catch let e {
-                print("Error when creating session for \(endpoint) with name \(endpoint.targetName) : \(e)")
-                throw e
+        
+            try add.forEach { (endpoint) in
+                debugPrint("Creating session for \(endpoint) with name \(endpoint.targetName)")
+                do {
+                    let wrapper = try ActiveMIDIObject.make(endpoint)
+                    if let w = wrapper as? MIDISource {
+                        w.activityCallback = { (uid,active) in
+                            if let row = self.cells[uid] { row.Active=active }
+                        }
+                    }
+                    registered[endpoint.uid]=wrapper
+                
+                    cells[endpoint.uid]=RowCellSet(endpoint: wrapper.endpoint as! MIDIEndpoint, handler: { (uid,status) in self.handleSwitches(uid,status) })
+                }
+                catch let e {
+                    print("Error when creating session for \(endpoint) with name \(endpoint.targetName) : \(e)")
+                    throw e
+                }
             }
         }
         
@@ -112,8 +116,25 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
     
     
     @IBAction public func rowSelected(_ table: NSTableView) {
-        clicked = registered.at(self.table.clickedRow)?.uid
+        let row=self.table.clickedRow
+        if let item = registered.at(row) {
+            if row != (clickedIndex ?? -1) {
+                clicked = item.uid
+                clickedIndex = row
+            }
+            else  {
+                clicked = nil
+                clickedIndex = nil
+            }
+        }
+        else {
+            clicked = nil
+            clickedIndex = nil
+        }
+        DispatchQueue.main.async { table.reloadData() }
+        print("Clicked index = \(clickedIndex ?? -1)")
     }
+    
     public var selected : MIDIBase? {
         if let c=clicked { return registered[c]?.endpoint }
         else { return nil }
@@ -164,8 +185,11 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
             let uid=wrapper.uid
             if let cellSet = cells[uid] {
                 cellSet.Active=wrapper.isActive
-                return cellSet[column]
+                let cell = cellSet[column]
+                cell?.backgroundColor = (row == clickedIndex) ? .purple : .clear
+                return cell
             }
+            
         }
         return nil
     }
@@ -173,9 +197,7 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
     // Table delegate methods
     
     public func tableView(_ tableView: NSTableView, didClick tableColumn: NSTableColumn) {
-        if tableColumn.title=="Linked" {
-            NotificationCenter.default.post(name: Controller.OpenLinkPanelRequest, object: nil)
-        }
+        
     }
     
     public func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {

@@ -95,9 +95,11 @@ internal class RowCellSet {
     }
     
     public subscript(_ name: String) -> NSView? {
-        if name=="Inject" { return (mode == .destination) ? switchCell : nil }
-        else if name=="Decode" { return (mode == .source) ? switchCell : nil }
-        else {return cells[name] }
+        var cell : NSView? = nil
+        if name=="Inject" { cell = (mode == .destination) ? switchCell : nil }
+        else if name=="Decode" { cell = (mode == .source) ? switchCell : nil }
+        else { cell = cells[name] }
+        return cell
     }
     
     public var Switch : Bool {

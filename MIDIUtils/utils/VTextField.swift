@@ -122,6 +122,7 @@ public class VTextField : NSTextField {
         verticalAlignment = .middle
         self.setBackground(colour: NSColor.clear)
         self.stringValue=string
+        self.isEditable=false
     }
     
     
@@ -186,6 +187,11 @@ public class VTextField : NSTextField {
     public func setForeground(colour : NSColor) {
         let c = cell as! NSTextFieldCell?
         c?.textColor=colour
+    }
+    
+    public override var isEditable: Bool {
+        get { return cell?.isEditable ?? false }
+        set { cell?.isEditable = newValue }
     }
     
     public override func draw(_ dirtyRect: NSRect) {
