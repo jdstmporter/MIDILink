@@ -57,10 +57,12 @@ class Controller : NSViewController {
         var text : String? = nil
         let from = sDelegate.selected?.uid
         let to = dDelegate.selected?.uid
-        let fromClicked = from != nil
-        let toClicked = to != nil
+        
+ 
         let anyLinked = links.linked(from: from) || links.linked(to: to)
         
+        let fromClicked = from != nil
+        let toClicked = to != nil
         
         // Rules:
         // Link iff both clicked but not linked

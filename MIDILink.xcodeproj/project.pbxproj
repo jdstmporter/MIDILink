@@ -24,6 +24,9 @@
 		E192C5BC226D1C3B00E48557 /* MIDIDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C59D226D1C3A00E48557 /* MIDIDecoder.swift */; };
 		E192C5C4226D1C3B00E48557 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C5A7226D1C3A00E48557 /* Extensions.swift */; };
 		E192C5C5226D1C3B00E48557 /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C5A8226D1C3A00E48557 /* Atomic.swift */; };
+		E198683622D53F8600EB60C6 /* midi.png in Resources */ = {isa = PBXBuildFile; fileRef = E198683522D53F8600EB60C6 /* midi.png */; };
+		E198683822D53FFF00EB60C6 /* DIN-5_Diagram.svg.png in Resources */ = {isa = PBXBuildFile; fileRef = E198683722D53FFF00EB60C6 /* DIN-5_Diagram.svg.png */; };
+		E198683A22D5414C00EB60C6 /* midi64.png in Resources */ = {isa = PBXBuildFile; fileRef = E198683922D5414C00EB60C6 /* midi64.png */; };
 		E1CB50412259197400F0DDED /* MIDITools.h in Headers */ = {isa = PBXBuildFile; fileRef = E1CB503F2259197400F0DDED /* MIDITools.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1CB505F225AA0A200F0DDED /* MIDITools.podspec in Resources */ = {isa = PBXBuildFile; fileRef = E1CB505E225AA0A200F0DDED /* MIDITools.podspec */; };
 		E1CB5061225AA35200F0DDED /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = E1CB5060225AA35200F0DDED /* LICENSE */; };
@@ -100,6 +103,9 @@
 		E192C59F226D1C3A00E48557 /* MIDIMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIMessage.swift; sourceTree = "<group>"; };
 		E192C5A7226D1C3A00E48557 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		E192C5A8226D1C3A00E48557 /* Atomic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
+		E198683522D53F8600EB60C6 /* midi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = midi.png; sourceTree = "<group>"; };
+		E198683722D53FFF00EB60C6 /* DIN-5_Diagram.svg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIN-5_Diagram.svg.png"; sourceTree = "<group>"; };
+		E198683922D5414C00EB60C6 /* midi64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = midi64.png; sourceTree = "<group>"; };
 		E1CB50342258FDA800F0DDED /* dict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dict.swift; sourceTree = "<group>"; };
 		E1CB503D2259197400F0DDED /* MIDITools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MIDITools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1CB503F2259197400F0DDED /* MIDITools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIDITools.h; sourceTree = "<group>"; };
@@ -223,6 +229,16 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		E198683422D53F6700EB60C6 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				E198683922D5414C00EB60C6 /* midi64.png */,
+				E198683722D53FFF00EB60C6 /* DIN-5_Diagram.svg.png */,
+				E198683522D53F8600EB60C6 /* midi.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
 		E1CB503E2259197400F0DDED /* MIDITools */ = {
 			isa = PBXGroup;
 			children = (
@@ -242,6 +258,7 @@
 		E1CB506A225AB8AF00F0DDED /* MIDIUtils */ = {
 			isa = PBXGroup;
 			children = (
+				E198683422D53F6700EB60C6 /* images */,
 				E1CB506B225AB8AF00F0DDED /* AppDelegate.swift */,
 				E1CB510A225AC34B00F0DDED /* utils */,
 				E1CB510B225AC35800F0DDED /* decoder */,
@@ -458,7 +475,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1CB50F5225ABDC900F0DDED /* Decoder.xib in Resources */,
+				E198683822D53FFF00EB60C6 /* DIN-5_Diagram.svg.png in Resources */,
+				E198683A22D5414C00EB60C6 /* midi64.png in Resources */,
 				E1CB506E225AB8B000F0DDED /* Assets.xcassets in Resources */,
+				E198683622D53F8600EB60C6 /* midi.png in Resources */,
 				E1CB5071225AB8B000F0DDED /* MainMenu.xib in Resources */,
 				E1CB507B225ABC0600F0DDED /* MainMenu2.xib in Resources */,
 				E1CB50EE225ABD8100F0DDED /* About.xib in Resources */,

@@ -73,6 +73,6 @@ public class OrderedDictionary<K,V> : Sequence where K : Hashable {
         return Iterator(self)
     }
     public func at(_ index : Int) -> V? { return dict[keys[index]] }
-    
+    public func index(of key : K) -> Int? { return keys.firstIndex(of: key) }
     
 }

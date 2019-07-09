@@ -13,8 +13,10 @@ import MIDITools
 
 public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     
-   
-    
+    internal static let backgrounds : [Bool:NSColor] = [
+        true : .purple,
+        false : .clear
+    ]
     
     enum Column {
         case Text
@@ -92,6 +94,9 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
             }
         }
         
+        clicked=nil
+        clickedIndex=nil
+        
         handleLink(links: links)
         
         
@@ -114,23 +119,24 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
     
     // Callbacks
     
-    
-    @IBAction public func rowSelected(_ table: NSTableView) {
-        let row=self.table.clickedRow
+    @discardableResult internal func select(_ uid : MIDIUniqueID) -> Bool {
+        return select(registered.index(of: uid) ?? -1)
+    }
+    @discardableResult internal func select(_ row : Int) -> Bool {
         if let item = registered.at(row) {
             if row != (clickedIndex ?? -1) {
                 clicked = item.uid
                 clickedIndex = row
-            }
-            else  {
-                clicked = nil
-                clickedIndex = nil
+                return true
             }
         }
-        else {
-            clicked = nil
-            clickedIndex = nil
-        }
+        clicked = nil
+        clickedIndex = nil
+        return false
+    }
+    
+    @IBAction public func rowSelected(_ table: NSTableView) {
+        select(self.table.clickedRow)
         DispatchQueue.main.async { table.reloadData() }
         print("Clicked index = \(clickedIndex ?? -1)")
     }
@@ -186,7 +192,7 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
             if let cellSet = cells[uid] {
                 cellSet.Active=wrapper.isActive
                 let cell = cellSet[column]
-                cell?.backgroundColor = (row == clickedIndex) ? .purple : .clear
+                cell?.backgroundColor = MIDIEndPointHandler.backgrounds[row == clickedIndex]
                 return cell
             }
             
@@ -203,6 +209,8 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
     public func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
         return false
     }
+    
+   
     
     public func tableView(_ tableView: NSTableView, shouldSelect tableColumn: NSTableColumn?) -> Bool {
         return tableColumn?.title=="Linked"

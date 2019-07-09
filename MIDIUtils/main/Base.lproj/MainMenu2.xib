@@ -185,15 +185,15 @@
                             <action selector="reloadAction:" target="Lta-dA-m9w" id="lur-wU-E37"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uDZ-nb-lEa">
-                        <rect key="frame" x="911" y="216" width="128" height="33"/>
+                    <button verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uDZ-nb-lEa">
+                        <rect key="frame" x="967" y="217" width="72" height="32"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="32" id="P2x-Ai-aES"/>
-                            <constraint firstAttribute="width" constant="128" id="dgC-bf-SOD"/>
+                            <constraint firstAttribute="width" constant="72" id="dgC-bf-SOD"/>
                         </constraints>
-                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" alignment="center" enabled="NO" borderStyle="border" inset="2" id="ALE-ff-GtI">
+                        <buttonCell key="cell" type="square" title="Link" alternateTitle="§" bezelStyle="shadowlessSquare" image="Midi" imagePosition="left" alignment="right" enabled="NO" imageScaling="proportionallyUpOrDown" inset="2" id="ALE-ff-GtI">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="systemHeavy" size="18"/>
+                            <font key="font" metaFont="smallSystem"/>
                             <string key="keyEquivalent" base64-UTF8="YES">
 DQ
 </string>
@@ -842,6 +842,7 @@ DQ
         </window>
     </objects>
     <resources>
+        <image name="Midi" width="64" height="64"/>
         <image name="NSRefreshFreestandingTemplate" width="14" height="14"/>
     </resources>
 </document>

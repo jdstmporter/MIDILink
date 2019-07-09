@@ -62,6 +62,7 @@ internal class RowCellSet {
     private var switchCell : NSButton!
     private let mode : MIDIObjectMode
     private let cb : (_:MIDIUniqueID,_:Bool) -> ()
+    private let nullCell = VTextField(labelWithString: "")
     
     init(endpoint: MIDIEndpoint,handler:@escaping (_:MIDIUniqueID,_:Bool) -> ()) {
         uid=endpoint.uid
@@ -81,6 +82,8 @@ internal class RowCellSet {
         //activeCell.alignment = .center
         cells.Active=activeCell
         
+        
+            
         switchCell=nil
         let s=NSButton(checkboxWithTitle: "", target: self, action: #selector(RowCellSet.handler(_:)))
         s.tag=Int(uid)
@@ -96,11 +99,13 @@ internal class RowCellSet {
     
     public subscript(_ name: String) -> NSView? {
         var cell : NSView? = nil
-        if name=="Inject" { cell = (mode == .destination) ? switchCell : nil }
-        else if name=="Decode" { cell = (mode == .source) ? switchCell : nil }
+        if name=="Inject" { cell = (mode == .destination) ? switchCell : nullCell }
+        else if name=="Decode" { cell = (mode == .source) ? switchCell : nullCell }
         else { cell = cells[name] }
         return cell
     }
+    
+    
     
     public var Switch : Bool {
         get { return switchCell.boolValue }

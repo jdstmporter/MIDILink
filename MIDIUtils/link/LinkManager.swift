@@ -50,10 +50,10 @@ public class LinkedEndpoints {
        return (links.first { $0.from==from && $0.to==to })
     }
     
-    public func ids(from: MIDIUniqueID) -> [MIDIUniqueID] {
+    public func ids(from: MIDIUniqueID? = nil) -> [MIDIUniqueID] {
         return links.compactMap { $0.from==from ? $0.to : nil }
     }
-    public func ids(to: MIDIUniqueID) -> [MIDIUniqueID] {
+    public func ids(to: MIDIUniqueID? = nil) -> [MIDIUniqueID] {
         return links.compactMap { $0.to==to ? $0.from : nil }
     }
     public var count : Int { return links.count }
