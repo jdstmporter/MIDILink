@@ -54,6 +54,7 @@ public class TimeStandard {
         let date=Date(timeInterval: 1.0e-9*Double(nano), since: startDate)
         return formatter.string(from: date)
     }
+
     
     public func convert(_ date: Date) -> MIDITimeStamp {
         return (MIDITimeStamp(from: startDate,to: date)*denominator/numerator)+start

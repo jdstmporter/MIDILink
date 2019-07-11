@@ -125,7 +125,8 @@ public class MIDIDecoder : MIDIDecoderBase {
     public func load(packets : [MIDIPacket]) {
         let n=packets.count
         if n>0 {
-            let newMessages : [MIDIMessage] = packets.map { MIDIMessage($0, timebase: timeStandard) }
+            let last = messages.last?.timestamp ?? 0
+            let newMessages : [MIDIMessage] = packets.map { MIDIMessage($0, timebase: timeStandard) }.filter { $0.timestamp >= last }
             messages.append(contentsOf: newMessages)
             action?()
             NotificationCenter.default.post(name: MIDIDecoder.MIDIDataToDecode, object: nil)

@@ -17,6 +17,7 @@ class Controller : NSViewController {
     @IBOutlet weak var destinations: NSTableView!
     
     @IBOutlet weak var linkButton: NSButton!
+    @IBOutlet weak var reloadButton: NSButton!
     
     
     @IBOutlet weak var sDelegate: MIDIEndPointHandler!
@@ -35,13 +36,14 @@ class Controller : NSViewController {
         super.awakeFromNib()
         links.reset()
         fixButton()
+        
     }
     
     
     
      func scanForEndPoints() {
         debugPrint("Loading view controller")
-        reloadAction(nil)
+        reloadAction(self)
     }
     
     @IBAction func clickedAction(_ sender : Any) {
@@ -122,8 +124,12 @@ class Controller : NSViewController {
         }
     }
     
+    @IBAction func reloadTargets(_ sender: Any) {
+        print("Reload!")
+        self.reloadAction(sender)
+    }
     
-    @IBAction func reloadAction(_ sender: Any!) {
+    @IBAction func reloadAction(_ sender: Any) {
         do {
             let m = try MIDISystem()
             m.endpoints.forEach { debugPrint($0.description) }
@@ -133,6 +139,8 @@ class Controller : NSViewController {
             DispatchQueue.main.async {
                 self.sources?.reloadData()
                 self.destinations?.reloadData()
+                self.sources?.setNeedsDisplay()
+                self.destinations?.setNeedsDisplay()
             }
             
         }

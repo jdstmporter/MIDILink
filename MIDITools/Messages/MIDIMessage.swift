@@ -45,18 +45,22 @@ public class MIDIMessage : MIDIMessageContent, CustomStringConvertible {
     public let packet : MIDIPacket
     private let timebase : TimeStandard!
     public let parsed : MIDIMessageDescription
+    public let timestamp : MIDITimeStamp
     
     public init(_ p: MIDIPacket, timebase: TimeStandard? = nil) {
        
         self.packet=p
         self.timebase = timebase
         self.parsed = MIDIMessageDescription(p)
+        self.timestamp = p.timeStamp
     }
     
     public var Channel : Serialisable { return self.parsed["Channel"] ?? "-" }
     public var Command : Serialisable { return self.parsed["Command"] ?? MIDICommandTypes.UNKNOWN  }
     public var Timestamp : String { return timebase?.convert(packet.timeStamp) ?? "-" }
     public var Raw : [UInt8] { return packet.dataArray }
+    
+
     
     public var description: String { return "\(Timestamp) : \(parsed)" }
     public var shortDescription: String { return parsed.description }

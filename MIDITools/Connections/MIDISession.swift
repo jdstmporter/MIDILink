@@ -142,7 +142,7 @@ public class MIDISource : ActiveMIDIObject {
             if new==0 {
                 self.activityCallback?(self.endpoint.uid,false)
             }
-            self.monitor(packets: p)
+            //self.monitor(packets: p)
         })
         
     }
