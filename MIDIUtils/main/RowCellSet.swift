@@ -44,8 +44,6 @@ internal class RowCellSet {
     
     internal enum Cells : NamedEnumeration {
         case Name
-        case Model
-        case Manufacturer
         case UID
         case Active
         case Linked
@@ -69,10 +67,9 @@ internal class RowCellSet {
         mode=endpoint.mode
         cb=handler
         
-        
-        cells.Name=VTextField(labelWithString: endpoint.name)
-        cells.Model=VTextField(labelWithString: endpoint.model)
-        cells.Manufacturer=VTextField(labelWithString: endpoint.manufacturer)
+        var terms : [String] = [endpoint.name,endpoint.model,endpoint.manufacturer].compactMap { $0 }
+        if terms.count==0 { terms.append("-") }
+        cells.Name=VTextField(labelWithString: terms.joined(separator: "; "))
         
         let uidCell=VTextField(labelWithString: endpoint.uid.hex)
         uidCell.font=Font(family: .Monospace, size: .Small, weight: .black).font
