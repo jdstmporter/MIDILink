@@ -37,8 +37,15 @@ class Controller : NSViewController {
         links.reset()
         fixButton()
         
+        
+        
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let tracker=NSTrackingArea(rect: sources.bounds, options: .mouseEnteredAndExited, owner: sDelegate)
+        sources.addTrackingArea(tracker)
+    }
     
     
      func scanForEndPoints() {

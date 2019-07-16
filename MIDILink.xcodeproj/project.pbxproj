@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E137053F228B9B530093D065 /* MIDISysExMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E137053E228B9B530093D065 /* MIDISysExMessages.swift */; };
 		E15293DB22CEB298006AB313 /* indicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15293DA22CEB298006AB313 /* indicator.swift */; };
+		E1916DEF22DDF24A00EC2767 /* threeWaySplit.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1916DEE22DDF24A00EC2767 /* threeWaySplit.swift */; };
 		E192C5B0226D1C3B00E48557 /* MIDIMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C58D226D1C3A00E48557 /* MIDIMessages.swift */; };
 		E192C5B1226D1C3B00E48557 /* MIDIControlMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C58E226D1C3A00E48557 /* MIDIControlMessages.swift */; };
 		E192C5B2226D1C3B00E48557 /* MIDISystemMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C58F226D1C3A00E48557 /* MIDISystemMessages.swift */; };
@@ -86,6 +87,7 @@
 /* Begin PBXFileReference section */
 		E137053E228B9B530093D065 /* MIDISysExMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDISysExMessages.swift; sourceTree = "<group>"; };
 		E15293DA22CEB298006AB313 /* indicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = indicator.swift; sourceTree = "<group>"; };
+		E1916DEE22DDF24A00EC2767 /* threeWaySplit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = threeWaySplit.swift; sourceTree = "<group>"; };
 		E192C58D226D1C3A00E48557 /* MIDIMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIMessages.swift; sourceTree = "<group>"; };
 		E192C58E226D1C3A00E48557 /* MIDIControlMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIControlMessages.swift; sourceTree = "<group>"; };
 		E192C58F226D1C3A00E48557 /* MIDISystemMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDISystemMessages.swift; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 				E1CB50F8225AC0BE00F0DDED /* Nameable.swift */,
 				E1CB50F7225AC0BE00F0DDED /* Strings.swift */,
 				E15293DA22CEB298006AB313 /* indicator.swift */,
+				E1916DEE22DDF24A00EC2767 /* threeWaySplit.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -535,6 +538,7 @@
 				E1CB5107225AC17000F0DDED /* Launchable.swift in Sources */,
 				E1CB5102225AC15A00F0DDED /* VTextField.swift in Sources */,
 				E15293DB22CEB298006AB313 /* indicator.swift in Sources */,
+				E1916DEF22DDF24A00EC2767 /* threeWaySplit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

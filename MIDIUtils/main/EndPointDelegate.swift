@@ -11,7 +11,7 @@ import CoreMIDI
 import MIDITools
 
 
-public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewDelegate {
+public class MIDIEndPointHandler : NSResponder, NSTableViewDataSource, NSTableViewDelegate {
     
     internal static let backgrounds : [Bool:NSColor] = [
         true : .purple,
@@ -38,9 +38,14 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
         cells = OrderedDictionary<MIDIUniqueID,RowCellSet>()
         
         super.init()
+ 
+    }
+    
+    public required init?(coder: NSCoder) {
+        registered=OrderedDictionary<MIDIUniqueID,ActiveMIDIObject>()
+        cells = OrderedDictionary<MIDIUniqueID,RowCellSet>()
         
-
-        
+        super.init(coder: coder)
     }
     
     private func handleLink(links: LinkedEndpoints) {
@@ -222,6 +227,21 @@ public class MIDIEndPointHandler : NSObject, NSTableViewDataSource, NSTableViewD
     
     public func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return 21.0
+    }
+    
+    // NSResponder methods
+    
+    public override func mouseEntered(with event: NSEvent) {
+        debugPrint("Enter")
+    }
+    public override func mouseExited(with event: NSEvent) {
+        debugPrint("Exit")
+    }
+    public override func mouseMoved(with event: NSEvent) {
+        
+    }
+    public override func cursorUpdate(with event: NSEvent) {
+        
     }
 }
 
