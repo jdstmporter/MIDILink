@@ -42,6 +42,23 @@ public class Lookup<Key, Value> where Key : NamedEnumeration {
 
 internal class RowCellSet {
     
+    enum RowState : Int, Comparable, Equatable {
+        case None = 0
+        case Highlighted = 1
+        case Selected = 2
+        
+        
+        public static func <(_ l : RowState,_ r : RowState) -> Bool {
+            return l.rawValue<r.rawValue
+        }
+    }
+    
+    internal static let backgrounds : [RowState:NSColor] = [
+        .Highlighted : .blue,
+        .Selected : .purple,
+        .None : .clear
+    ]
+    
     internal enum Cells : NamedEnumeration {
         case Name
         case UID
@@ -61,6 +78,9 @@ internal class RowCellSet {
     private let mode : MIDIObjectMode
     private let cb : (_:MIDIUniqueID,_:Bool) -> ()
     private let nullCell = VTextField(labelWithString: "")
+    
+    private var state : RowState = .None
+    public var background : NSColor { return RowCellSet.backgrounds[state] ?? .clear }
     
     init(endpoint: MIDIEndpoint,handler:@escaping (_:MIDIUniqueID,_:Bool) -> ()) {
         uid=endpoint.uid
@@ -127,5 +147,21 @@ internal class RowCellSet {
             else { (cells.Linked as! VTextField).stringValue=v.hex }
         }
     }
+    
+    public func setState(_ s : RowState,_ uid : MIDIUniqueID? = nil) {
+        if self.uid == (uid ?? kMIDIInvalidUniqueID) {
+            state = s
+        }
+        else if s == state {
+            state = .None
+        }
+    }
+    public var isSelected : Bool { return state == .Selected }
+    
+    public func clear() {
+        state = .None
+    }
+    
+    
 }
 

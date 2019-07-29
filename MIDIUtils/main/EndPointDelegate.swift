@@ -13,10 +13,9 @@ import MIDITools
 
 public class MIDIEndPointHandler : NSResponder, NSTableViewDataSource, NSTableViewDelegate {
     
-    internal static let backgrounds : [Bool:NSColor] = [
-        true : .purple,
-        false : .clear
-    ]
+    
+    
+    
     
     enum Column {
         case Text
@@ -25,7 +24,10 @@ public class MIDIEndPointHandler : NSResponder, NSTableViewDataSource, NSTableVi
         case Switch
     }
     
+    
+    
     internal var registered : OrderedDictionary<MIDIUniqueID,ActiveMIDIObject>
+    
     @IBOutlet weak var table : NSTableView!
     private var enableActivityIndicators : Bool = true
     internal var cells : OrderedDictionary<MIDIUniqueID,RowCellSet>
@@ -100,7 +102,8 @@ public class MIDIEndPointHandler : NSResponder, NSTableViewDataSource, NSTableVi
         }
         
         clicked=nil
-        clickedIndex=nil
+        //clickedIndex=nil
+        cells.forEach { $0.value.clear() }
         
         handleLink(links: links)
         
@@ -124,26 +127,38 @@ public class MIDIEndPointHandler : NSResponder, NSTableViewDataSource, NSTableVi
     
     // Callbacks
     
+    internal func highlight(_ uid: MIDIUniqueID?) {
+            cells.forEach { $0.value.setState(.Highlighted, uid) }
+            DispatchQueue.main.async { self.table.reloadData() }
+        
+    }
+    
     @discardableResult internal func select(_ uid : MIDIUniqueID) -> Bool {
         return select(registered.index(of: uid) ?? -1)
     }
     @discardableResult internal func select(_ row : Int) -> Bool {
-        if let item = registered.at(row) {
-            if row != (clickedIndex ?? -1) {
+        if let item = registered.at(row), let cell = cells[item.uid] {
+            if cell.isSelected {
+                clicked = nil
+                clickedIndex = nil
+                cell.clear()
+                return false
+            }
+           else {
                 clicked = item.uid
+                cells.forEach { $0.value.setState(.Selected,clicked) }
                 clickedIndex = row
                 return true
             }
         }
-        clicked = nil
-        clickedIndex = nil
         return false
     }
     
-    @IBAction public func rowSelected(_ table: NSTableView) {
+    public func rowSelected(_ table: NSTableView) -> MIDIUniqueID? {
         select(self.table.clickedRow)
         DispatchQueue.main.async { table.reloadData() }
         print("Clicked index = \(clickedIndex ?? -1)")
+        return clicked
     }
     
     public var selected : MIDIBase? {
@@ -197,7 +212,7 @@ public class MIDIEndPointHandler : NSResponder, NSTableViewDataSource, NSTableVi
             if let cellSet = cells[uid] {
                 cellSet.Active=wrapper.isActive
                 let cell = cellSet[column]
-                cell?.backgroundColor = MIDIEndPointHandler.backgrounds[row == clickedIndex]
+                cell?.backgroundColor = cellSet.background
                 return cell
             }
             

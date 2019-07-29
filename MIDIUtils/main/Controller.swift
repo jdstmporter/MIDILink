@@ -8,6 +8,7 @@
 
 import Cocoa
 import MIDITools
+import CoreMIDI
 
 class Controller : NSViewController {
     
@@ -36,9 +37,6 @@ class Controller : NSViewController {
         super.awakeFromNib()
         links.reset()
         fixButton()
-        
-        
-        
     }
     
     override func viewDidLoad() {
@@ -55,8 +53,14 @@ class Controller : NSViewController {
     
     @IBAction func clickedAction(_ sender : Any) {
         if let t = sender as? NSTableView {
-            if t == sources { sDelegate.rowSelected(t) }
-            if t == destinations { dDelegate.rowSelected(t) }
+            if t == sources {
+                let uid = sDelegate.rowSelected(t)
+                dDelegate.highlight(links.ids(from: uid).first)
+            }
+            if t == destinations {
+                let uid = dDelegate.rowSelected(t)
+                sDelegate.highlight(links.ids(to: uid).first)
+            }
         }
         self.fixButton()
         
