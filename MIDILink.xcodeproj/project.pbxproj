@@ -89,6 +89,7 @@
 		E137053E228B9B530093D065 /* MIDISysExMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDISysExMessages.swift; sourceTree = "<group>"; };
 		E15293DA22CEB298006AB313 /* indicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = indicator.swift; sourceTree = "<group>"; };
 		E179DF8322ECFDFC003B108C /* TableSelectEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSelectEvent.swift; sourceTree = "<group>"; };
+		E179DF8522EE6F06003B108C /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		E1916DEE22DDF24A00EC2767 /* threeWaySplit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = threeWaySplit.swift; sourceTree = "<group>"; };
 		E192C58D226D1C3A00E48557 /* MIDIMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIMessages.swift; sourceTree = "<group>"; };
 		E192C58E226D1C3A00E48557 /* MIDIControlMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIControlMessages.swift; sourceTree = "<group>"; };
@@ -337,6 +338,7 @@
 		E1DA4A4A1CCFA51A00FAE94E = {
 			isa = PBXGroup;
 			children = (
+				E179DF8522EE6F06003B108C /* TODO.md */,
 				E1CB5077225AB8DB00F0DDED /* Podfile */,
 				E1CB505E225AA0A200F0DDED /* MIDITools.podspec */,
 				E1CB503E2259197400F0DDED /* MIDITools */,
