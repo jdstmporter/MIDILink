@@ -33,32 +33,47 @@ public enum MIDICommandTypes : UInt8, MIDIEnumeration {
         .SystemMessage   : "System"
     ]
     
-    public static func parse(_ bytes : OffsetArray<UInt8>) -> [KVPair]? {
+    static let labels : [MIDICommandTypes:[String]] = [
+        .NoteOffEvent    : ["Note","Velocity"],
+        .NoteOnEvent     : ["Note","Velocity"],
+        .KeyPressure     : ["Note","Pressure"],
+        .ControlChange   : ["Command","Value"],
+        .ProgramChange   : ["Program"],
+        .ChannelPressure : ["Pressure"],
+        .PitchBend       : ["Bend"],
+        .SystemMessage   : []
+    ]
+    
+    public static func parse(_ bytes : OffsetArray<UInt8>) -> MIDIDict? {
         guard bytes.count > 0 else { return  nil }
-            let command=MIDICommandTypes(bytes[0]&0xf0)
-            var out=[KVPair("Command",command)]
-            let channel = KVPair("Channel",bytes[0]&0x0f)
-            switch command {
-            case .NoteOnEvent, .NoteOffEvent:
+        let out = MIDIDict()
+        let command=MIDICommandTypes(bytes[0]&0xf0)
+         out["Command"]=command
+        let channel = bytes[0]&0x0f
+        let labels = MIDICommandTypes.labels[command] ?? []
+        switch command {
+            case .NoteOnEvent, .NoteOffEvent, .KeyPressure:
                 guard bytes.count >= 3 else { return nil }
-                out.append(contentsOf: [channel,KVPair("Note", bytes[1]),KVPair("Velocity", bytes[2])])
-            case .KeyPressure:
-                guard bytes.count >= 3 else { return nil }
-                out.append(contentsOf: [channel,KVPair("Note", bytes[1]),KVPair("Pressure", bytes[2])])
-            case .ProgramChange:
+                let note=MIDINote(bytes[1])
+                out["Channel"]=channel
+                out[labels[0]]="\(note.name) [\(note.code)]"
+                out[labels[1]]=bytes[2]
+            case .ProgramChange, .ChannelPressure:
                 guard bytes.count >= 2 else { return nil }
-                out.append(contentsOf: [channel,KVPair("Program", bytes[1])])
-            case .ChannelPressure:
-                guard bytes.count >= 2 else { return nil }
-                out.append(contentsOf: [channel,KVPair("Pressure", bytes[1])])
+                out["Channel"]=channel
+                out[labels[0]]=bytes[1]
             case .PitchBend:
                 guard bytes.count >= 3 else { return nil }
-                out.append(contentsOf: [channel,KVPair("Bend", UInt16(bytes[2])<<8 + UInt16(bytes[1]))])
+                out["Channel"]=channel
+                out[labels[0]]=UInt16(bytes[2])<<8 + UInt16(bytes[1])
             case .ControlChange:
-                break
+                guard bytes.count >= 3 else { return nil }
+                out["Channel"]=channel
+                out[labels[0]]=bytes[1]
+                out[labels[1]]=bytes[2]
             case .SystemMessage:
                 guard let cmds = MIDISystemTypes.parse(bytes.shift(1)) else { return nil }
-                out.append(contentsOf: cmds)
+                cmds.forEach { out[$0.key] = $0.value }
             default:
                 return nil
             }
@@ -70,6 +85,8 @@ public enum MIDICommandTypes : UInt8, MIDIEnumeration {
     public init(_ cmd: UInt8) {
         self = MIDICommandTypes.init(rawValue: cmd & 0xf0) ?? MIDICommandTypes._unknown
     }
+    
+    
 }
 
 

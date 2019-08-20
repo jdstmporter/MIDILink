@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol Serialisable  {
+public protocol Serialisable   {
     var str : String { get }
 }
 
@@ -53,23 +53,14 @@ public protocol MIDISerialiser {
 
 
 
-public struct KVPair : Encodable, CustomStringConvertible {
-    public enum CodingKeys : String, CodingKey {
-        case key
-        case value
-    }
-    public let key : String
-    public let value : Serialisable
+
+public class KVPair<K,V>  : CustomStringConvertible where K : Hashable {
+    public let key : K
+    public let value : V
     
-    public init(_ key : String, _ value : Serialisable) {
+    public init(_ key : K, _ value : V) {
         self.key=key
         self.value=value
-    }
-    
-    public func encode(to encoder : Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(key, forKey: .key)
-        try container.encode(value.str, forKey: .value)
     }
     
     public var description: String { return "\(key) = \(value)" }
@@ -144,7 +135,7 @@ public enum MIDIControlMessageTransformation : CaseIterable {
 
 
 public enum MIDIControlMessages : UInt8, MIDIEnumeration {
-    static func parse(_: OffsetArray<UInt8>) -> [KVPair]? {
+    static func parse(_: OffsetArray<UInt8>) -> MIDIDict? {
         return nil
     }
     
@@ -338,10 +329,10 @@ public enum MIDIControlMessages : UInt8, MIDIEnumeration {
         return MIDIControlMessages.transform[self] ?? .Byte
     }
     
-    public static func parse(_ bytes: [UInt8]) -> [KVPair]? {
+    public static func parse(_ bytes: [UInt8]) -> [Pair]? {
         guard bytes.count>0, let command = MIDIControlMessages(rawValue: bytes[0]) else { return nil }
         
-        if transform[command] == nil { return [KVPair(command.str,"")] }
+        if transform[command] == nil { return [Pair(command.str,"")] }
         if bytes.count >= 2, let kv = command.kv(bytes[1]) { return [kv] }
         return nil
     }
@@ -349,12 +340,12 @@ public enum MIDIControlMessages : UInt8, MIDIEnumeration {
     
     
    
-    public func kv(_ arg: UInt8) -> KVPair? {
+    public func kv(_ arg: UInt8) -> Pair? {
         if let n = MIDIControlMessages.names[self] {
             if let transformer = self.transformer {
-                return KVPair( n,transformer[arg])
+                return Pair( n,transformer[arg])
             }
-            else { return KVPair(n,arg) }
+            else { return Pair(n,arg) }
         }
         else { return nil }
     }

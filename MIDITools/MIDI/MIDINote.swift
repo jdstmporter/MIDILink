@@ -18,15 +18,19 @@ extension NSTextCheckingResult {
 }
 
 
-public struct MIDINote : CustomStringConvertible, Equatable {
+public struct MIDINote : CustomStringConvertible, Equatable, Comparable {
     
-    internal static let names = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
+    private static let names = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
     private static let regex=try! NSRegularExpression(pattern: "([a-zA-Z]{1}[#]?)([-]?[0-9]+)", options: [])
+    
+    private static let A4Code : Int = 69
+    private static let A4Freq : Float = 440.0
+    private static let minorSecond : Float = powf(2.0, 1.0/12.0)
     
     public let duodecimal : UInt
     public let octave : Int
     public let code : UInt8
-    public let frequency : Float = 0
+    
     
     public init(_ code : UInt8) {
         self.code=code
@@ -49,10 +53,16 @@ public struct MIDINote : CustomStringConvertible, Equatable {
         self.init(octave: oct,duodecimal: numericCast(duo))
     }
     
+    public var frequency : Float {
+        let offset : Int = numericCast(code)-MIDINote.A4Code
+        return MIDINote.A4Freq*powf(MIDINote.minorSecond, Float(offset))
+    }
     public var note : String { return MIDINote.names[numericCast(self.duodecimal)] }
     public var name : String { return "\(note)\(octave)" }
-    public var description: String { return name }
+    public var description: String { return "\(name) = \(code) = [\(octave),\(duodecimal)] = \(frequency)Hz" }
     
     public static func ==(_ l : MIDINote,_ r : MIDINote) -> Bool { return l.code==r.code }
     public static func !=(_ l : MIDINote,_ r : MIDINote) -> Bool { return l.code != r.code }
+    public static func <(_ l : MIDINote,_ r : MIDINote) -> Bool { return l.code < r.code }
 }
+

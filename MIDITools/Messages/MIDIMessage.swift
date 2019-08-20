@@ -10,7 +10,54 @@ import Foundation
 import CoreFoundation
 import CoreMIDI
 
-
+public class OrderedDictionary<K,V> : Sequence where K : Hashable, K : CustomStringConvertible {
+    fileprivate var dict : [K:V] = [:]
+    fileprivate var order : [K] = []
+    
+    public struct Iterator : IteratorProtocol {
+        public typealias Element=KVPair<K,V>
+        private let dict : [K:V]
+        private var it : Array<K>.Iterator
+        
+        public init(_ d : OrderedDictionary) {
+            dict=d.dict
+            it=d.order.makeIterator()
+        }
+        
+        public mutating func next() -> OrderedDictionary<K, V>.Iterator.Element? {
+            guard let k = it.next() else { return nil }
+            guard let v = dict[k] else { return nil }
+            return KVPair(k,v)
+        }
+        
+    }
+    
+    public var count : Int { return order.count }
+    public func at(_ idx : Int) -> KVPair<K,V>? {
+        guard idx>=0 && idx<count else { return nil }
+        let k=order[idx]
+        guard let v = dict[k] else { return nil }
+        return KVPair(k,v)
+    }
+    
+    public subscript(_ key : K) -> V? {
+        get { return dict[key] }
+        set {
+            if let value=newValue {
+                if !order.contains(key) { order.append(key) }
+                dict[key]=value
+            }
+            else {
+                if order.contains(key) { order.removeAll { $0==key } }
+                dict.removeValue(forKey: key)
+            }
+        }
+    }
+    
+    public __consuming func makeIterator() -> OrderedDictionary<K, V>.Iterator {
+        return Iterator(self)
+    }
+}
 
 
 public protocol MIDIMessageContent {
@@ -20,12 +67,15 @@ public protocol MIDIMessageContent {
 }
 
 public class MIDIMessageDescription : CustomStringConvertible, Sequence {
-    public typealias Iterator = Array<KVPair>.Iterator
+    public typealias Iterator = MIDIDict.Iterator
     
-    private let terms : [KVPair]
+    private let terms : MIDIDict
     
     public init(_ p: MIDIPacket) {
-        self.terms=MIDICommandTypes.parse(p.bytes) ?? []
+        self.terms=MIDICommandTypes.parse(p.bytes) ?? MIDIDict()
+    }
+    public init(_ d : MIDIDict) {
+        self.terms=d
     }
     
     public subscript(_ key : String) -> Serialisable? {
@@ -55,6 +105,14 @@ public class MIDIMessage : MIDIMessageContent, CustomStringConvertible {
         self.timestamp = p.timeStamp
     }
     
+    public init(_ d : MIDIDict, timebase: TimeStandard? = nil) {
+        self.parsed = MIDIMessageDescription(d)
+        self.timebase = timebase
+        self.timestamp = TimeStandard.now
+        
+        self.packet = MIDIPacket() // needs to be filled in
+    }
+    
     public var Channel : Serialisable { return self.parsed["Channel"] ?? "-" }
     public var Command : Serialisable { return self.parsed["Command"] ?? MIDICommandTypes.UNKNOWN  }
     public var Timestamp : String { return timebase?.convert(packet.timeStamp) ?? "-" }
@@ -71,6 +129,11 @@ public class MIDIMessage : MIDIMessageContent, CustomStringConvertible {
         if match.count>0 { return (match[0].1 as! String) }
         return nil
     }
+}
+
+public class MIDIMessageFactory {
+    
+    
 }
 
 

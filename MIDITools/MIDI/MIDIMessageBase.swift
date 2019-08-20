@@ -45,6 +45,9 @@ extension NamedEnumeration {
     }
 }
 
+public typealias MIDIDict = OrderedDictionary<String,Serialisable>
+public typealias Pair = MIDIDict.Element
+
 
 protocol MIDIEnumeration : RawRepresentable, Serialisable, CaseIterable, Hashable, Comparable where RawValue == UInt8, AllCases == [Self] {
     
@@ -57,7 +60,7 @@ protocol MIDIEnumeration : RawRepresentable, Serialisable, CaseIterable, Hashabl
     init(_ : RawValue)
     init?(_ : String)
     static func has(_ : UInt8) -> Bool
-    static func parse(_ : OffsetArray<UInt8>) -> [KVPair]?
+    static func parse(_ : OffsetArray<UInt8>) -> MIDIDict?
     
 }
 
