@@ -32,6 +32,12 @@
 		E19E7FC4230F2FF800FF7F16 /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19E7FC3230F2FF800FF7F16 /* Collections.swift */; };
 		E19E7FC6230F306900FF7F16 /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19E7FC5230F306900FF7F16 /* Enumerations.swift */; };
 		E19E7FC8230F30C800FF7F16 /* Serialisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19E7FC7230F30C800FF7F16 /* Serialisation.swift */; };
+		E19E7FCB230F5AF500FF7F16 /* midi32.png in Resources */ = {isa = PBXBuildFile; fileRef = E19E7FC9230F5AF500FF7F16 /* midi32.png */; };
+		E19E7FCC230F5AF500FF7F16 /* midi16.png in Resources */ = {isa = PBXBuildFile; fileRef = E19E7FCA230F5AF500FF7F16 /* midi16.png */; };
+		E19E7FD0230F5B6A00FF7F16 /* midi128.png in Resources */ = {isa = PBXBuildFile; fileRef = E19E7FCD230F5B6A00FF7F16 /* midi128.png */; };
+		E19E7FD1230F5B6A00FF7F16 /* midi256.png in Resources */ = {isa = PBXBuildFile; fileRef = E19E7FCE230F5B6A00FF7F16 /* midi256.png */; };
+		E19E7FD2230F5B6A00FF7F16 /* midi512.png in Resources */ = {isa = PBXBuildFile; fileRef = E19E7FCF230F5B6A00FF7F16 /* midi512.png */; };
+		E19E7FD4230F5BA200FF7F16 /* midi1024.png in Resources */ = {isa = PBXBuildFile; fileRef = E19E7FD3230F5BA200FF7F16 /* midi1024.png */; };
 		E1CB50412259197400F0DDED /* MIDITools.h in Headers */ = {isa = PBXBuildFile; fileRef = E1CB503F2259197400F0DDED /* MIDITools.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1CB505F225AA0A200F0DDED /* MIDITools.podspec in Resources */ = {isa = PBXBuildFile; fileRef = E1CB505E225AA0A200F0DDED /* MIDITools.podspec */; };
 		E1CB5061225AA35200F0DDED /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = E1CB5060225AA35200F0DDED /* LICENSE */; };
@@ -129,6 +135,12 @@
 		E19E7FC3230F2FF800FF7F16 /* Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collections.swift; sourceTree = "<group>"; };
 		E19E7FC5230F306900FF7F16 /* Enumerations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
 		E19E7FC7230F30C800FF7F16 /* Serialisation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Serialisation.swift; sourceTree = "<group>"; };
+		E19E7FC9230F5AF500FF7F16 /* midi32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = midi32.png; sourceTree = "<group>"; };
+		E19E7FCA230F5AF500FF7F16 /* midi16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = midi16.png; sourceTree = "<group>"; };
+		E19E7FCD230F5B6A00FF7F16 /* midi128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = midi128.png; sourceTree = "<group>"; };
+		E19E7FCE230F5B6A00FF7F16 /* midi256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = midi256.png; sourceTree = "<group>"; };
+		E19E7FCF230F5B6A00FF7F16 /* midi512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = midi512.png; sourceTree = "<group>"; };
+		E19E7FD3230F5BA200FF7F16 /* midi1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = midi1024.png; sourceTree = "<group>"; };
 		E1CB50342258FDA800F0DDED /* dict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dict.swift; sourceTree = "<group>"; };
 		E1CB503D2259197400F0DDED /* MIDITools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MIDITools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1CB503F2259197400F0DDED /* MIDITools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIDITools.h; sourceTree = "<group>"; };
@@ -260,6 +272,12 @@
 		E198683422D53F6700EB60C6 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				E19E7FD3230F5BA200FF7F16 /* midi1024.png */,
+				E19E7FCD230F5B6A00FF7F16 /* midi128.png */,
+				E19E7FCE230F5B6A00FF7F16 /* midi256.png */,
+				E19E7FCF230F5B6A00FF7F16 /* midi512.png */,
+				E19E7FCA230F5AF500FF7F16 /* midi16.png */,
+				E19E7FC9230F5AF500FF7F16 /* midi32.png */,
 				E198683922D5414C00EB60C6 /* midi64.png */,
 				E198683722D53FFF00EB60C6 /* DIN-5_Diagram.svg.png */,
 				E198683522D53F8600EB60C6 /* midi.png */,
@@ -506,8 +524,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1CB50F5225ABDC900F0DDED /* Decoder.xib in Resources */,
+				E19E7FCC230F5AF500FF7F16 /* midi16.png in Resources */,
+				E19E7FD1230F5B6A00FF7F16 /* midi256.png in Resources */,
 				E198683822D53FFF00EB60C6 /* DIN-5_Diagram.svg.png in Resources */,
+				E19E7FD0230F5B6A00FF7F16 /* midi128.png in Resources */,
+				E19E7FD2230F5B6A00FF7F16 /* midi512.png in Resources */,
 				E198683A22D5414C00EB60C6 /* midi64.png in Resources */,
+				E19E7FD4230F5BA200FF7F16 /* midi1024.png in Resources */,
+				E19E7FCB230F5AF500FF7F16 /* midi32.png in Resources */,
 				E1CB506E225AB8B000F0DDED /* Assets.xcassets in Resources */,
 				E198683622D53F8600EB60C6 /* midi.png in Resources */,
 				E1CB5071225AB8B000F0DDED /* MainMenu.xib in Resources */,
