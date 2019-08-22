@@ -18,7 +18,7 @@ extension NSTextCheckingResult {
 }
 
 
-public struct MIDINote : CustomStringConvertible, Equatable, Comparable {
+public struct MIDINote : CustomStringConvertible, Equatable, Comparable, Serialisable {
     
     private static let names = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
     private static let regex=try! NSRegularExpression(pattern: "([a-zA-Z]{1}[#]?)([-]?[0-9]+)", options: [])
@@ -60,6 +60,7 @@ public struct MIDINote : CustomStringConvertible, Equatable, Comparable {
     public var note : String { return MIDINote.names[numericCast(self.duodecimal)] }
     public var name : String { return "\(note)\(octave)" }
     public var description: String { return "\(name) = \(code) = [\(octave),\(duodecimal)] = \(frequency)Hz" }
+    public var str : String { return name }
     
     public static func ==(_ l : MIDINote,_ r : MIDINote) -> Bool { return l.code==r.code }
     public static func !=(_ l : MIDINote,_ r : MIDINote) -> Bool { return l.code != r.code }

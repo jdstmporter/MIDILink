@@ -40,26 +40,28 @@ public enum MIDISystemTypes : UInt8, MIDIEnumeration {
     
     public static let _unknown : MIDISystemTypes = .UNKNOWN
     
-    public static func parse(_ bytes : OffsetArray<UInt8>) -> [KVPair]? {
+    public static func parse(_ bytes : OffsetArray<UInt8>) -> MIDIDict? {
         guard bytes.count > 0 else { return nil }
         
         let command=MIDISystemTypes(bytes[0])
-        var out = [KVPair("Command", command)]
+        let out = MIDIDict()
+        out["Command"] = command
         switch command {
         case .SysEx:
-            guard let cmds = MIDISysExTypes.parse(bytes.shift(1)) else { return nil } 
-            out.append(contentsOf: cmds)
+            guard let cmds = MIDISysExTypes.parse(bytes.shift(1)) else { return nil }
+            out.append(cmds)
         case .TimeCode:
             guard let cmds = MIDITimeCodeTypes.parse(bytes.shift(1)) else { return nil }
-            out.append(contentsOf: cmds)
+            out.append(cmds)
         case .Tune, .EndSysEx, .TimingClock, .Start, .Continue, .Stop, .ActiveSensing, .SystemReset :
             break
         case .SongSelect :
             guard bytes.count >= 1 else { return nil }
-            out.append(KVPair("song",bytes[1]))
+            out["song"]=bytes[1]
         case .SongPosition :
             guard bytes.count >= 2 else { return nil }
-            out.append(contentsOf:[KVPair("pos LO",bytes[1]),KVPair("pos HI",bytes[2])])
+            out["pos LO"]=bytes[1]
+            out["pos HI"]=bytes[2]
         default:
             return nil
         }
@@ -96,10 +98,12 @@ public enum MIDITimeCodeTypes : UInt8, MIDIEnumeration {
         self = MIDITimeCodeTypes.init(rawValue: cmd & 0xf0) ?? MIDITimeCodeTypes._unknown
     }
     
-    public static func parse(_ bytes : OffsetArray<UInt8>) -> [KVPair]? {
+    public static func parse(_ bytes : OffsetArray<UInt8>) -> MIDIDict? {
         guard bytes.count>0 else { return nil }
         let command=MIDITimeCodeTypes(bytes[0]&0xf0)
-        return [KVPair(command.str,bytes[0]&0x0f)]
+        let out=MIDIDict()
+        out[command.str]=bytes[0]&0x0f
+        return out
     }
 }
 

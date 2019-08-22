@@ -10,54 +10,6 @@ import Foundation
 import CoreFoundation
 import CoreMIDI
 
-public class OrderedDictionary<K,V> : Sequence where K : Hashable, K : CustomStringConvertible {
-    fileprivate var dict : [K:V] = [:]
-    fileprivate var order : [K] = []
-    
-    public struct Iterator : IteratorProtocol {
-        public typealias Element=KVPair<K,V>
-        private let dict : [K:V]
-        private var it : Array<K>.Iterator
-        
-        public init(_ d : OrderedDictionary) {
-            dict=d.dict
-            it=d.order.makeIterator()
-        }
-        
-        public mutating func next() -> OrderedDictionary<K, V>.Iterator.Element? {
-            guard let k = it.next() else { return nil }
-            guard let v = dict[k] else { return nil }
-            return KVPair(k,v)
-        }
-        
-    }
-    
-    public var count : Int { return order.count }
-    public func at(_ idx : Int) -> KVPair<K,V>? {
-        guard idx>=0 && idx<count else { return nil }
-        let k=order[idx]
-        guard let v = dict[k] else { return nil }
-        return KVPair(k,v)
-    }
-    
-    public subscript(_ key : K) -> V? {
-        get { return dict[key] }
-        set {
-            if let value=newValue {
-                if !order.contains(key) { order.append(key) }
-                dict[key]=value
-            }
-            else {
-                if order.contains(key) { order.removeAll { $0==key } }
-                dict.removeValue(forKey: key)
-            }
-        }
-    }
-    
-    public __consuming func makeIterator() -> OrderedDictionary<K, V>.Iterator {
-        return Iterator(self)
-    }
-}
 
 
 public protocol MIDIMessageContent {
@@ -78,8 +30,11 @@ public class MIDIMessageDescription : CustomStringConvertible, Sequence {
         self.terms=d
     }
     
-    public subscript(_ key : String) -> Serialisable? {
-        return (terms.first { $0.key == key})?.value
+
+    
+    public subscript<T>(_ key : String) -> T? where T : Serialisable {
+        guard let val = (terms.first { $0.key == key})?.value else { return nil }
+        return val as? T
     }
     public var count : Int { return terms.count }
     public func makeIterator() -> Iterator { return self.terms.makeIterator() }

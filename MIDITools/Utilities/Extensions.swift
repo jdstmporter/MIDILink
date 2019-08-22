@@ -59,19 +59,46 @@ func conv(length : Int,_ p : UnsafeMutableRawPointer) -> UnsafeMutableBufferPoin
     return UnsafeMutableBufferPointer(start : b,count : length)
 }
 
+enum MIDIPacketError : Error {
+    case UnknownCommandType
+    case MissingParameters
+    case CannotDoSysExYet
+}
+
 extension MIDIPacket {
     
-    /*
-    init(timeStamp t: MIDITimeStamp,bytes b: [UInt8],length l: UInt16) {
-        self.init()
-        timeStamp=t
-        var bb=b
-        let p = conv(length: Int(l), &bb)
-        for kv in bb.enumerated() { p[kv.offset] = kv.element }
-        self.length=l
-    }
- */
+    public init(_ d : MIDIMessageDescription,timestamp: MIDITimeStamp) throws {
     
+        guard let cmd : MIDICommandTypes = d["Command"], let channel : UInt8 = d["Channel"] else { throw MIDIPacketError.UnknownCommandType }
+        var bytes : [UInt8] = []
+        let command = cmd.raw | (channel & 0x0f)
+        switch cmd {
+        case .NoteOnEvent, .NoteOffEvent:
+            guard let note : MIDINote = d["Note"], let velocity : UInt8 = d["Velocity"] else { throw MIDIPacketError.MissingParameters }
+            bytes = [command,note.code,velocity]
+        case .KeyPressure:
+            guard let note : MIDINote = d["Note"], let pressure : UInt8 = d["Pressure"] else { throw MIDIPacketError.MissingParameters }
+            bytes = [command,note.code,pressure]
+        case .ControlChange:
+            guard let channel : UInt8 = d["Command"], let value : UInt8 = d["Value"] else { throw MIDIPacketError.MissingParameters }
+            bytes = [command,channel,value]
+        case .ProgramChange:
+            guard let prog : UInt8 = d["Program"] else { throw MIDIPacketError.MissingParameters }
+            bytes = [command,prog]
+        case .ChannelPressure:
+            guard let pressure : UInt8 = d["Pressure"] else { throw MIDIPacketError.MissingParameters }
+            bytes = [command,pressure]
+        case .PitchBend:
+            guard let bend : Int16 = d["Bend"] else { throw MIDIPacketError.MissingParameters }
+            let b = bend + 2048
+            bytes = [command,numericCast(b>>7),numericCast(b&0x7f)]
+        default:
+            throw MIDIPacketError.CannotDoSysExYet
+        }
+        self.init(timeStamp: timestamp, bytes: bytes, length: numericCast(bytes.count))
+    }
+    
+
     var dataArray : [UInt8] {
         get {
             var d=self.data

@@ -46,7 +46,7 @@ public enum MIDICommandTypes : UInt8, MIDIEnumeration {
     
     public static func parse(_ bytes : OffsetArray<UInt8>) -> MIDIDict? {
         guard bytes.count > 0 else { return  nil }
-        let out = MIDIDict()
+        let out = MIDIDict() 
         let command=MIDICommandTypes(bytes[0]&0xf0)
          out["Command"]=command
         let channel = bytes[0]&0x0f
@@ -56,7 +56,7 @@ public enum MIDICommandTypes : UInt8, MIDIEnumeration {
                 guard bytes.count >= 3 else { return nil }
                 let note=MIDINote(bytes[1])
                 out["Channel"]=channel
-                out[labels[0]]="\(note.name) [\(note.code)]"
+                out[labels[0]]=note 
                 out[labels[1]]=bytes[2]
             case .ProgramChange, .ChannelPressure:
                 guard bytes.count >= 2 else { return nil }
@@ -65,7 +65,7 @@ public enum MIDICommandTypes : UInt8, MIDIEnumeration {
             case .PitchBend:
                 guard bytes.count >= 3 else { return nil }
                 out["Channel"]=channel
-                out[labels[0]]=UInt16(bytes[2])<<8 + UInt16(bytes[1])
+                out[labels[0]]=Int16(bytes[2]&0x7f)<<7 + Int16(bytes[1]&7) - 2048
             case .ControlChange:
                 guard bytes.count >= 3 else { return nil }
                 out["Channel"]=channel

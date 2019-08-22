@@ -29,6 +29,9 @@
 		E198683622D53F8600EB60C6 /* midi.png in Resources */ = {isa = PBXBuildFile; fileRef = E198683522D53F8600EB60C6 /* midi.png */; };
 		E198683822D53FFF00EB60C6 /* DIN-5_Diagram.svg.png in Resources */ = {isa = PBXBuildFile; fileRef = E198683722D53FFF00EB60C6 /* DIN-5_Diagram.svg.png */; };
 		E198683A22D5414C00EB60C6 /* midi64.png in Resources */ = {isa = PBXBuildFile; fileRef = E198683922D5414C00EB60C6 /* midi64.png */; };
+		E19E7FC4230F2FF800FF7F16 /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19E7FC3230F2FF800FF7F16 /* Collections.swift */; };
+		E19E7FC6230F306900FF7F16 /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19E7FC5230F306900FF7F16 /* Enumerations.swift */; };
+		E19E7FC8230F30C800FF7F16 /* Serialisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19E7FC7230F30C800FF7F16 /* Serialisation.swift */; };
 		E1CB50412259197400F0DDED /* MIDITools.h in Headers */ = {isa = PBXBuildFile; fileRef = E1CB503F2259197400F0DDED /* MIDITools.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1CB505F225AA0A200F0DDED /* MIDITools.podspec in Resources */ = {isa = PBXBuildFile; fileRef = E1CB505E225AA0A200F0DDED /* MIDITools.podspec */; };
 		E1CB5061225AA35200F0DDED /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = E1CB5060225AA35200F0DDED /* LICENSE */; };
@@ -123,6 +126,9 @@
 		E198683522D53F8600EB60C6 /* midi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = midi.png; sourceTree = "<group>"; };
 		E198683722D53FFF00EB60C6 /* DIN-5_Diagram.svg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIN-5_Diagram.svg.png"; sourceTree = "<group>"; };
 		E198683922D5414C00EB60C6 /* midi64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = midi64.png; sourceTree = "<group>"; };
+		E19E7FC3230F2FF800FF7F16 /* Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collections.swift; sourceTree = "<group>"; };
+		E19E7FC5230F306900FF7F16 /* Enumerations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
+		E19E7FC7230F30C800FF7F16 /* Serialisation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Serialisation.swift; sourceTree = "<group>"; };
 		E1CB50342258FDA800F0DDED /* dict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dict.swift; sourceTree = "<group>"; };
 		E1CB503D2259197400F0DDED /* MIDITools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MIDITools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1CB503F2259197400F0DDED /* MIDITools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIDITools.h; sourceTree = "<group>"; };
@@ -244,6 +250,9 @@
 			children = (
 				E192C5A7226D1C3A00E48557 /* Extensions.swift */,
 				E192C5A8226D1C3A00E48557 /* Atomic.swift */,
+				E19E7FC3230F2FF800FF7F16 /* Collections.swift */,
+				E19E7FC5230F306900FF7F16 /* Enumerations.swift */,
+				E19E7FC7230F30C800FF7F16 /* Serialisation.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -439,7 +448,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1030;
 				ORGANIZATIONNAME = "JP Embedded Solutions";
 				TargetAttributes = {
 					E1CB503C2259197400F0DDED = {
@@ -465,10 +474,9 @@
 			};
 			buildConfigurationList = E1DA4A4E1CCFA51A00FAE94E /* Build configuration list for PBXProject "MIDILink" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
@@ -528,12 +536,15 @@
 				E1CEE38322C945A300CB4839 /* MIDIPacketLists.swift in Sources */,
 				E192C5C5226D1C3B00E48557 /* Atomic.swift in Sources */,
 				E192C5B3226D1C3B00E48557 /* MIDIMessageBase.swift in Sources */,
+				E19E7FC8230F30C800FF7F16 /* Serialisation.swift in Sources */,
 				E192C5BC226D1C3B00E48557 /* MIDIDecoder.swift in Sources */,
+				E19E7FC6230F306900FF7F16 /* Enumerations.swift in Sources */,
 				E192C5C4226D1C3B00E48557 /* Extensions.swift in Sources */,
 				E192C5B4226D1C3B00E48557 /* MIDISession.swift in Sources */,
 				E137053F228B9B530093D065 /* MIDISysExMessages.swift in Sources */,
 				E192C5B1226D1C3B00E48557 /* MIDIControlMessages.swift in Sources */,
 				E192C5BB226D1C3B00E48557 /* MIDIentities.swift in Sources */,
+				E19E7FC4230F2FF800FF7F16 /* Collections.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,7 +614,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -639,7 +650,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;

@@ -9,41 +9,8 @@
 import Foundation
 import CoreMIDI
 
-public class OffsetArray<T> {
-    private var array: Array<T>
-    private let offset : Int
-    
-    public init(_ array : Array<T>, offset : UInt = 0) {
-        self.array = array
-        self.offset = Int(offset)
-    }
-    
-    public func shift(_ inc : UInt) -> OffsetArray<T> {
-        return OffsetArray<T>(array, offset: UInt(offset)+inc)
-    }
-    
-    public subscript(_ idx : Int) -> T { return array[offset+idx] }
-    public var count : Int { return array.count-offset }
-    
-}
 
-public protocol NamedEnumeration : CaseIterable, Hashable {
-    
-    static var names : [Self:String] { get }
-    var name : String { get }
-    init?(_ : String)
-}
 
-extension NamedEnumeration {
-    
-    public var name : String { return Self.names[self] ?? "" }
-    public var str : String { return self.name }
-    
-    public init?(_ name : String) {
-        if let kv = (Self.names.first { $0.value==name }) { self=kv.key }
-        else { return nil }
-    }
-}
 
 public typealias MIDIDict = OrderedDictionary<String,Serialisable>
 public typealias Pair = MIDIDict.Element
@@ -82,9 +49,7 @@ extension MIDIEnumeration {
         if let kv = (Self.names.first { $0.value==name }) { self=kv.key }
         else { return nil }
     }
-    
-    
-    
+ 
     public static var allCases : [Self] { return names.keys.sorted() }
     
     public static func ==(_ l : Self, _ r : Self) -> Bool { return l.raw == r.raw }

@@ -8,64 +8,16 @@
 
 import Foundation
 
-public protocol Serialisable   {
-    var str : String { get }
-}
-
-
-
-
-extension  UInt8: Serialisable {
-    public var str : String { return "\(self)" }
-}
-extension  UInt16: Serialisable {
-    public var str : String { return "\(self)" }
-}
-extension  UInt32: Serialisable {
-    public var str : String { return "\(self)" }
-}
-extension  UInt64: Serialisable {
-    public var str : String { return "\(self)" }
-}
-extension String : Serialisable {
-    public var str : String { return self }
-}
-extension Bool : Serialisable {
-    public var str : String { return self ? "ON" : "OFF" }
-}
-
 
 
 public protocol MIDISerialiser {
-    
     
     init(messages: [MIDIMessage])
     
     var data : Data { get }
     var str : String { get }
-    
 }
 
-
-
-
-
-
-
-
-
-public class KVPair<K,V>  : CustomStringConvertible where K : Hashable {
-    public let key : K
-    public let value : V
-    
-    public init(_ key : K, _ value : V) {
-        self.key=key
-        self.value=value
-    }
-    
-    public var description: String { return "\(key) = \(value)" }
-    
-}
 
 public protocol TransformerProtocol {
     subscript(_ : UInt8) -> Serialisable { get }
@@ -329,11 +281,11 @@ public enum MIDIControlMessages : UInt8, MIDIEnumeration {
         return MIDIControlMessages.transform[self] ?? .Byte
     }
     
-    public static func parse(_ bytes: [UInt8]) -> [Pair]? {
+    public static func parse(_ bytes: [UInt8]) -> MIDIDict? {
         guard bytes.count>0, let command = MIDIControlMessages(rawValue: bytes[0]) else { return nil }
         
-        if transform[command] == nil { return [Pair(command.str,"")] }
-        if bytes.count >= 2, let kv = command.kv(bytes[1]) { return [kv] }
+        if transform[command] == nil { return MIDIDict(KVPair(command.str,"")) }
+        if bytes.count >= 2, let kv = command.kv(bytes[1]) { return MIDIDict(kv) }
         return nil
     }
     

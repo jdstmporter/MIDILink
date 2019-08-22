@@ -21,21 +21,20 @@ public enum MIDISysExTypes : UInt8, MIDIEnumeration {
     ]
     public static let _unknown : MIDISysExTypes = .UNKNOWN
     
-    public static func parse(_ bytes : OffsetArray<UInt8>) -> [KVPair]? {
+    public static func parse(_ bytes : OffsetArray<UInt8>) -> MIDIDict? {
         guard bytes.count >= 2 else { return nil }
-        let command=MIDISysExTypes(bytes[0])
-        let device=KVPair("DeviceID",bytes[1])
-        var out=[KVPair("ID",command),device]
+        let command = MIDISysExTypes(bytes[0])
+        let out=MIDIDict([KVPair("ID",command),KVPair("DeviceID",bytes[1])])
         
         switch command {
         case .RealTime:
             guard let cmds=MIDISysExRealTimeTypes.parse(bytes.shift(2)) else { return nil }
-            out.append(contentsOf: cmds)
+            out.append(cmds)
         case .NonRealTime:
             guard let cmds=MIDISysExNonRealTimeTypes.parse(bytes.shift(2)) else { return nil }
-            out.append(contentsOf: cmds)
+            out.append(cmds)
         default:
-            out=[KVPair("Manufacturer",bytes[0])]
+            return MIDIDict(KVPair("Manufacturer",bytes[0]))
         }
         return out
     }
@@ -89,19 +88,19 @@ public enum MIDISysExNonRealTimeTypes : UInt8, MIDIEnumeration {
     
     public static let _unknown : MIDISysExNonRealTimeTypes = .UNKNOWN
     
-    public static func parse(_ bytes : OffsetArray<UInt8>) -> [KVPair]? {
+    public static func parse(_ bytes : OffsetArray<UInt8>) -> MIDIDict? {
         guard bytes.count > 0 else { return nil }
         
         let command=MIDISysExNonRealTimeTypes(bytes[0])
-        var out = [KVPair("Sub-ID#1", command)]
+        let out = MIDIDict(KVPair("Sub-ID#1", command))
         switch command {
         case .Timecode, .SampleDumpExtensions, .Information, .FileDump, .Tuning, .General, .DownloadableSounds, .FileReference, .Visual, .Capability:
             guard bytes.count >= 2 else { return nil }
-            out.append(KVPair("Sub-ID#2",bytes[1]))
+            out["Sub-ID#2"]=bytes[1]
         case .EOF, .Wait, .Cancel, .NAK, .ACK:
             break
         case .SampleDumpHeader, .SampleDumpPacket, .SampleDumpRequest :
-            out.append(KVPair("Data","..."))
+            out["Data"]="..."
         default:
             return nil
         }
@@ -145,15 +144,15 @@ public enum MIDISysExRealTimeTypes : UInt8, MIDIEnumeration {
     
     public static let _unknown : MIDISysExRealTimeTypes = .UNKNOWN
     
-    public static func parse(_ bytes : OffsetArray<UInt8>) -> [KVPair]? {
+    public static func parse(_ bytes : OffsetArray<UInt8>) -> MIDIDict? {
         guard bytes.count > 0 else { return nil }
         
         let command=MIDISysExRealTimeTypes(bytes[0])
-        var out = [KVPair("Sub-ID#1", command)]
+        let out = MIDIDict(KVPair("Sub-ID#1", command))
         switch command {
         case .Timecode, .ShowControl, .Information, .Device, .Cueing, .MachineCommands, .MachineResponses, .Tuning, .Destination, .KeyBased, .ScalablePolyphony, .Mobile:
             guard bytes.count >= 2 else { return nil }
-            out.append(KVPair("Sub-ID#2",bytes[1]))
+            out["Sub-ID#2"]=bytes[1]
         default:
             return nil
         }
