@@ -32,13 +32,23 @@ public class MIDIMessageDescription : CustomStringConvertible, Sequence {
     
 
     
-    public subscript<T>(_ key : String) -> T? where T : Serialisable {
+    public subscript<T>(_ key : MIDITerms) -> T? where T : Serialisable {
         guard let val = (terms.first { $0.key == key})?.value else { return nil }
         return val as? T
     }
     public var count : Int { return terms.count }
     public func makeIterator() -> Iterator { return self.terms.makeIterator() }
     public var description: String { return terms.map { $0.description }.joined(separator:", ") }
+    
+    public var command : MIDICommandTypes? { return self[.Command] }
+    public var channel : UInt8? { return self[.Channel] }
+    public var note : MIDINote? { return self[.Note] }
+    public var velocity : UInt8? { return self[.Velocity] }
+    public var pressure : UInt8? { return self[.Pressure] }
+    public var control : UInt8? { return self[.Control] }
+    public var value : UInt8? { return self[.Value] }
+    public var program : UInt8? { return self[.Program] }
+    public var bend : Bend? { return self[.Bend] }
     
 }
 
@@ -60,16 +70,16 @@ public class MIDIMessage : MIDIMessageContent, CustomStringConvertible {
         self.timestamp = p.timeStamp
     }
     
-    public init(_ d : MIDIDict, timebase: TimeStandard? = nil) {
+    public init?(_ d : MIDIDict, timebase: TimeStandard? = nil) {
         self.parsed = MIDIMessageDescription(d)
         self.timebase = timebase
         self.timestamp = TimeStandard.now
-        
-        self.packet = MIDIPacket() // needs to be filled in
+        guard let bytes = MIDICommandTypes.unparse(self.parsed) else { return nil }
+        self.packet = MIDIPacket(timeStamp: self.timestamp, bytes: bytes)
     }
     
-    public var Channel : Serialisable { return self.parsed["Channel"] ?? "-" }
-    public var Command : Serialisable { return self.parsed["Command"] ?? MIDICommandTypes.UNKNOWN  }
+    public var Channel : Serialisable { return self.parsed[.Channel] ?? "-" }
+    public var Command : Serialisable { return self.parsed[.Command] ?? MIDICommandTypes.UNKNOWN  }
     public var Timestamp : String { return timebase?.convert(packet.timeStamp) ?? "-" }
     public var Raw : [UInt8] { return packet.dataArray }
     

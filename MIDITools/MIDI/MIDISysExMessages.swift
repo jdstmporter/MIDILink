@@ -23,8 +23,10 @@ public enum MIDISysExTypes : UInt8, MIDIEnumeration {
     
     public static func parse(_ bytes : OffsetArray<UInt8>) -> MIDIDict? {
         guard bytes.count >= 2 else { return nil }
+        let out = MIDIDict()
         let command = MIDISysExTypes(bytes[0])
-        let out=MIDIDict([KVPair("ID",command),KVPair("DeviceID",bytes[1])])
+        out[.SysExID] = command
+        out[.SysExDeviceID] = bytes[1]
         
         switch command {
         case .RealTime:
@@ -34,7 +36,7 @@ public enum MIDISysExTypes : UInt8, MIDIEnumeration {
             guard let cmds=MIDISysExNonRealTimeTypes.parse(bytes.shift(2)) else { return nil }
             out.append(cmds)
         default:
-            return MIDIDict(KVPair("Manufacturer",bytes[0]))
+            return MIDIDict(Pair(.Manufacturer,bytes[0]))
         }
         return out
     }
@@ -92,15 +94,15 @@ public enum MIDISysExNonRealTimeTypes : UInt8, MIDIEnumeration {
         guard bytes.count > 0 else { return nil }
         
         let command=MIDISysExNonRealTimeTypes(bytes[0])
-        let out = MIDIDict(KVPair("Sub-ID#1", command))
+        let out = MIDIDict(Pair(.SysExSubID1, command))
         switch command {
         case .Timecode, .SampleDumpExtensions, .Information, .FileDump, .Tuning, .General, .DownloadableSounds, .FileReference, .Visual, .Capability:
             guard bytes.count >= 2 else { return nil }
-            out["Sub-ID#2"]=bytes[1]
+            out[.SysExSubID2]=bytes[1]
         case .EOF, .Wait, .Cancel, .NAK, .ACK:
             break
         case .SampleDumpHeader, .SampleDumpPacket, .SampleDumpRequest :
-            out["Data"]="..."
+            out[.SysExData]="..."
         default:
             return nil
         }
@@ -148,11 +150,11 @@ public enum MIDISysExRealTimeTypes : UInt8, MIDIEnumeration {
         guard bytes.count > 0 else { return nil }
         
         let command=MIDISysExRealTimeTypes(bytes[0])
-        let out = MIDIDict(KVPair("Sub-ID#1", command))
+        let out = MIDIDict(Pair(.SysExSubID1, command))
         switch command {
         case .Timecode, .ShowControl, .Information, .Device, .Cueing, .MachineCommands, .MachineResponses, .Tuning, .Destination, .KeyBased, .ScalablePolyphony, .Mobile:
             guard bytes.count >= 2 else { return nil }
-            out["Sub-ID#2"]=bytes[1]
+            out[.SysExSubID2]=bytes[1]
         default:
             return nil
         }

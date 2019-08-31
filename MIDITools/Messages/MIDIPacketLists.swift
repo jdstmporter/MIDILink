@@ -77,6 +77,9 @@ public extension MIDIPacket {
         let bytes=Array(b.prefix(Int(l)))
         copyData(&self.data.0,bytes)
     }
+    init(timeStamp t: MIDITimeStamp,bytes b: [UInt8]) {
+        self.init(timeStamp: t,bytes: b,length: numericCast(b.count))
+    }
 
 }
 

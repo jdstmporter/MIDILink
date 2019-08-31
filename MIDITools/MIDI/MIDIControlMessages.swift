@@ -283,23 +283,16 @@ public enum MIDIControlMessages : UInt8, MIDIEnumeration {
     
     public static func parse(_ bytes: [UInt8]) -> MIDIDict? {
         guard bytes.count>0, let command = MIDIControlMessages(rawValue: bytes[0]) else { return nil }
-        
-        if transform[command] == nil { return MIDIDict(KVPair(command.str,"")) }
-        if bytes.count >= 2, let kv = command.kv(bytes[1]) { return MIDIDict(kv) }
-        return nil
+        let out = MIDIDict(Pair(.Channel,command))
+        guard bytes.count >= 2, let value = command.kv(bytes[1]) else { return out }
+        out[.Value] = value
+        return out
     }
     
-    
-    
-   
-    public func kv(_ arg: UInt8) -> Pair? {
-        if let n = MIDIControlMessages.names[self] {
-            if let transformer = self.transformer {
-                return Pair( n,transformer[arg])
-            }
-            else { return Pair(n,arg) }
-        }
-        else { return nil }
+    public func kv(_ arg: UInt8) -> Serialisable? {
+        guard MIDIControlMessages.names[self] != nil else { return nil }
+        guard let transformer = self.transformer else { return arg }
+        return transformer[arg]
     }
     
     public func threshold(_ value : UInt8) ->Serialisable? {

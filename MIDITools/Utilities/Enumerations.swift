@@ -8,11 +8,22 @@
 
 import Foundation
 
-public protocol NamedEnumeration : CaseIterable, Hashable {
-    
-    static var names : [Self:String] { get }
+public protocol NameableEnumeration : CaseIterable, Hashable {
     var name : String { get }
     init?(_ : String)
+}
+
+extension NameableEnumeration {
+    
+    public init?(_ name : String) {
+        if let item = (Self.allCases.first { $0.name==name }) { self=item }
+        else { return nil }
+    }
+}
+
+public protocol NamedEnumeration : NameableEnumeration {
+    
+    static var names : [Self:String] { get }
 }
 
 extension NamedEnumeration {
@@ -20,8 +31,5 @@ extension NamedEnumeration {
     public var name : String { return Self.names[self] ?? "" }
     public var str : String { return self.name }
     
-    public init?(_ name : String) {
-        if let kv = (Self.names.first { $0.value==name }) { self=kv.key }
-        else { return nil }
-    }
+    
 }
