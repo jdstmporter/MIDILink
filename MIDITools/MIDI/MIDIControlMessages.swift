@@ -20,29 +20,29 @@ public protocol MIDISerialiser {
 
 
 public protocol TransformerProtocol {
-    subscript(_ : UInt8) -> Serialisable { get }
-    subscript(_ : Serialisable) -> UInt8 { get }
+    subscript(_ : UInt8) -> String? { get }
+    subscript(_ : String?) -> UInt8 { get }
 }
 
 public struct Bool64 : TransformerProtocol {
-    public subscript(_ x: UInt8) -> Serialisable { return x >= 64 ? "ON" : "OFF"  }
-    public subscript(_ x: Serialisable) -> UInt8 { return x.str == "ON" ? 64 : 0 }
+    public subscript(_ x: UInt8) -> String? { return x >= 64 ? "ON" : "OFF"  }
+    public subscript(_ x: String?) -> UInt8 { return x == "ON" ? 64 : 0 }
 }
 public struct Bool127 : TransformerProtocol {
-    public subscript(_ x: UInt8) -> Serialisable { return x == 127 ? "ON" : "OFF"  }
-    public subscript(_ x: Serialisable) -> UInt8 { return x.str == "ON" ? 127 : 0 }
+    public subscript(_ x: UInt8) -> String? { return x == 127 ? "ON" : "OFF"  }
+    public subscript(_ x: String?) -> UInt8 { return x == "ON" ? 127 : 0 }
 }
 public struct BoolTrue : TransformerProtocol {
-    public subscript(_ x: UInt8) -> Serialisable { return "ON"  }
-    public subscript(_ x: Serialisable) -> UInt8 { return 127 }
+    public subscript(_ x: UInt8) -> String? { return "ON"  }
+    public subscript(_ x: String?) -> UInt8 { return 127 }
 }
 public struct BoolFalse : TransformerProtocol {
-    public subscript(_ x: UInt8) -> Serialisable { return "OFF"  }
-    public subscript(_ x: Serialisable) -> UInt8 { return 0 }
+    public subscript(_ x: UInt8) -> String? { return "OFF"  }
+    public subscript(_ x: String?) -> UInt8 { return 0 }
 }
 public struct NULL: TransformerProtocol {
-    public subscript(_ x: UInt8) -> Serialisable { return ""  }
-    public subscript(_ x: Serialisable) -> UInt8 { return 255 }
+    public subscript(_ x: UInt8) -> String? { return nil  }
+    public subscript(_ x: String?) -> UInt8 { return 255 }
 }
 
 
@@ -87,8 +87,9 @@ public enum MIDIControlMessageTransformation : CaseIterable {
 
 
 public enum MIDIControlMessages : UInt8, MIDIEnumeration {
-    static func parse(_: OffsetArray<UInt8>) -> MIDIDict? {
-        return nil
+    
+    public static func parse(_ : OffsetArray<UInt8>) throws -> MIDIMessageDescription {
+        throw MIDIMessageError.BadPacket
     }
     
     case BankSelectMSB = 0x00
@@ -281,29 +282,9 @@ public enum MIDIControlMessages : UInt8, MIDIEnumeration {
         return MIDIControlMessages.transform[self] ?? .Byte
     }
     
-    public static func parse(_ bytes: [UInt8]) -> MIDIDict? {
-        guard bytes.count>0, let command = MIDIControlMessages(rawValue: bytes[0]) else { return nil }
-        let out = MIDIDict(Pair(.Channel,command))
-        guard bytes.count >= 2, let value = command.kv(bytes[1]) else { return out }
-        out[.Value] = value
-        return out
-    }
+    public var needsValue : Bool { return transform != .Null }
     
-    public func kv(_ arg: UInt8) -> Serialisable? {
-        guard MIDIControlMessages.names[self] != nil else { return nil }
-        guard let transformer = self.transformer else { return arg }
-        return transformer[arg]
-    }
     
-    public func threshold(_ value : UInt8) ->Serialisable? {
-        if let transformer = self.transformer  {
-            return transformer[value]
-        }
-        else { return nil }
-    }
-    public func unthreshold(_ boolean : Serialisable) -> UInt8? {
-        return self.transformer?[boolean]
-    }
 }
 
 /*

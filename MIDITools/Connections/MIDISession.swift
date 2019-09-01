@@ -98,17 +98,15 @@ public class MIDISource : ActiveMIDIObject {
     }
     
     public func startDecoding(interface : MIDIDecoderInterface) {
-        if decoder==nil {
-            decoder=MIDIDecoder()
-            interface.link(decoder: decoder)
-        }
+        if decoder==nil { decoder=try? MIDIDecoder() }
+        guard decoder != nil else { return }
+        interface.link(decoder: decoder)
     }
     
     public func stopDecoding() {
-        if decoder != nil {
-            decoder.disconnect()
-            decoder=nil
-        }
+        guard decoder != nil else { return }
+        decoder.disconnect()
+        decoder=nil
     }
     
 

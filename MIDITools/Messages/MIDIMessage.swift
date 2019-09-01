@@ -18,39 +18,6 @@ public protocol MIDIMessageContent {
     var Channel : Serialisable {get}
 }
 
-public class MIDIMessageDescription : CustomStringConvertible, Sequence {
-    public typealias Iterator = MIDIDict.Iterator
-    
-    private let terms : MIDIDict
-    
-    public init(_ p: MIDIPacket) {
-        self.terms=MIDICommandTypes.parse(p.bytes) ?? MIDIDict()
-    }
-    public init(_ d : MIDIDict) {
-        self.terms=d
-    }
-    
-
-    
-    public subscript<T>(_ key : MIDITerms) -> T? where T : Serialisable {
-        guard let val = (terms.first { $0.key == key})?.value else { return nil }
-        return val as? T
-    }
-    public var count : Int { return terms.count }
-    public func makeIterator() -> Iterator { return self.terms.makeIterator() }
-    public var description: String { return terms.map { $0.description }.joined(separator:", ") }
-    
-    public var command : MIDICommandTypes? { return self[.Command] }
-    public var channel : UInt8? { return self[.Channel] }
-    public var note : MIDINote? { return self[.Note] }
-    public var velocity : UInt8? { return self[.Velocity] }
-    public var pressure : UInt8? { return self[.Pressure] }
-    public var control : UInt8? { return self[.Control] }
-    public var value : UInt8? { return self[.Value] }
-    public var program : UInt8? { return self[.Program] }
-    public var bend : Bend? { return self[.Bend] }
-    
-}
 
 
 public class MIDIMessage : MIDIMessageContent, CustomStringConvertible {
@@ -59,23 +26,26 @@ public class MIDIMessage : MIDIMessageContent, CustomStringConvertible {
     
     public let packet : MIDIPacket
     private let timebase : TimeStandard!
-    public let parsed : MIDIMessageDescription
+    public let parsed : MIDIMessageDescription 
     public let timestamp : MIDITimeStamp
     
-    public init(_ p: MIDIPacket, timebase: TimeStandard? = nil) {
+    public init(_ p: MIDIPacket, timebase: TimeStandard? = nil) throws {
        
         self.packet=p
         self.timebase = timebase
-        self.parsed = MIDIMessageDescription(p)
+        self.parsed = try MIDIMessageDescription(p)
         self.timestamp = p.timeStamp
     }
     
-    public init?(_ d : MIDIDict, timebase: TimeStandard? = nil) {
-        self.parsed = MIDIMessageDescription(d)
+    public init(_ d : MIDIMessageDescription, timebase: TimeStandard? = nil) throws {
+        self.parsed = d
         self.timebase = timebase
         self.timestamp = TimeStandard.now
-        guard let bytes = MIDICommandTypes.unparse(self.parsed) else { return nil }
-        self.packet = MIDIPacket(timeStamp: self.timestamp, bytes: bytes)
+        self.packet = try MIDIPacket(timeStamp: self.timestamp, bytes: self.parsed.bytes())
+    }
+    
+    public convenience init(_ d : MIDIDict, timebase: TimeStandard? = nil) throws {
+        try self.init(MIDIMessageDescription(d),timebase: timebase)
     }
     
     public var Channel : Serialisable { return self.parsed[.Channel] ?? "-" }
@@ -95,13 +65,6 @@ public class MIDIMessage : MIDIMessageContent, CustomStringConvertible {
         return nil
     }
 }
-
-public class MIDIMessageFactory {
-    
-    
-}
-
-
 
 
 

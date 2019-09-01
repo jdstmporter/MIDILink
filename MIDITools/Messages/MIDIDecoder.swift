@@ -47,7 +47,7 @@ public class MIDIDecoderBase : Sequence {
     
     
     
-    init() {
+    init() throws {
         action = { () in () }
         messages = []
         lock=NSLock()
@@ -79,8 +79,8 @@ public class MIDIDecoderBase : Sequence {
 
 public class MIDIDummyDecoder : MIDIDecoderBase {
     
-    public override init() {
-        super.init()
+    public override init() throws {
+        try super.init()
         let timebase=TimeStandard()
         var p=MIDIPacket()
         p.timeStamp=mach_absolute_time()
@@ -94,7 +94,7 @@ public class MIDIDummyDecoder : MIDIDecoderBase {
         q.data.0=0x91
         q.data.1=62
         q.data.2=63
-        messages = [
+        messages = try [
             MIDIMessage(p,timebase: timebase),
             MIDIMessage(q,timebase: timebase)
         ]
@@ -111,9 +111,9 @@ public class MIDIDecoder : MIDIDecoderBase {
     
     private let timeStandard : TimeStandard
 
-    public override init() {
+    public override init() throws {
         timeStandard=TimeStandard()
-        super.init()
+        try super.init()
     }
     
     public func disconnect() {
@@ -122,14 +122,18 @@ public class MIDIDecoder : MIDIDecoderBase {
         lock.unlock()
     }
     
-    public func load(packets : [MIDIPacket]) {
+    public func load(packets : [MIDIPacket])  {
         let n=packets.count
         if n>0 {
             let last = messages.last?.timestamp ?? 0
-            let newMessages : [MIDIMessage] = packets.map { MIDIMessage($0, timebase: timeStandard) }.filter { $0.timestamp >= last }
-            messages.append(contentsOf: newMessages)
-            action?()
-            NotificationCenter.default.post(name: MIDIDecoder.MIDIDataToDecode, object: nil)
+            do {
+                let newMessages : [MIDIMessage] = try packets.map { try MIDIMessage($0, timebase: timeStandard) }
+                    .filter { $0.timestamp >= last }
+                messages.append(contentsOf: newMessages)
+                action?()
+                NotificationCenter.default.post(name: MIDIDecoder.MIDIDataToDecode, object: nil)
+            }
+            catch {}
            
         }
     }

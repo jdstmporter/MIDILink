@@ -38,6 +38,10 @@
 		E19E7FD1230F5B6A00FF7F16 /* midi256.png in Resources */ = {isa = PBXBuildFile; fileRef = E19E7FCE230F5B6A00FF7F16 /* midi256.png */; };
 		E19E7FD2230F5B6A00FF7F16 /* midi512.png in Resources */ = {isa = PBXBuildFile; fileRef = E19E7FCF230F5B6A00FF7F16 /* midi512.png */; };
 		E19E7FD4230F5BA200FF7F16 /* midi1024.png in Resources */ = {isa = PBXBuildFile; fileRef = E19E7FD3230F5BA200FF7F16 /* midi1024.png */; };
+		E1A1A0A1231C3FC300EF3939 /* MIDIBend.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A1A0A0231C3FC300EF3939 /* MIDIBend.swift */; };
+		E1A1A0A3231C408D00EF3939 /* MIDIMessageTerms.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A1A0A2231C408D00EF3939 /* MIDIMessageTerms.swift */; };
+		E1A1A0A6231C417E00EF3939 /* MIDIMessageDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A1A0A5231C417E00EF3939 /* MIDIMessageDescription.swift */; };
+		E1BB33B2231C821A0036B0F1 /* MIDIControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BB33B1231C821A0036B0F1 /* MIDIControl.swift */; };
 		E1CB50412259197400F0DDED /* MIDITools.h in Headers */ = {isa = PBXBuildFile; fileRef = E1CB503F2259197400F0DDED /* MIDITools.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1CB505F225AA0A200F0DDED /* MIDITools.podspec in Resources */ = {isa = PBXBuildFile; fileRef = E1CB505E225AA0A200F0DDED /* MIDITools.podspec */; };
 		E1CB5061225AA35200F0DDED /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = E1CB5060225AA35200F0DDED /* LICENSE */; };
@@ -141,6 +145,10 @@
 		E19E7FCE230F5B6A00FF7F16 /* midi256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = midi256.png; sourceTree = "<group>"; };
 		E19E7FCF230F5B6A00FF7F16 /* midi512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = midi512.png; sourceTree = "<group>"; };
 		E19E7FD3230F5BA200FF7F16 /* midi1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = midi1024.png; sourceTree = "<group>"; };
+		E1A1A0A0231C3FC300EF3939 /* MIDIBend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIBend.swift; sourceTree = "<group>"; };
+		E1A1A0A2231C408D00EF3939 /* MIDIMessageTerms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIMessageTerms.swift; sourceTree = "<group>"; };
+		E1A1A0A5231C417E00EF3939 /* MIDIMessageDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIMessageDescription.swift; sourceTree = "<group>"; };
+		E1BB33B1231C821A0036B0F1 /* MIDIControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIControl.swift; sourceTree = "<group>"; };
 		E1CB50342258FDA800F0DDED /* dict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dict.swift; sourceTree = "<group>"; };
 		E1CB503D2259197400F0DDED /* MIDITools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MIDITools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1CB503F2259197400F0DDED /* MIDITools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIDITools.h; sourceTree = "<group>"; };
@@ -213,7 +221,6 @@
 				E192C58F226D1C3A00E48557 /* MIDISystemMessages.swift */,
 				E192C590226D1C3A00E48557 /* MIDIMessageBase.swift */,
 				E137053E228B9B530093D065 /* MIDISysExMessages.swift */,
-				E1EF2404230A0F2A008AF38D /* MIDINote.swift */,
 			);
 			path = MIDI;
 			sourceTree = "<group>";
@@ -253,6 +260,8 @@
 				E192C59D226D1C3A00E48557 /* MIDIDecoder.swift */,
 				E192C59E226D1C3A00E48557 /* MIDIPacketLists.swift */,
 				E192C59F226D1C3A00E48557 /* MIDIMessage.swift */,
+				E1A1A0A2231C408D00EF3939 /* MIDIMessageTerms.swift */,
+				E1A1A0A5231C417E00EF3939 /* MIDIMessageDescription.swift */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
@@ -285,9 +294,20 @@
 			path = images;
 			sourceTree = "<group>";
 		};
+		E1A1A0A4231C40CA00EF3939 /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				E1EF2404230A0F2A008AF38D /* MIDINote.swift */,
+				E1A1A0A0231C3FC300EF3939 /* MIDIBend.swift */,
+				E1BB33B1231C821A0036B0F1 /* MIDIControl.swift */,
+			);
+			path = Types;
+			sourceTree = "<group>";
+		};
 		E1CB503E2259197400F0DDED /* MIDITools */ = {
 			isa = PBXGroup;
 			children = (
+				E1A1A0A4231C40CA00EF3939 /* Types */,
 				E192C591226D1C3A00E48557 /* Connections */,
 				E192C59A226D1C3A00E48557 /* Endpoints */,
 				E192C59C226D1C3A00E48557 /* Messages */,
@@ -466,14 +486,14 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1030;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = "JP Embedded Solutions";
 				TargetAttributes = {
 					E1CB503C2259197400F0DDED = {
 						CreatedOnToolsVersion = 10.2;
 						DevelopmentTeam = XLKATCU397;
 						LastSwiftMigration = 1020;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					E1CB5068225AB8AF00F0DDED = {
 						CreatedOnToolsVersion = 10.2;
@@ -551,7 +571,9 @@
 				E192C5B5226D1C3B00E48557 /* MIDIConnections.swift in Sources */,
 				E192C5B2226D1C3B00E48557 /* MIDISystemMessages.swift in Sources */,
 				E192C5B9226D1C3B00E48557 /* MIDIIdentifiers.swift in Sources */,
+				E1A1A0A3231C408D00EF3939 /* MIDIMessageTerms.swift in Sources */,
 				E1CEE38222C9447700CB4839 /* MIDIMessage.swift in Sources */,
+				E1BB33B2231C821A0036B0F1 /* MIDIControl.swift in Sources */,
 				E192C5B0226D1C3B00E48557 /* MIDIMessages.swift in Sources */,
 				E192C5B8226D1C3B00E48557 /* MIDISystem.swift in Sources */,
 				E192C5BA226D1C3B00E48557 /* MIDIError.swift in Sources */,
@@ -564,10 +586,12 @@
 				E192C5BC226D1C3B00E48557 /* MIDIDecoder.swift in Sources */,
 				E19E7FC6230F306900FF7F16 /* Enumerations.swift in Sources */,
 				E192C5C4226D1C3B00E48557 /* Extensions.swift in Sources */,
+				E1A1A0A1231C3FC300EF3939 /* MIDIBend.swift in Sources */,
 				E192C5B4226D1C3B00E48557 /* MIDISession.swift in Sources */,
 				E137053F228B9B530093D065 /* MIDISysExMessages.swift in Sources */,
 				E192C5B1226D1C3B00E48557 /* MIDIControlMessages.swift in Sources */,
 				E192C5BB226D1C3B00E48557 /* MIDIentities.swift in Sources */,
+				E1A1A0A6231C417E00EF3939 /* MIDIMessageDescription.swift in Sources */,
 				E19E7FC4230F2FF800FF7F16 /* Collections.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -639,7 +663,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -656,6 +680,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = solutions.jpembedded.MIDITools;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -675,7 +700,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -691,6 +716,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = solutions.jpembedded.MIDITools;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
@@ -714,12 +740,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = XLKATCU397;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = MIDIUtils/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = solutions.jpembedded.MIDIUtils;
+				PRODUCT_BUNDLE_IDENTIFIER = solutions.jpembedded.MIDITools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -742,11 +769,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = XLKATCU397;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = MIDIUtils/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = solutions.jpembedded.MIDIUtils;
+				PRODUCT_BUNDLE_IDENTIFIER = solutions.jpembedded.MIDITools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;

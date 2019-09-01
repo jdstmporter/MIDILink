@@ -40,30 +40,30 @@ public enum MIDISystemTypes : UInt8, MIDIEnumeration {
     
     public static let _unknown : MIDISystemTypes = .UNKNOWN
     
-    public static func parse(_ bytes : OffsetArray<UInt8>) -> MIDIDict? {
-        guard bytes.count > 0 else { return nil }
+    public static func parse(_ bytes : OffsetArray<UInt8>) throws -> MIDIMessageDescription {
+        guard bytes.count > 0 else { throw MIDIMessageError.NoContent }
         
         let command=MIDISystemTypes(bytes[0])
-        let out = MIDIDict()
+        let out = MIDIMessageDescription()
         out[.SystemCommand] = command
         switch command {
         case .SysEx:
-            guard let cmds = MIDISysExTypes.parse(bytes.shift(1)) else { return nil }
+            let cmds = try MIDISysExTypes.parse(bytes.shift(1)) 
             out.append(cmds)
         case .TimeCode:
-            guard let cmds = MIDITimeCodeTypes.parse(bytes.shift(1)) else { return nil }
+            let cmds = try MIDITimeCodeTypes.parse(bytes.shift(1))
             out.append(cmds)
         case .Tune, .EndSysEx, .TimingClock, .Start, .Continue, .Stop, .ActiveSensing, .SystemReset :
             break
         case .SongSelect :
-            guard bytes.count >= 1 else { return nil }
+            guard bytes.count >= 1 else { throw MIDIMessageError.NoContent }
             out[.Song]=bytes[1]
         case .SongPosition :
-            guard bytes.count >= 2 else { return nil }
+            guard bytes.count >= 2 else { throw MIDIMessageError.NoContent }
             out[.SongPositionLO]=bytes[1]
             out[.SongPositionHI]=bytes[2]
         default:
-            return nil
+            return MIDIMessageDescription()
         }
         return out
     }
@@ -98,9 +98,9 @@ public enum MIDITimeCodeTypes : UInt8, MIDIEnumeration {
         self = MIDITimeCodeTypes.init(rawValue: cmd & 0xf0) ?? MIDITimeCodeTypes._unknown
     }
     
-    public static func parse(_ bytes : OffsetArray<UInt8>) -> MIDIDict? {
-        guard bytes.count>0 else { return nil }
-        let out=MIDIDict()
+    public static func parse(_ bytes : OffsetArray<UInt8>) throws -> MIDIMessageDescription {
+        guard bytes.count>0 else { throw MIDIMessageError.NoContent }
+        let out=MIDIMessageDescription()
         out[.TimeCode]=MIDITimeCodeTypes(bytes[0]&0xf0)
         out[.Value]=bytes[0]&0x0f
         return out

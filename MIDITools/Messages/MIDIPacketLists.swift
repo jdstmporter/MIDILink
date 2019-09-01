@@ -49,6 +49,16 @@ extension MIDIPacketList {
         return out
     }
     
+    public init(packets : [MIDIPacket]) {
+        var list=MIDIPacketList()
+        var ptr=MIDIPacketListInit(&list)
+        packets.forEach { (p) in
+            //let bytes = { (b : UnsafePointer<UInt8>) in b }(p.dataArray)
+            ptr=MIDIPacketListAdd(&list, 65536, ptr, p.timeStamp, Int(p.length), p.dataPointer!)
+            debugPrint("Packet @ time \(p.timeStamp) bytes \(p.dataArray) npackets \(list.numPackets)")
+        }
+        self=list
+    }
  
     
  

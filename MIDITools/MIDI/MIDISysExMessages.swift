@@ -21,22 +21,24 @@ public enum MIDISysExTypes : UInt8, MIDIEnumeration {
     ]
     public static let _unknown : MIDISysExTypes = .UNKNOWN
     
-    public static func parse(_ bytes : OffsetArray<UInt8>) -> MIDIDict? {
-        guard bytes.count >= 2 else { return nil }
-        let out = MIDIDict()
+    public static func parse(_ bytes : OffsetArray<UInt8>) throws -> MIDIMessageDescription {
+        guard bytes.count >= 2 else { throw MIDIMessageError.NoContent }
+        let out = MIDIMessageDescription()
         let command = MIDISysExTypes(bytes[0])
-        out[.SysExID] = command
-        out[.SysExDeviceID] = bytes[1]
         
         switch command {
         case .RealTime:
-            guard let cmds=MIDISysExRealTimeTypes.parse(bytes.shift(2)) else { return nil }
+            let cmds=try MIDISysExRealTimeTypes.parse(bytes.shift(2))
+            out[.SysExID] = command
+            out[.SysExDeviceID] = bytes[1]
             out.append(cmds)
         case .NonRealTime:
-            guard let cmds=MIDISysExNonRealTimeTypes.parse(bytes.shift(2)) else { return nil }
+            let cmds=try MIDISysExNonRealTimeTypes.parse(bytes.shift(2))
+            out[.SysExID] = command
+            out[.SysExDeviceID] = bytes[1]
             out.append(cmds)
         default:
-            return MIDIDict(Pair(.Manufacturer,bytes[0]))
+            out[.Manufacturer] = bytes[0]
         }
         return out
     }
@@ -90,21 +92,22 @@ public enum MIDISysExNonRealTimeTypes : UInt8, MIDIEnumeration {
     
     public static let _unknown : MIDISysExNonRealTimeTypes = .UNKNOWN
     
-    public static func parse(_ bytes : OffsetArray<UInt8>) -> MIDIDict? {
-        guard bytes.count > 0 else { return nil }
+    public static func parse(_ bytes : OffsetArray<UInt8>) throws -> MIDIMessageDescription {
+        guard bytes.count > 0 else { throw MIDIMessageError.NoContent }
         
         let command=MIDISysExNonRealTimeTypes(bytes[0])
-        let out = MIDIDict(Pair(.SysExSubID1, command))
+        let out = MIDIMessageDescription()
+        out[.SysExSubID1] = command
         switch command {
         case .Timecode, .SampleDumpExtensions, .Information, .FileDump, .Tuning, .General, .DownloadableSounds, .FileReference, .Visual, .Capability:
-            guard bytes.count >= 2 else { return nil }
+            guard bytes.count >= 2 else { throw MIDIMessageError.NoContent }
             out[.SysExSubID2]=bytes[1]
         case .EOF, .Wait, .Cancel, .NAK, .ACK:
             break
         case .SampleDumpHeader, .SampleDumpPacket, .SampleDumpRequest :
             out[.SysExData]="..."
         default:
-            return nil
+            return MIDIMessageDescription()
         }
         return out
     }
@@ -146,17 +149,18 @@ public enum MIDISysExRealTimeTypes : UInt8, MIDIEnumeration {
     
     public static let _unknown : MIDISysExRealTimeTypes = .UNKNOWN
     
-    public static func parse(_ bytes : OffsetArray<UInt8>) -> MIDIDict? {
-        guard bytes.count > 0 else { return nil }
+    public static func parse(_ bytes : OffsetArray<UInt8>) throws  -> MIDIMessageDescription {
+        guard bytes.count > 0 else { throw MIDIMessageError.NoContent }
         
         let command=MIDISysExRealTimeTypes(bytes[0])
-        let out = MIDIDict(Pair(.SysExSubID1, command))
+        let out = MIDIMessageDescription()
+        out[.SysExSubID1] = command
         switch command {
         case .Timecode, .ShowControl, .Information, .Device, .Cueing, .MachineCommands, .MachineResponses, .Tuning, .Destination, .KeyBased, .ScalablePolyphony, .Mobile:
-            guard bytes.count >= 2 else { return nil }
+            guard bytes.count >= 2 else { throw MIDIMessageError.NoContent }
             out[.SysExSubID2]=bytes[1]
         default:
-            return nil
+            return MIDIMessageDescription()
         }
         return out
     }

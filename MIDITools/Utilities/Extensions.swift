@@ -69,7 +69,7 @@ enum MIDIPacketError : Error {
 extension MIDIPacket {
     
     public init(_ d : MIDIMessageDescription,timestamp: MIDITimeStamp) throws {
-        guard let bytes = MIDICommandTypes.unparse(d) else { throw MIDIPacketError.BadMessageDescription }
+        let bytes = try d.bytes()
         self.init(timeStamp: timestamp, bytes: bytes, length: numericCast(bytes.count))
     }
     
