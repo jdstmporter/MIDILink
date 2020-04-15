@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Bend : Serialisable {
+public struct Bend : Nameable {
     
     let hi: UInt8
     let lo: UInt8

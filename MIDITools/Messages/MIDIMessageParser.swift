@@ -1,5 +1,5 @@
 //
-//  MIDIMessageDescription.swift
+//  MIDIMessageParser.swift
 //  MIDITools
 //
 //  Created by Julian Porter on 01/09/2019.
@@ -20,7 +20,7 @@ public enum MIDIMessageError : Error {
     case BadBend
 }
 
-public class MIDIMessageDescription : CustomStringConvertible, Sequence {
+public class MIDIMessageParser : CustomStringConvertible, Sequence {
     public typealias Iterator = MIDIDict.Iterator
     
     fileprivate let terms : MIDIDict
@@ -35,7 +35,7 @@ public class MIDIMessageDescription : CustomStringConvertible, Sequence {
     public init(_ bytes : OffsetArray<UInt8>) throws {
         guard bytes.count > 0 else { throw MIDIMessageError.NoContent }
         let out = MIDIDict()
-        let command=MIDICommandTypes(bytes[0]&0xf0)
+        let command=MIDICommands(bytes[0]&0xf0)
         out[.Command]=command
         let channel = bytes[0]&0x0f
         switch command {
@@ -66,8 +66,8 @@ public class MIDIMessageDescription : CustomStringConvertible, Sequence {
             out[.Channel]=channel
             out[.Control]=try MIDIControlMessage(bytes.shift(1))
         case .SystemMessage:
-            let cmds = try MIDISystemTypes.parse(bytes.shift(1))
-            cmds.forEach { out[$0.key] = $0.value }
+            let cmds = try MIDISystemMessage(bytes.shift(1)).body
+            out.append(cmds)
         default:
             throw MIDIMessageError.UnknownMessage
         }
@@ -80,45 +80,13 @@ public class MIDIMessageDescription : CustomStringConvertible, Sequence {
     public func append(_ d : MIDIDict) {
         self.terms.append(d)
     }
-    public func append(_ d : MIDIMessageDescription) {
+    public func append(_ d : MIDIMessageParser) {
         self.append(d.terms)
     }
     
-    public func bytes() throws -> [UInt8] {
-        guard let command = self.command, let channel = self.channel else { throw MIDIMessageError.NoCommand }
-        var bytes : [UInt8] = []
-        bytes.append(command.raw | channel)
-        
-        switch command {
-        case .NoteOnEvent, .NoteOffEvent:
-            guard let note  = self.note, let velocity = self.velocity else { throw MIDIMessageError.NoNote }
-            bytes.append(note.code)
-            bytes.append(velocity)
-        case .KeyPressure:
-        guard let note  = self.note, let pressure = self.pressure else { throw MIDIMessageError.NoNote }
-        bytes.append(note.code)
-        bytes.append(pressure)
-        case .ProgramChange:
-            guard let value = self.program else { throw MIDIMessageError.NoValue }
-            bytes.append(value)
-        case .ChannelPressure:
-            guard let value = self.pressure else { throw MIDIMessageError.NoValue }
-            bytes.append(value)
-        case .PitchBend:
-            guard let b = self.bend else { throw MIDIMessageError.BadBend }
-            bytes.append(b.lo)
-            bytes.append(b.hi)
-        case .ControlChange:
-            guard let control = self.control else { throw MIDIMessageError.NoValue }
-            bytes.append(control.raw)
-            if let v = self.value { bytes.append(v) }
-        default:
-            throw MIDIMessageError.UnknownMessage
-        }
-        return bytes
-    }
+    public var dict : MIDIDict { terms }
     
-    public subscript<T>(_ key : MIDITerms) -> T? where T : Serialisable {
+    public subscript<T>(_ key : MIDITerms) -> T? where T : Nameable {
         get {
             guard let val = (terms.first { $0.key == key})?.value else { return nil }
             return val as? T
@@ -131,7 +99,7 @@ public class MIDIMessageDescription : CustomStringConvertible, Sequence {
     public func makeIterator() -> Iterator { return self.terms.makeIterator() }
     public var description: String { return terms.map { $0.description }.joined(separator:", ") }
     
-    public var command : MIDICommandTypes? { return self[.Command] }
+    public var command : MIDICommands? { return self[.Command] }
     public var channel : UInt8? { return self[.Channel] }
     public var note : MIDINote? { return self[.Note] }
     public var velocity : UInt8? { return self[.Velocity] }
@@ -142,3 +110,5 @@ public class MIDIMessageDescription : CustomStringConvertible, Sequence {
     public var bend : Bend? { return self[.Bend] }
     
 }
+
+

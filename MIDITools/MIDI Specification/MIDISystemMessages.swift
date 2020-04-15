@@ -39,34 +39,7 @@ public enum MIDISystemTypes : UInt8, MIDIEnumeration {
     ]
     
     public static let _unknown : MIDISystemTypes = .UNKNOWN
-    
-    public static func parse(_ bytes : OffsetArray<UInt8>) throws -> MIDIMessageDescription {
-        guard bytes.count > 0 else { throw MIDIMessageError.NoContent }
-        
-        let command=MIDISystemTypes(bytes[0])
-        let out = MIDIMessageDescription()
-        out[.SystemCommand] = command
-        switch command {
-        case .SysEx:
-            let cmds = try MIDISysExTypes.parse(bytes.shift(1)) 
-            out.append(cmds)
-        case .TimeCode:
-            let cmds = try MIDITimeCodeTypes.parse(bytes.shift(1))
-            out.append(cmds)
-        case .Tune, .EndSysEx, .TimingClock, .Start, .Continue, .Stop, .ActiveSensing, .SystemReset :
-            break
-        case .SongSelect :
-            guard bytes.count >= 1 else { throw MIDIMessageError.NoContent }
-            out[.Song]=bytes[1]
-        case .SongPosition :
-            guard bytes.count >= 2 else { throw MIDIMessageError.NoContent }
-            out[.SongPositionLO]=bytes[1]
-            out[.SongPositionHI]=bytes[2]
-        default:
-            return MIDIMessageDescription()
-        }
-        return out
-    }
+    public static func parse(_: OffsetArray<UInt8>) throws -> MIDIDict { throw MIDIPacketError.BadMessageDescription }
 }
 
 public enum MIDITimeCodeTypes : UInt8, MIDIEnumeration {
@@ -98,15 +71,14 @@ public enum MIDITimeCodeTypes : UInt8, MIDIEnumeration {
         self = MIDITimeCodeTypes.init(rawValue: cmd & 0xf0) ?? MIDITimeCodeTypes._unknown
     }
     
-    public static func parse(_ bytes : OffsetArray<UInt8>) throws -> MIDIMessageDescription {
+    public static func parse(_ bytes : OffsetArray<UInt8>) throws -> MIDIDict {
         guard bytes.count>0 else { throw MIDIMessageError.NoContent }
-        let out=MIDIMessageDescription()
+        let out=MIDIDict()
         out[.TimeCode]=MIDITimeCodeTypes(bytes[0]&0xf0)
         out[.Value]=bytes[0]&0x0f
         return out
     }
 }
-
 
 
 

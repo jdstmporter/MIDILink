@@ -8,7 +8,7 @@
 
 import Cocoa
 import CoreMIDI
-import MIDITools
+
 
 
 public class MIDIEndPointHandler : NSResponder, NSTableViewDataSource, NSTableViewDelegate {
@@ -137,7 +137,7 @@ public class MIDIEndPointHandler : NSResponder, NSTableViewDataSource, NSTableVi
         return select(registered.index(of: uid) ?? -1)
     }
     @discardableResult internal func select(_ row : Int) -> Bool {
-        if let item = registered.at(row), let cell = cells[item.uid] {
+        if let item = registered.at(row), let cell = cells[item.value.uid] {
             if cell.isSelected {
                 clicked = nil
                 clickedIndex = nil
@@ -145,7 +145,7 @@ public class MIDIEndPointHandler : NSResponder, NSTableViewDataSource, NSTableVi
                 return false
             }
            else {
-                clicked = item.uid
+                clicked = item.value.uid
                 cells.forEach { $0.value.setState(.Selected,clicked) }
                 clickedIndex = row
                 return true
@@ -208,9 +208,9 @@ public class MIDIEndPointHandler : NSResponder, NSTableViewDataSource, NSTableVi
     public func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if let wrapper=registered.at(row), let tableColumn=tableColumn {
             let column : String = tableColumn.title
-            let uid=wrapper.uid
+            let uid=wrapper.value.uid
             if let cellSet = cells[uid] {
-                cellSet.Active=wrapper.isActive
+                cellSet.Active=wrapper.value.isActive
                 let cell = cellSet[column]
                 cell?.backgroundColor = cellSet.background
                 return cell

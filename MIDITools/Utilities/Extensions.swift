@@ -34,22 +34,6 @@ extension DispatchTime {
         self.init(uptimeNanoseconds: n.uptimeNanoseconds+d)
     }
     
-    init(fromNowForMIDIPacket p: MIDIPacket,withOffsetInSeconds o : Float = 0) {
-        let n=DispatchTime.now()
-        let o1=UInt64(o*1.0e9)
-        let o2=p.timeStamp
-        self.init(uptimeNanoseconds: n.uptimeNanoseconds+o1+o2)
-    }
-    
-    func offset(by o: Int) -> DispatchTime {
-        return DispatchTime(uptimeNanoseconds: uptimeNanoseconds.advanced(by: o))
-    }
-    
-    func offset(by f: Float) -> DispatchTime {
-        return offset(by: Int(f*1.0e9))
-    }
-
-    
     var timestamp : MIDITimeStamp { return uptimeNanoseconds }
     
 }
@@ -67,13 +51,7 @@ enum MIDIPacketError : Error {
 }
 
 extension MIDIPacket {
-    
-    public init(_ d : MIDIMessageDescription,timestamp: MIDITimeStamp) throws {
-        let bytes = try d.bytes()
-        self.init(timeStamp: timestamp, bytes: bytes, length: numericCast(bytes.count))
-    }
-    
-
+ 
     var dataArray : [UInt8] {
         get {
             var d=self.data
@@ -96,13 +74,7 @@ extension MIDIPacket {
 }
 
 extension Int {
-    
-    func toBytes() -> [UInt8] {
-        var s=self
-        let p=conv(length:MemoryLayout<Int>.size,&s)
-        return Array<UInt8>(p.reversed())
-    }
-    
+   
     static func fromBytes(_ b: [UInt8]) -> Int {
         var s : Int = 0
         let length=MemoryLayout<Int>.size
@@ -124,12 +96,6 @@ extension Int {
     
 }
 
-extension UInt32 {
-    var bytes : [UInt8] {
-        let out=(0..<4).map { UInt8(self>>UInt32(8*$0)) & UInt8(0xff) }
-        return out.reversed()
-    }
-}
 
 extension UInt8 {
     public func hex() -> String { return String(format: "%02x", self) }
@@ -151,15 +117,11 @@ extension UInt8 {
 }
 
 extension String {
-    
-    
-    
+  
     var range: NSRange {
         return NSRange(location: 0, length: count)
     }
-    
-    
-    
+   
     func camelToSpaced() -> String {
         if count < 1 { return self}
         let regexp=try! NSRegularExpression(pattern: "([A-Z].)")

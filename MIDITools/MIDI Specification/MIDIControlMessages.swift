@@ -25,24 +25,29 @@ public protocol TransformerProtocol {
 }
 
 public struct Bool64 : TransformerProtocol {
-    public subscript(_ x: UInt8) -> String? { return x >= 64 ? "ON" : "OFF"  }
-    public subscript(_ x: String?) -> UInt8 { return x == "ON" ? 64 : 0 }
+    public subscript(_ x: UInt8) -> String? { x >= 64 ? "ON" : "OFF"  }
+    public subscript(_ x: String?) -> UInt8 { x == "ON" ? 64 : 0 }
+
 }
 public struct Bool127 : TransformerProtocol {
-    public subscript(_ x: UInt8) -> String? { return x == 127 ? "ON" : "OFF"  }
-    public subscript(_ x: String?) -> UInt8 { return x == "ON" ? 127 : 0 }
+    public subscript(_ x: UInt8) -> String? { x == 127 ? "ON" : "OFF"  }
+    public subscript(_ x: String?) -> UInt8 { x == "ON" ? 127 : 0 }
+    
 }
 public struct BoolTrue : TransformerProtocol {
-    public subscript(_ x: UInt8) -> String? { return "ON"  }
-    public subscript(_ x: String?) -> UInt8 { return 127 }
+    public subscript(_ x: UInt8) -> String? { "ON"  }
+    public subscript(_ x: String?) -> UInt8 { 127 }
+    
 }
 public struct BoolFalse : TransformerProtocol {
-    public subscript(_ x: UInt8) -> String? { return "OFF"  }
-    public subscript(_ x: String?) -> UInt8 { return 0 }
+    public subscript(_ x: UInt8) -> String? { "OFF"  }
+    public subscript(_ x: String?) -> UInt8 {  0 }
+    
 }
 public struct NULL: TransformerProtocol {
-    public subscript(_ x: UInt8) -> String? { return nil  }
-    public subscript(_ x: String?) -> UInt8 { return 255 }
+    public subscript(_ x: UInt8) -> String? { nil  }
+    public subscript(_ x: String?) -> UInt8 { 255 }
+    
 }
 
 
@@ -88,7 +93,7 @@ public enum MIDIControlMessageTransformation : CaseIterable {
 
 public enum MIDIControlMessages : UInt8, MIDIEnumeration {
     
-    public static func parse(_ : OffsetArray<UInt8>) throws -> MIDIMessageDescription {
+    public static func parse(_ : OffsetArray<UInt8>) throws -> MIDIDict {
         throw MIDIMessageError.BadPacket
     }
     
@@ -275,14 +280,14 @@ public enum MIDIControlMessages : UInt8, MIDIEnumeration {
     ]
     
     public var transformer : TransformerProtocol? {
-        return MIDIControlMessages.transform[self]?.transformer
+        return MIDIControlMessages.transformers[self]
     }
     
     public var transform : MIDIControlMessageTransformation {
         return MIDIControlMessages.transform[self] ?? .Byte
     }
     
-    public var needsValue : Bool { return transform != .Null }
+    public var needsValue : Bool { transform != .Null }
     
     
 }

@@ -69,7 +69,7 @@ public class MIDIDecoderBase : Sequence {
         
     }
     
-    public var content : [MIDIMessageDescription] {
+    public var content : [MIDIDict] {
         return messages.map { $0.parsed }
     }
 

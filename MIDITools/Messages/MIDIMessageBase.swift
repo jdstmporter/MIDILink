@@ -12,7 +12,7 @@ import CoreMIDI
 
 
 
-protocol MIDIEnumeration : RawRepresentable, Serialisable, CaseIterable, Hashable, Comparable where RawValue == UInt8, AllCases == [Self] {
+protocol MIDIEnumeration : RawRepresentable, Nameable, CaseIterable, Hashable, Comparable where RawValue == UInt8, AllCases == [Self] {
     
     static var _unknown : Self { get }
     static var names : [Self:String] { get }
@@ -23,7 +23,7 @@ protocol MIDIEnumeration : RawRepresentable, Serialisable, CaseIterable, Hashabl
     init(_ : RawValue)
     init?(_ : String)
     static func has(_ : UInt8) -> Bool
-    static func parse(_ : OffsetArray<UInt8>) throws -> MIDIMessageDescription
+    static func parse(_ : OffsetArray<UInt8>) throws -> MIDIDict
     
 }
 

@@ -14,8 +14,8 @@ import CoreMIDI
 
 public protocol MIDIMessageContent {
     var Timestamp : String {get}
-    var Command : Serialisable {get}
-    var Channel : Serialisable {get}
+    var Command : Nameable {get}
+    var Channel : Nameable {get}
 }
 
 
@@ -26,30 +26,20 @@ public class MIDIMessage : MIDIMessageContent, CustomStringConvertible {
     
     public let packet : MIDIPacket
     private let timebase : TimeStandard!
-    public let parsed : MIDIMessageDescription 
+    public let parsed : MIDIDict
     public let timestamp : MIDITimeStamp
     
     public init(_ p: MIDIPacket, timebase: TimeStandard? = nil) throws {
        
         self.packet=p
         self.timebase = timebase
-        self.parsed = try MIDIMessageDescription(p)
+        self.parsed = try MIDIMessageParser(p).dict
         self.timestamp = p.timeStamp
     }
     
-    public init(_ d : MIDIMessageDescription, timebase: TimeStandard? = nil) throws {
-        self.parsed = d
-        self.timebase = timebase
-        self.timestamp = TimeStandard.now
-        self.packet = try MIDIPacket(timeStamp: self.timestamp, bytes: self.parsed.bytes())
-    }
     
-    public convenience init(_ d : MIDIDict, timebase: TimeStandard? = nil) throws {
-        try self.init(MIDIMessageDescription(d),timebase: timebase)
-    }
-    
-    public var Channel : Serialisable { return self.parsed[.Channel] ?? "-" }
-    public var Command : Serialisable { return self.parsed[.Command] ?? MIDICommandTypes.UNKNOWN  }
+    public var Channel : Nameable { return self.parsed[.Channel] ?? "-" }
+    public var Command : Nameable { return self.parsed[.Command] ?? MIDICommands.UNKNOWN  }
     public var Timestamp : String { return timebase?.convert(packet.timeStamp) ?? "-" }
     public var Raw : [UInt8] { return packet.dataArray }
     

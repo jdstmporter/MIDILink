@@ -8,7 +8,7 @@
 
 import Cocoa
 import CoreMIDI
-import MIDITools
+
 
 @dynamicMemberLookup
 public class Lookup<Key, Value> where Key : NamedEnumeration {
@@ -137,6 +137,8 @@ internal class RowCellSet {
     @objc func handler(_ sender : NSButton) {
         cb(uid,switchCell.boolValue)
     }
+    
+    
     
     
     

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct MIDIControlMessage : Serialisable {
+public struct MIDIControlMessage : Nameable {
     
     public let command : MIDIControlMessages
     public let value : UInt8?
@@ -27,12 +27,12 @@ public struct MIDIControlMessage : Serialisable {
         try self.init(b0,b1)
     }
     public init(_ command : MIDIControlMessages, _ value : String?) throws {
-        guard let transformer = command.transform.transformer else { throw MIDIMessageError.BadPacket }
+        guard let transformer = command.transformer else { throw MIDIMessageError.BadPacket }
         try self.init(command.raw,transformer[value])
     }
     
     
-    public var interpretedValue : Serialisable? {
+    public var interpretedValue : Nameable? {
         guard let value = self.value else { return nil }
         guard let transformer = self.command.transformer else { return value.str }
         return transformer[value]
@@ -44,3 +44,4 @@ public struct MIDIControlMessage : Serialisable {
     }
     
 }
+

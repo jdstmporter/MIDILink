@@ -21,9 +21,9 @@ public enum MIDISysExTypes : UInt8, MIDIEnumeration {
     ]
     public static let _unknown : MIDISysExTypes = .UNKNOWN
     
-    public static func parse(_ bytes : OffsetArray<UInt8>) throws -> MIDIMessageDescription {
+    public static func parse(_ bytes : OffsetArray<UInt8>) throws -> MIDIDict {
         guard bytes.count >= 2 else { throw MIDIMessageError.NoContent }
-        let out = MIDIMessageDescription()
+        let out = MIDIDict()
         let command = MIDISysExTypes(bytes[0])
         
         switch command {
@@ -92,11 +92,11 @@ public enum MIDISysExNonRealTimeTypes : UInt8, MIDIEnumeration {
     
     public static let _unknown : MIDISysExNonRealTimeTypes = .UNKNOWN
     
-    public static func parse(_ bytes : OffsetArray<UInt8>) throws -> MIDIMessageDescription {
+    public static func parse(_ bytes : OffsetArray<UInt8>) throws -> MIDIDict {
         guard bytes.count > 0 else { throw MIDIMessageError.NoContent }
         
         let command=MIDISysExNonRealTimeTypes(bytes[0])
-        let out = MIDIMessageDescription()
+        let out = MIDIDict()
         out[.SysExSubID1] = command
         switch command {
         case .Timecode, .SampleDumpExtensions, .Information, .FileDump, .Tuning, .General, .DownloadableSounds, .FileReference, .Visual, .Capability:
@@ -107,7 +107,7 @@ public enum MIDISysExNonRealTimeTypes : UInt8, MIDIEnumeration {
         case .SampleDumpHeader, .SampleDumpPacket, .SampleDumpRequest :
             out[.SysExData]="..."
         default:
-            return MIDIMessageDescription()
+            return MIDIDict()
         }
         return out
     }
@@ -149,18 +149,18 @@ public enum MIDISysExRealTimeTypes : UInt8, MIDIEnumeration {
     
     public static let _unknown : MIDISysExRealTimeTypes = .UNKNOWN
     
-    public static func parse(_ bytes : OffsetArray<UInt8>) throws  -> MIDIMessageDescription {
+    public static func parse(_ bytes : OffsetArray<UInt8>) throws  -> MIDIDict {
         guard bytes.count > 0 else { throw MIDIMessageError.NoContent }
         
         let command=MIDISysExRealTimeTypes(bytes[0])
-        let out = MIDIMessageDescription()
+        let out = MIDIDict()
         out[.SysExSubID1] = command
         switch command {
         case .Timecode, .ShowControl, .Information, .Device, .Cueing, .MachineCommands, .MachineResponses, .Tuning, .Destination, .KeyBased, .ScalablePolyphony, .Mobile:
             guard bytes.count >= 2 else { throw MIDIMessageError.NoContent }
             out[.SysExSubID2]=bytes[1]
         default:
-            return MIDIMessageDescription()
+            return MIDIDict()
         }
         return out
     }

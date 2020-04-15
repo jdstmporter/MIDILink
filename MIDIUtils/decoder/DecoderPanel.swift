@@ -8,7 +8,7 @@
 
 import Cocoa
 import AppKit
-import MIDITools
+
 import CoreMIDI
 
 

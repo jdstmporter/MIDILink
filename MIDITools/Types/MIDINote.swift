@@ -18,7 +18,7 @@ extension NSTextCheckingResult {
 }
 
 
-public struct MIDINote : CustomStringConvertible, Equatable, Comparable, Serialisable {
+public struct MIDINote : CustomStringConvertible, Equatable, Comparable, Nameable {
     
     private static let names = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
     private static let regex=try! NSRegularExpression(pattern: "([a-zA-Z]{1}[#]?)([-]?[0-9]+)", options: [])

@@ -39,7 +39,7 @@ public class KVPair<K,V>  : CustomStringConvertible where K : Hashable {
 }
 
 
-public class OrderedDictionary<K,V> : Sequence where K : Hashable, K : CustomStringConvertible {
+public class OrderedDictionary<K,V> : Sequence, CustomStringConvertible where K : Hashable, K : CustomStringConvertible {
     fileprivate var dict : [K:V] = [:]
     fileprivate var order : [K] = []
     
@@ -84,6 +84,17 @@ public class OrderedDictionary<K,V> : Sequence where K : Hashable, K : CustomStr
         guard let v = dict[k] else { return nil }
         return KVPair(k,v)
     }
+    public func index(of key : K) -> Int? { return order.firstIndex(of: key) }
+    public var isEmpty : Bool { return order.isEmpty }
+    public func removeAll() {
+        dict.removeAll()
+        order.removeAll()
+    }
+    public func remove(key: K) {
+        order = order.filter { $0 != key }
+        dict.removeValue(forKey: key)
+    }
+    
     
     public subscript(_ key : K) -> V? {
         get { return dict[key] }
@@ -99,9 +110,14 @@ public class OrderedDictionary<K,V> : Sequence where K : Hashable, K : CustomStr
         }
     }
     
+    public var keySet : Set<K> { return Set(order) }
+    public func has(_ k : K) -> Bool { return order.contains(k) }
+    
     public __consuming func makeIterator() -> OrderedDictionary<K, V>.Iterator {
         return Iterator(self)
     }
+    
+    public var description: String { self.map { $0.description }.joined(separator:", ") }
 }
 
 

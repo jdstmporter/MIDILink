@@ -105,8 +105,7 @@ public class MIDIThru : CustomStringConvertible {
                                               filterOutAllControls: 0, numControlTransforms: 0, numMaps: 0, reserved3: (0,0,0,0))
         
         let size = MemoryLayout<MIDIThruConnectionParams>.size(ofValue: params)
-        let ptr = UnsafeMutableRawPointer(&params)
-        let data = Data(bytes: ptr, count: size)
+        let data = withUnsafeMutableBytes(of: &params) { Data(bytes: $0.baseAddress!, count: size) }
         
         var ref : MIDIThruConnectionRef = 0
         let out = MIDIThruConnectionCreate(MIDIThru.ownerID as CFString, data as CFData, &ref)

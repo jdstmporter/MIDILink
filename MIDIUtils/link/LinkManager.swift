@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import MIDITools
+
 import CoreMIDI
 
 public class LinkedEndpoints {

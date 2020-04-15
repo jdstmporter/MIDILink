@@ -7,8 +7,10 @@
 //
 
 import Cocoa
-import MIDITools
+
 import CoreMIDI
+
+
 
 class Controller : NSViewController {
     
@@ -44,12 +46,16 @@ class Controller : NSViewController {
         let tracker=NSTrackingArea(rect: sources.bounds, options: .mouseEnteredAndExited, owner: sDelegate)
         sources.addTrackingArea(tracker)
     }
+    override func viewDidAppear() {
+    }
     
     
      func scanForEndPoints() {
         debugPrint("Loading view controller")
         reloadAction(self)
     }
+    
+
     
     @IBAction func clickedAction(_ sender : Any) {
         if let t = sender as? NSTableView {
@@ -65,6 +71,8 @@ class Controller : NSViewController {
         self.fixButton()
         
     }
+    
+    
     
     private func fixButton() {
         var text : String? = nil
@@ -150,8 +158,8 @@ class Controller : NSViewController {
             DispatchQueue.main.async {
                 self.sources?.reloadData()
                 self.destinations?.reloadData()
-                self.sources?.setNeedsDisplay()
-                self.destinations?.setNeedsDisplay()
+                self.sources?.needsDisplay=true
+                self.destinations?.needsDisplay=true
             }
             
         }
