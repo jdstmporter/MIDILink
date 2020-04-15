@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:../../../../git/eventHost/eventHost.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:MIDILink.xcodeproj">
    </FileRef>
 </Workspace>

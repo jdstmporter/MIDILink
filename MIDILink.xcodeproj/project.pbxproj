@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E111A45624479625003DD99C /* MIDIUtils.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1CB5069225AB8AF00F0DDED /* MIDIUtils.app */; };
 		E15293DB22CEB298006AB313 /* indicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15293DA22CEB298006AB313 /* indicator.swift */; };
 		E179DF8422ECFDFC003B108C /* TableSelectEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179DF8322ECFDFC003B108C /* TableSelectEvent.swift */; };
 		E196F8DA244129EF00C8C7DD /* MIDITimeStandard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C596226D1C3A00E48557 /* MIDITimeStandard.swift */; };
@@ -66,6 +67,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		E111A45524479605003DD99C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /Applications/Music/MIDI;
+			dstSubfolderSpec = 0;
+			files = (
+				E111A45624479625003DD99C /* MIDIUtils.app in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E1FA32C8225BD35C008FE734 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -101,9 +112,6 @@
 		E192C5A7226D1C3A00E48557 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		E192C5A8226D1C3A00E48557 /* Atomic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
 		E196F8F5244249DE00C8C7DD /* MIDISysEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDISysEx.swift; sourceTree = "<group>"; };
-		E196F8F8244624D500C8C7DD /* Mouse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mouse.swift; sourceTree = "<group>"; };
-		E196F8FA2446250600C8C7DD /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
-		E196F8FC2447931C00C8C7DD /* EventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
 		E198683522D53F8600EB60C6 /* midi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = midi.png; sourceTree = "<group>"; };
 		E198683722D53FFF00EB60C6 /* DIN-5_Diagram.svg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DIN-5_Diagram.svg.png"; sourceTree = "<group>"; };
 		E198683922D5414C00EB60C6 /* midi64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = midi64.png; sourceTree = "<group>"; };
@@ -120,7 +128,6 @@
 		E1BB33B1231C821A0036B0F1 /* MIDIControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIControl.swift; sourceTree = "<group>"; };
 		E1CB503F2259197400F0DDED /* MIDITools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIDITools.h; sourceTree = "<group>"; };
 		E1CB50402259197400F0DDED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E1CB505E225AA0A200F0DDED /* MIDITools.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = MIDITools.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		E1CB5060225AA35200F0DDED /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		E1CB5063225AB85A00F0DDED /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		E1CB5069225AB8AF00F0DDED /* MIDIUtils.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MIDIUtils.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,7 +136,6 @@
 		E1CB5070225AB8B000F0DDED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		E1CB5072225AB8B000F0DDED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1CB5073225AB8B000F0DDED /* MIDIUtils.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MIDIUtils.entitlements; sourceTree = "<group>"; };
-		E1CB5077225AB8DB00F0DDED /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		E1CB507C225ABC0600F0DDED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu2.xib; sourceTree = "<group>"; };
 		E1CB507E225ABC6800F0DDED /* Controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
 		E1CB5080225ABC9200F0DDED /* EndPointDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndPointDelegate.swift; sourceTree = "<group>"; };
@@ -233,16 +239,6 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		E196F8F7244624BA00C8C7DD /* events */ = {
-			isa = PBXGroup;
-			children = (
-				E196F8F8244624D500C8C7DD /* Mouse.swift */,
-				E196F8FA2446250600C8C7DD /* Modifiers.swift */,
-				E196F8FC2447931C00C8C7DD /* EventView.swift */,
-			);
-			path = events;
-			sourceTree = "<group>";
-		};
 		E198683422D53F6700EB60C6 /* images */ = {
 			isa = PBXGroup;
 			children = (
@@ -340,7 +336,6 @@
 		E1CB510D225AC37B00F0DDED /* main */ = {
 			isa = PBXGroup;
 			children = (
-				E196F8F7244624BA00C8C7DD /* events */,
 				E1CB5082225ABC9B00F0DDED /* RowCellSet.swift */,
 				E1CB5080225ABC9200F0DDED /* EndPointDelegate.swift */,
 				E1CB507E225ABC6800F0DDED /* Controller.swift */,
@@ -363,8 +358,6 @@
 			isa = PBXGroup;
 			children = (
 				E179DF8522EE6F06003B108C /* TODO.md */,
-				E1CB5077225AB8DB00F0DDED /* Podfile */,
-				E1CB505E225AA0A200F0DDED /* MIDITools.podspec */,
 				E1CB503E2259197400F0DDED /* MIDITools */,
 				E1CB506A225AB8AF00F0DDED /* MIDIUtils */,
 				E1DA4A541CCFA51A00FAE94E /* Products */,
@@ -400,6 +393,7 @@
 				E1CB5066225AB8AF00F0DDED /* Frameworks */,
 				E1CB5067225AB8AF00F0DDED /* Resources */,
 				E1FA32C8225BD35C008FE734 /* Embed Frameworks */,
+				E111A45524479605003DD99C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -562,10 +556,12 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = XLKATCU397;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = MIDIUtils/Info.plist;
+				INSTALL_PATH = "$(LOCAL_APPS_DIR)/Music/MIDI";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -591,10 +587,12 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = XLKATCU397;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = MIDIUtils/Info.plist;
+				INSTALL_PATH = "$(LOCAL_APPS_DIR)/Music/MIDI";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = solutions.jpembedded.MIDITools;
