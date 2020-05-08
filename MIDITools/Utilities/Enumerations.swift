@@ -12,6 +12,7 @@ public protocol Nameable {
     var str : String { get }
 }
 
+
 extension UInt32 : Nameable {
     var hex : String {
         return String(format: "%08x",self)
@@ -35,7 +36,7 @@ extension UInt64: Nameable { public var str : String { "\(self)" }}
 extension String : Nameable { public var str : String { self } }
 extension Bool : Nameable { public var str : String { self ? "ON" : "OFF" } }
 
-public protocol NameableEnumeration : CaseIterable, Hashable {
+public protocol NameableEnumeration : CaseIterable, Hashable, Nameable {
     var name : String { get }
     init?(_ : String)
 }
@@ -46,17 +47,17 @@ extension NameableEnumeration {
         if let item = (Self.allCases.first { $0.name==name }) { self=item }
         else { return nil }
     }
+    public var str : String { name }
 }
 
-public protocol NamedEnumeration : NameableEnumeration {
+public protocol StaticNamedEnumeration : NameableEnumeration {
     
     static var names : [Self:String] { get }
 }
 
-extension NamedEnumeration {
+extension StaticNamedEnumeration {
     
     public var name : String { return Self.names[self] ?? "" }
-    public var str : String { return self.name }
     
     
 }

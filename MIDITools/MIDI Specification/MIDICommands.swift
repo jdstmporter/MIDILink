@@ -22,7 +22,7 @@ public enum MIDICommands : UInt8, MIDIEnumeration {
     case SystemMessage   = 0xf0
     case UNKNOWN         = 0
     
-     static let names : [MIDICommands:String] = [
+    public  static let names : [MIDICommands:String] = [
         .NoteOffEvent    : "Note Off",
         .NoteOnEvent     : "Note On",
         .KeyPressure     : "Key Pressure",
@@ -45,7 +45,7 @@ public enum MIDICommands : UInt8, MIDIEnumeration {
     
 }
 
-public enum MIDITerms : NameableEnumeration, CustomStringConvertible {
+public enum MIDITerms : NameableEnumeration {
     
     case Command
     case Channel
@@ -73,8 +73,7 @@ public enum MIDITerms : NameableEnumeration, CustomStringConvertible {
     
     
     public var name : String { return "\(self)" }
-    public var str : String { return name }
-    public var description: String { return name }
+    
 }
 
 public typealias MIDIDict = OrderedDictionary<MIDITerms,Nameable>

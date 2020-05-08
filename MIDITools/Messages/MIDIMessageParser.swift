@@ -20,6 +20,8 @@ public enum MIDIMessageError : Error {
     case BadBend
 }
 
+
+
 public class MIDIMessageParser : CustomStringConvertible, Sequence {
     public typealias Iterator = MIDIDict.Iterator
     
@@ -43,20 +45,20 @@ public class MIDIMessageParser : CustomStringConvertible, Sequence {
             guard bytes.count >= 3 else { throw MIDIMessageError.BadPacket }
             out[.Channel]=channel
             out[.Note]=MIDINote(bytes[1])
-            out[.Velocity]=bytes[2]
+            out[.Velocity]=MIDIVelocity(bytes[2])
         case .KeyPressure:
             guard bytes.count >= 3 else { throw MIDIMessageError.BadPacket }
             out[.Channel]=channel
             out[.Note]=MIDINote(bytes[1])
-            out[.Pressure]=bytes[2]
+            out[.Pressure]=MIDIPressure(bytes[2])
         case .ProgramChange:
             guard bytes.count >= 2 else { throw MIDIMessageError.BadPacket }
             out[.Channel]=channel
-            out[.Program]=bytes[1]
+            out[.Program]=MIDIProgram(bytes[1])
         case .ChannelPressure:
             guard bytes.count >= 2 else { throw MIDIMessageError.BadPacket }
             out[.Channel]=channel
-            out[.Pressure]=bytes[1]
+            out[.Pressure]=MIDIPressure(bytes[1])
         case .PitchBend:
             guard bytes.count >= 3 else { throw MIDIMessageError.BadPacket }
             out[.Channel]=channel

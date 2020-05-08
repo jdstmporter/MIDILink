@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E111A45624479625003DD99C /* MIDIUtils.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1CB5069225AB8AF00F0DDED /* MIDIUtils.app */; };
 		E15293DB22CEB298006AB313 /* indicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15293DA22CEB298006AB313 /* indicator.swift */; };
 		E179DF8422ECFDFC003B108C /* TableSelectEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E179DF8322ECFDFC003B108C /* TableSelectEvent.swift */; };
 		E196F8DA244129EF00C8C7DD /* MIDITimeStandard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E192C596226D1C3A00E48557 /* MIDITimeStandard.swift */; };
@@ -67,16 +66,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		E111A45524479605003DD99C /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /Applications/Music/MIDI;
-			dstSubfolderSpec = 0;
-			files = (
-				E111A45624479625003DD99C /* MIDIUtils.app in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E1FA32C8225BD35C008FE734 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -393,7 +382,6 @@
 				E1CB5066225AB8AF00F0DDED /* Frameworks */,
 				E1CB5067225AB8AF00F0DDED /* Resources */,
 				E1FA32C8225BD35C008FE734 /* Embed Frameworks */,
-				E111A45524479605003DD99C /* CopyFiles */,
 			);
 			buildRules = (
 			);

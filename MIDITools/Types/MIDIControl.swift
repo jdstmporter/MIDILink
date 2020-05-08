@@ -39,7 +39,7 @@ public struct MIDIControlMessage : Nameable {
     }
     
     public var str : String {
-        if let interpreted = interpretedValue { return "\(self.command) = \(interpreted)" }
+        if let interpreted = interpretedValue { return "\(command) = \(interpreted)" }
         else { return "\(self.command)" }
     }
     

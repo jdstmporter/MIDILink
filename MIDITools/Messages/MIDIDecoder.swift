@@ -16,12 +16,6 @@ public protocol MIDIDecoderInterface {
     func unlink();
 }
 
-
-
-
-
-
-
 public class MIDIDecoderBase : Sequence {
     
     public var action : (() -> Void)!

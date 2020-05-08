@@ -12,7 +12,7 @@ import CoreMIDI
 
 
 
-protocol MIDIEnumeration : RawRepresentable, Nameable, CaseIterable, Hashable, Comparable where RawValue == UInt8, AllCases == [Self] {
+protocol MIDIEnumeration : RawRepresentable, StaticNamedEnumeration, Comparable where RawValue == UInt8, AllCases == [Self] {
     
     static var _unknown : Self { get }
     static var names : [Self:String] { get }
@@ -29,8 +29,7 @@ protocol MIDIEnumeration : RawRepresentable, Nameable, CaseIterable, Hashable, C
 
 extension MIDIEnumeration {
     public var raw : UInt8 { return self.rawValue }
-    public var name : String { return Self.names[self] ?? "" }
-    public var str : String { return self.name }
+    
     
     public func hash(into hasher: inout Hasher) {
         self.rawValue.hash(into: &hasher)

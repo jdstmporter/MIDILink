@@ -74,11 +74,7 @@ public typealias MIDIPair = (source:MIDIBase,destination:MIDIBase)
 
 
 public class MIDIEndpoint : MIDIBase {
-    
-    
-    
-    
-    
+ 
     internal var entity : MIDIEntity?
     
     public init(fromUID u: MIDIUniqueID) throws {

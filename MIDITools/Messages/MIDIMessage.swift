@@ -38,15 +38,22 @@ public class MIDIMessage : MIDIMessageContent, CustomStringConvertible {
     }
     
     
-    public var Channel : Nameable { return self.parsed[.Channel] ?? "-" }
-    public var Command : Nameable { return self.parsed[.Command] ?? MIDICommands.UNKNOWN  }
-    public var Timestamp : String { return timebase?.convert(packet.timeStamp) ?? "-" }
-    public var Raw : [UInt8] { return packet.dataArray }
+    public var Channel : Nameable { self.parsed[.Channel] ?? "-" }
+    public var Command : Nameable { self.parsed[.Command] ?? MIDICommands.UNKNOWN  }
+    public var Timestamp : String { timebase?.convert(packet.timeStamp) ?? "-" }
+    public var Raw : [UInt8] { packet.dataArray }
     
+    public static let exclude : [MIDITerms] = [.Command, .Channel]
 
     
-    public var description: String { return "\(Timestamp) : \(parsed)" }
-    public var shortDescription: String { return parsed.description }
+    public var description: String { "\(Timestamp) : \(parsed)" }
+    public var shortDescription: String { parsed.description }
+    public var parameters: String {
+        parsed.compactMap { kv in
+            guard !MIDIMessage.exclude.contains(kv.key) else {return nil }
+            return kv.value.str
+        }.joined(separator: ", ")
+    }
     
     public subscript(field: String) -> String? {
         let mirror=Mirror.init(reflecting: self)

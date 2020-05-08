@@ -27,7 +27,7 @@ public class OffsetArray<T> {
 }
 
 
-public class KVPair<K,V>  : CustomStringConvertible where K : Hashable {
+public class KVPair<K,V>  : CustomStringConvertible where K : Hashable, K: Nameable {
     public let key : K
     public let value : V
     
@@ -35,11 +35,11 @@ public class KVPair<K,V>  : CustomStringConvertible where K : Hashable {
         self.key=key
         self.value=value
     }
-    public var description: String { return "\(key) = \(value)" }
+    public var description: String { return "\(key.str) = \(value)" }
 }
 
 
-public class OrderedDictionary<K,V> : Sequence, CustomStringConvertible where K : Hashable, K : CustomStringConvertible {
+public class OrderedDictionary<K,V> : Sequence, CustomStringConvertible where K : Hashable, K : Nameable {
     fileprivate var dict : [K:V] = [:]
     fileprivate var order : [K] = []
     

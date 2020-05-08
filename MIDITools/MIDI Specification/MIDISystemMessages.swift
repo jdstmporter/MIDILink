@@ -23,7 +23,7 @@ public enum MIDISystemTypes : UInt8, MIDIEnumeration {
     case SystemReset        = 0xff
     case UNKNOWN            = 0x00
     
-    static let names : [MIDISystemTypes:String] = [
+    public  static let names : [MIDISystemTypes:String] = [
         .SysEx : "Exclusive",
         .TimeCode : "Time Code Quarter Frame",
         .SongPosition : "Song Position Pointer",

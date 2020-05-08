@@ -171,7 +171,7 @@ public enum MIDIControlMessages : UInt8, MIDIEnumeration {
     
     case UNKNOWN = 0xff
     
-     static let names : [MIDIControlMessages : String] = [
+    public static let names : [MIDIControlMessages : String] = [
         .BankSelectMSB : "Bank select MSB",
         .ModulationWheelMSB : "Modulation wheel MSB",
         .BreathControllerMSB : "Breath controller MSB",

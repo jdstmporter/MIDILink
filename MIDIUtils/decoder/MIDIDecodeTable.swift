@@ -56,7 +56,7 @@ class MIDIDecodeTable : NSObject, NSTableViewDataSource, NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         
         if tableColumn==nil { return nil }
-        let column = ["Timestamp","Packet","Channel","Description"].firstIndex(of: tableColumn!.title)
+        let column = ["Timestamp","Packet","Channel","Command","Description"].firstIndex(of: tableColumn!.title)
         if column==nil { return nil }
         
         guard let packet=decoder?[row] else { return nil }
@@ -74,9 +74,10 @@ class MIDIDecodeTable : NSObject, NSTableViewDataSource, NSTableViewDelegate {
         case "Channel":
             string.append(packet.Channel.str,colour: .blue)
             break
+        case "Command":
+            string.append(packet.Command.str,colour: .red)
         case "Description":
-            string.append(packet.Command.str+" ",colour: .red)
-            string.append("\(packet)",colour: .blue)
+            string.append(packet.parameters,colour: .blue)
             break
         default:
             return nil

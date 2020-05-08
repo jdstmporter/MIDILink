@@ -11,7 +11,7 @@ import CoreMIDI
 
 
 @dynamicMemberLookup
-public class Lookup<Key, Value> where Key : NamedEnumeration {
+public class Lookup<Key, Value> where Key : NameableEnumeration {
     
     private var dict : [Key:Value?]
     
@@ -59,7 +59,7 @@ internal class RowCellSet {
         .None : .clear
     ]
     
-    internal enum Cells : NamedEnumeration {
+    internal enum Cells : StaticNamedEnumeration {
         case Name
         case UID
         case Active

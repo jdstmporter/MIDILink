@@ -57,10 +57,10 @@ public struct MIDINote : CustomStringConvertible, Equatable, Comparable, Nameabl
         let offset : Int = numericCast(code)-MIDINote.A4Code
         return MIDINote.A4Freq*powf(MIDINote.minorSecond, Float(offset))
     }
-    public var note : String { return MIDINote.names[numericCast(self.duodecimal)] }
-    public var name : String { return "\(note)\(octave)" }
-    public var description: String { return "\(name) = \(code) = [\(octave),\(duodecimal)] = \(frequency)Hz" }
-    public var str : String { return name }
+    public var note : String { MIDINote.names[numericCast(self.duodecimal)] }
+    public var name : String { "\(note)\(octave)" }
+    public var str: String { "Note \(name) = \(code) = [\(octave),\(duodecimal)] = \(frequency)Hz" }
+    public var description : String { str }
     
     public static func ==(_ l : MIDINote,_ r : MIDINote) -> Bool { return l.code==r.code }
     public static func !=(_ l : MIDINote,_ r : MIDINote) -> Bool { return l.code != r.code }
