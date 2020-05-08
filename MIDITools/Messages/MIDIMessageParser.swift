@@ -97,19 +97,19 @@ public class MIDIMessageParser : CustomStringConvertible, Sequence {
             terms[key] = newValue
         }
     }
-    public var count : Int { return terms.count }
-    public func makeIterator() -> Iterator { return self.terms.makeIterator() }
-    public var description: String { return terms.map { $0.description }.joined(separator:", ") }
+    public var count : Int { terms.count }
+    public func makeIterator() -> Iterator { self.terms.makeIterator() }
+    public var description: String { terms.map { $0.description }.joined(separator:", ") }
     
-    public var command : MIDICommands? { return self[.Command] }
-    public var channel : UInt8? { return self[.Channel] }
-    public var note : MIDINote? { return self[.Note] }
-    public var velocity : UInt8? { return self[.Velocity] }
-    public var pressure : UInt8? { return self[.Pressure] }
-    public var control : MIDIControlMessages? { return self[.Control] }
-    public var value : UInt8? { return self[.Value] }
-    public var program : UInt8? { return self[.Program] }
-    public var bend : Bend? { return self[.Bend] }
+    public var command : MIDICommands? { self[.Command] }
+    public var channel : UInt8? { self[.Channel] }
+    public var note : MIDINote? { self[.Note] }
+    public var velocity : MIDIVelocity? { self[.Velocity] }
+    public var pressure : MIDIPressure? { self[.Pressure] }
+    public var control : MIDIControlMessages? { self[.Control] }
+    public var value : UInt8? { self[.Value] }
+    public var program : MIDIProgram? { self[.Program] }
+    public var bend : Bend? { self[.Bend] }
     
 }
 

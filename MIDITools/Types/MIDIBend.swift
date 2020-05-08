@@ -28,26 +28,26 @@ public struct Bend : Nameable {
         self.lo = numericCast(v&0x7f)
     }
     private var sgn : String { bend>0 ? "+" : "" }
-    public var str: String { return "Bend \(sgn)\(bend) (\(hi),\(lo))"}
+    public var str: String { "Bend \(sgn)\(bend) (\(hi),\(lo))"}
 }
 
 public class MIDIVelocity : Nameable {
     
     let velocity : UInt8
     init(_ v : UInt8) { self.velocity=v }
-    public var str: String { return "Velocity \(velocity)" }
+    public var str: String { "Velocity \(velocity)" }
 }
 
 public class MIDIPressure : Nameable {
     
     let pressure : UInt8
     init(_ v : UInt8) { self.pressure=v }
-    public var str: String { return "Pressure \(pressure)" }
+    public var str: String { "Pressure \(pressure)" }
 }
 
 public class MIDIProgram : Nameable {
     
     let program : UInt8
     init(_ v : UInt8) { self.program=v }
-    public var str: String { return "Program \(program)" }
+    public var str: String { "Program \(program)" }
 }
