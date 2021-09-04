@@ -1,14 +1,165 @@
 //
-//  MIDIListener.swift
-//  MIDI Utils
+//  connections.swift
+//  MIDI
 //
-//  Created by Julian Porter on 14/02/2017.
-//  Copyright © 2017 JP Embedded Solutions. All rights reserved.
+//  Created by Julian Porter on 20/07/2021.
+//  Copyright © 2021 JP Embedded Solutions. All rights reserved.
 //
 
-import Cocoa
-import CoreFoundation
+import Foundation
 import CoreMIDI
+
+
+
+    
+
+
+
+public class ActiveMIDIObject  {
+    
+    public var endpoint : MIDIBase
+    
+    public init(_ e : MIDIBase) throws {
+        endpoint=e
+    }
+    
+    public var name : String { return endpoint.name }
+    public var model : String { return endpoint.model }
+    public var manufacturer : String { return endpoint.manufacturer }
+    public var UID : String { return endpoint.UID }
+    public var isSource : Bool { return endpoint.isSource }
+    public var isDestination : Bool { return endpoint.isDestination }
+    public var mode : MIDIObjectMode { return endpoint.mode }
+    public var uid : MIDIUniqueID { return endpoint.uid }
+    public var Object : MIDIObjectRef { return endpoint.Object }
+    
+    public var isActive : Bool { return false }
+    public func process(_ packets: MIDIPacketList) {}
+    public func inject(_ packets: MIDIPacketList) throws {}
+    
+    public static func make(_ endpoint : MIDIBase) throws -> ActiveMIDIObject {
+        switch endpoint.mode {
+        case .source:
+            return try MIDISource(endpoint)
+        case .destination:
+            return try MIDIDestination(endpoint)
+        default:
+            throw MIDIError(reason: .CannotCreateApplication)
+        }
+    }
+    
+}
+
+public class MIDIDestination : ActiveMIDIObject {
+
+    public var port : MIDIOutputPort!
+    
+    public override init(_ e: MIDIBase) throws {
+        try e.test(reason: .CannotCreateApplication, .destination)
+        try super.init(e)
+        let client=try MIDIClient(endpoint: endpoint)
+        port = try MIDIOutputPort(client: client, endpoint: endpoint)
+        
+    }
+    
+    public override func inject(_ packets: MIDIPacketList) throws {
+        var p=packets
+        try port.send(packets: &p)
+    }
+}
+
+
+
+public class MIDISource : ActiveMIDIObject {
+    public typealias Callback = ([MIDIPacket]) -> Void
+    public typealias ActivityCallback = (MIDIUniqueID,Bool) -> Void
+    
+    private var listener : MIDIListener! = nil
+    private var decoder : MIDIDecoder! = nil
+    private var counter : AtomicInteger
+    private var active : AtomicBoolean
+    internal var filtered : Bool = true
+    
+    public var postProcessCallback : Callback?
+    public var activityCallback : ActivityCallback?
+    
+    public override init(_ e: MIDIBase) throws {
+        try e.test(reason: .CannotCreateApplication, .source)
+        counter=AtomicInteger()
+        active=AtomicBoolean()
+        try super.init(e)
+        
+        listener=try MIDIListener(endpoint: endpoint)
+        listener.callback = { self.process($0) }
+        try listener.bind()
+    }
+    
+    deinit {
+        listener.callback = nil
+        try? listener.unbind()
+    }
+    
+    public func startDecoding(interface : MIDIDecoderInterface) {
+        if decoder==nil { decoder=try? MIDIDecoder() }
+        guard decoder != nil else { return }
+        interface.link(decoder: decoder)
+    }
+    
+    public func stopDecoding() {
+        guard decoder != nil else { return }
+        decoder.disconnect()
+        decoder=nil
+    }
+    
+
+    
+    private func monitor(packets: [MIDIPacket]) {
+        if decoder != nil {
+            if decoder.count > 8192 { decoder.reset() }
+            decoder.load(packets: packets)
+        }
+        postProcessCallback?(packets)
+    }
+    
+    public override func process(_ packets : MIDIPacketList) {
+        if !isSource { return }
+        let p=packets.filter(realTime: filtered)
+        if p.count==0 { return }
+        
+        DispatchQueue.main.async {
+            let new=self.counter.increment()
+            self.active.value = new>0
+            //debugPrint("FIRE \(new) \(self.active.value)")
+            if new==1 {
+                self.activityCallback?(self.endpoint.uid,true)
+            }
+            self.monitor(packets: p)
+        }
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.getTime(fromNowInSeconds: 0.25), execute: {
+            let new=self.counter.decrement()
+            self.active.value=new>0
+            //debugPrint("UNFIRE \(new) \(self.active.value)")
+            if new==0 {
+                self.activityCallback?(self.endpoint.uid,false)
+            }
+            //self.monitor(packets: p)
+        })
+        
+    }
+    
+    public override var isActive: Bool { return active.value }
+}
+
+public func activateMIDIObject(_ endpoint: MIDIBase) throws -> ActiveMIDIObject {
+    switch endpoint.mode {
+    case .source:
+        return try MIDISource(endpoint)
+    case .destination:
+        return try MIDIDestination(endpoint)
+    default:
+        throw MIDIError(reason: .CannotCreateApplication)
+    }
+}
 
 
 
@@ -24,60 +175,8 @@ func activityCallback(_ pkts: UnsafePointer<MIDIPacketList>,_ rCon: UnsafeMutabl
     
 }
 
-func linkCallback(_ pkts: UnsafePointer<MIDIPacketList>,_ rCon: UnsafeMutableRawPointer?,_ sCon: UnsafeMutableRawPointer?) {
-    let p : UnsafeMutablePointer<MIDILinkState>? = rCon?.bindMemory(to: MIDILinkState.self, capacity: 1)
-    let state : MIDILinkState? = p?.pointee
-    if state == nil { return }
-    
-    try? state?.inject(packets: pkts)
-}
 
 
-public struct MIDILinkState {
-    var destination: MIDIObjectRef
-    var port : MIDIPortRef
-    
-    public init(destination: MIDIObjectRef = 0, port: MIDIPortRef = 0) {
-        self.destination=destination
-        self.port=port
-    }
-    
-    public func inject(packets: UnsafePointer<MIDIPacketList>) throws {
-        try WrapError(reason: .CannotSendPackets, block: { MIDISend(self.port,self.destination,packets) })
-    }
-}
-
-public class MIDILink {
-    private var client : MIDIClient!
-    private var outputPort : MIDIOutputPort!
-    private var inputPort : MIDIInputPort!
-    private let _uid : String
-    public var state : MIDILinkState!
-    
-    public init(source: MIDIBase, destination: MIDIBase) throws {
-        try source.test(reason: .CannotCreateApplication, .source)
-        try destination.test(reason: .CannotCreateApplication, .destination)
-
-        client=try MIDIClient(endpoint: source)
-        outputPort=try MIDIOutputPort(client: client, endpoint: destination)
-        state=outputPort.state
-        inputPort=try MIDIInputPort(client: client, endpoint: source, callback: linkCallback, state: &state)
-        _uid=UUID().uuidString
-    }
-    
-    deinit {
-        try? unbind()
-        inputPort=nil
-        outputPort=nil
-        client=nil
-    }
-    
-    
-    public var uid : String { return _uid }
-    public func bind() throws { try inputPort.bind() }
-    public func unbind() throws { try inputPort.unbind() }
-    
-}
 
 public class MIDIThru : CustomStringConvertible {
     private var thru : MIDIThruConnectionRef?
@@ -144,12 +243,14 @@ public struct EndPointInfo {
 }
 
 public class MIDIListener {
+    public static let MIDIListenerEventNotification = Notification.Name("MIDIListenerEventNotification")
     public typealias Callback = (MIDIPacketList) -> Void
+    
     private var client : MIDIClient!
     private var port : MIDIInputPort!
     public var uid : MIDIUniqueID = kMIDIInvalidUniqueID
     public var info : EndPointInfo!
-    public static let MIDIListenerEventNotification = Notification.Name("MIDIListenerEventNotification")
+    
     private var last : MIDITimeStamp = 0
     
     public var callback : Callback? = nil
@@ -166,8 +267,6 @@ public class MIDIListener {
     }
     
     public var name : String { return endpoint.name }
-    
-    
     
     deinit {
         try? unbind()
@@ -188,4 +287,12 @@ public class MIDIListener {
     }
     
 }
+
+
+
+
+
+
+
+
 

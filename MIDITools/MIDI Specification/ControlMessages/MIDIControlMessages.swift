@@ -10,7 +10,7 @@ import Foundation
 
 
 
-public protocol MIDISerialiser {
+public protocol MMIDISerialiser {
     
     init(messages: [MIDIMessage])
     

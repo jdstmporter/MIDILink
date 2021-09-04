@@ -43,4 +43,10 @@ public class MIDIError : Error, CustomStringConvertible {
     public var description : String {
         return "\(reason) with status code \(status)"
     }
+    
+    public typealias Block = () -> OSStatus
+    public static func Try(reason: MIDIError.Reason, block: MIDIError.Block) throws {
+        let error=block()
+        if error != noErr { throw MIDIError(reason: reason, status: error) }
+    }
 }

@@ -12,40 +12,27 @@ import CoreMIDI
 
 
 public class MIDISystem {
-    
     private static var the : MIDISystem?
     
-    public var sources_ : [MIDIEndpoint] = []
-    public var destinations_ : [MIDIEndpoint] = []
+    public private(set) var _sources : [MIDIEndpoint] = []
+    public private(set) var _destinations : [MIDIEndpoint] = []
     
     public init() throws {
-        
         var n=MIDIGetNumberOfSources();
         for i in 0..<n  {
             let device=MIDIGetSource(i)
-            if let object  = try getMIDIObject(device) as? MIDIEndpoint { sources_.append(object) }
+            if let object  = try getMIDIObject(device) as? MIDIEndpoint { _sources.append(object) }
         }
-
         n=MIDIGetNumberOfDestinations();
         for i in 0..<n  {
             let device=MIDIGetDestination(i)
-            if let object = try getMIDIObject(device) as? MIDIEndpoint { destinations_.append(object) }
+            if let object = try getMIDIObject(device) as? MIDIEndpoint { _destinations.append(object) }
         }
     }
-    
-    public var sources : [MIDIEndpoint] {
-        return sources_
-    }
-    public var destinations : [MIDIEndpoint] {
-        return destinations_
-    }
-    
-    public var endpoints : Set<MIDIEndpoint> {
-        return Set(sources).union(destinations)
-    }
-    
-    public static func scan() throws {
-        the=try MIDISystem()
-    }
+    public static var sources : [MIDIEndpoint] { the?._sources ?? [] }
+    public static var destinations : [MIDIEndpoint] { the?._destinations ?? [] }
+    public static var endpoints : Set<MIDIEndpoint> { Set(sources).union(destinations) }
+    public static func scan() throws { the=try MIDISystem() }
 }
+
 
