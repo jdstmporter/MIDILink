@@ -27,64 +27,13 @@ public class MIDIMessageParser : CustomStringConvertible, Sequence {
     
     fileprivate let terms : MIDIDict
     
-    public init() {
-        self.terms=MIDIDict()
-    }
+    public init() { self.terms=MIDIDict() }
+    public convenience init(_ p: MIDIPacket) throws { try self.init(p.bytes) }
+    public init(_ bytes : OffsetArray<UInt8>) throws { self.terms = try MIDICommands.parse(bytes) }
+    public init(_ d : MIDIDict) { self.terms=d }
     
-    public convenience init(_ p: MIDIPacket) throws {
-        try self.init(p.bytes)
-    }
-    public init(_ bytes : OffsetArray<UInt8>) throws {
-        guard bytes.count > 0 else { throw MIDIMessageError.NoContent }
-        let out = MIDIDict()
-        let command=MIDICommands(bytes[0]&0xf0)
-        out[.Command]=command
-        let channel = bytes[0]&0x0f
-        switch command {
-        case .NoteOnEvent, .NoteOffEvent:
-            guard bytes.count >= 3 else { throw MIDIMessageError.BadPacket }
-            out[.Channel]=channel
-            out[.Note]=MIDINote(bytes[1])
-            out[.Velocity]=MIDIVelocity(bytes[2])
-        case .KeyPressure:
-            guard bytes.count >= 3 else { throw MIDIMessageError.BadPacket }
-            out[.Channel]=channel
-            out[.Note]=MIDINote(bytes[1])
-            out[.Pressure]=MIDIPressure(bytes[2])
-        case .ProgramChange:
-            guard bytes.count >= 2 else { throw MIDIMessageError.BadPacket }
-            out[.Channel]=channel
-            out[.Program]=MIDIProgram(bytes[1])
-        case .ChannelPressure:
-            guard bytes.count >= 2 else { throw MIDIMessageError.BadPacket }
-            out[.Channel]=channel
-            out[.Pressure]=MIDIPressure(bytes[1])
-        case .PitchBend:
-            guard bytes.count >= 3 else { throw MIDIMessageError.BadPacket }
-            out[.Channel]=channel
-            out[.Bend]=Bend(hi: bytes[2], lo: bytes[1])
-        case .ControlChange:
-            guard bytes.count >= 2 else { throw MIDIMessageError.BadPacket }
-            out[.Channel]=channel
-            out[.Control]=try MIDIControlMessage(bytes.shift(1))
-        case .SystemMessage:
-            let cmds = try MIDISystemMessage(bytes.shift(1)).body
-            out.append(cmds)
-        default:
-            throw MIDIMessageError.UnknownMessage
-        }
-        self.terms=out
-    }
-    public init(_ d : MIDIDict) {
-        self.terms=d
-    }
-    
-    public func append(_ d : MIDIDict) {
-        self.terms.append(d)
-    }
-    public func append(_ d : MIDIMessageParser) {
-        self.append(d.terms)
-    }
+    public func append(_ d : MIDIDict) { self.terms.append(d) }
+    public func append(_ d : MIDIMessageParser) { self.append(d.terms) }
     
     public var dict : MIDIDict { terms }
     

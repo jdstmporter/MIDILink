@@ -39,46 +39,36 @@ public enum MIDISystemTypes : UInt8, MIDIEnumeration {
     ]
     
     public static let _unknown : MIDISystemTypes = .UNKNOWN
-    public static func parse(_: OffsetArray<UInt8>) throws -> MIDIDict { throw MIDIPacketError.BadMessageDescription }
-}
-
-public enum MIDITimeCodeTypes : UInt8, MIDIEnumeration {
-    case LoFrames = 0x00
-    case HiFrames = 0x10
-    case LoSeconds = 0x20
-    case HiSeconds = 0x30
-    case LoMinutes = 0x40
-    case HiMinutes = 0x50
-    case LoHours = 0x60
-    case HiHours = 0x70
-    case UNKNOWN = 0xff
     
-    
-    public static let names : [MIDITimeCodeTypes:String] = [
-        .LoFrames : "Frames (Lo nibble)",
-        .HiFrames : "Frames (Hi nibble)",
-        .LoSeconds : "Seconds (Lo nibble)",
-        .HiSeconds : "Seconds (Hi nibble)",
-        .LoMinutes : "Minutes (Lo nibble)",
-        .HiMinutes : "Minutes (Hi nibble)",
-        .LoHours : "Hours (Lo nibble)",
-        .HiHours : "Hours (Hi nibble)"
-        
-    ]
-    public static let lengths : [MIDITimeCodeTypes:Int] = [:]
-    public static let _unknown : MIDITimeCodeTypes = .UNKNOWN
-    public init(_ cmd: UInt8) {
-        self = MIDITimeCodeTypes.init(rawValue: cmd & 0xf0) ?? MIDITimeCodeTypes._unknown
-    }
-    
-    public static func parse(_ bytes : OffsetArray<UInt8>) throws -> MIDIDict {
+    public static func parse(_ bytes: OffsetArray<UInt8>) throws -> MIDIDict {
         guard bytes.count>0 else { throw MIDIMessageError.NoContent }
         let out=MIDIDict()
-        out[.TimeCode]=MIDITimeCodeTypes(bytes[0]&0xf0)
-        out[.Value]=bytes[0]&0x0f
+        let command=MIDISystemTypes(bytes[0])
+        out[.SystemCommand] = command
+        switch command {
+        case .SysEx:
+            let cmds = try MIDISysExTypes.parse(bytes.shift(1))
+            out.append(cmds)
+        case .TimeCode:
+            let cmds = try MIDITimeCodeTypes.parse(bytes.shift(1))
+            out.append(cmds)
+        case .Tune, .EndSysEx, .TimingClock, .Start, .Continue, .Stop, .ActiveSensing, .SystemReset :
+            break
+        case .SongSelect :
+            guard bytes.count >= 1 else { throw MIDIMessageError.NoContent }
+            out[.Song]=bytes[1]
+        case .SongPosition :
+            guard bytes.count >= 2 else { throw MIDIMessageError.NoContent }
+            out[.SongPositionLO]=bytes[1]
+            out[.SongPositionHI]=bytes[2]
+        default:
+            break
+        }
         return out
     }
 }
+
+
 
 
 

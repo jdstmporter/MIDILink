@@ -12,7 +12,7 @@ import CoreMIDI
 
 
 
-protocol MIDIEnumeration : RawRepresentable, StaticNamedEnumeration, Comparable where RawValue == UInt8, AllCases == [Self] {
+public protocol MIDIEnumeration : RawRepresentable, StaticNamedEnumeration, Comparable where RawValue == UInt8, AllCases == [Self] {
     
     static var _unknown : Self { get }
     static var names : [Self:String] { get }

@@ -55,7 +55,7 @@
             landmarkType = "3">
             <Locations>
                <Location
-                  uuid = "AC7A2B0D-EF4D-4618-96C4-5A9446A729E4 - c2adeac0b247237b"
+                  uuid = "AC7A2B0D-EF4D-4618-96C4-5A9446A729E4 - 77d67510553a7591"
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -71,7 +71,7 @@
                   offsetFromSymbolStart = "177">
                </Location>
                <Location
-                  uuid = "AC7A2B0D-EF4D-4618-96C4-5A9446A729E4 - e86d8d15295355f"
+                  uuid = "AC7A2B0D-EF4D-4618-96C4-5A9446A729E4 - bbfd4701b5e863b5"
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -102,8 +102,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "187"
             endingLineNumber = "187"
-            landmarkName = "activity(packets:)"
-            landmarkType = "7">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -189,22 +189,6 @@
             endingLineNumber = "112"
             landmarkName = "load(endpoints:links:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7C97BEB7-7AC0-4CB2-A52F-157E52952359"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MIDITools/Types/MIDIControl.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
-            landmarkName = "interpretedValue"
-            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -19,82 +19,24 @@ public protocol MIDISerialiser {
 }
 
 
-public protocol TransformerProtocol {
-    subscript(_ : UInt8) -> String? { get }
-    subscript(_ : String?) -> UInt8 { get }
-}
-
-public struct Bool64 : TransformerProtocol {
-    public subscript(_ x: UInt8) -> String? { x >= 64 ? "ON" : "OFF"  }
-    public subscript(_ x: String?) -> UInt8 { x == "ON" ? 64 : 0 }
-
-}
-public struct Bool127 : TransformerProtocol {
-    public subscript(_ x: UInt8) -> String? { x == 127 ? "ON" : "OFF"  }
-    public subscript(_ x: String?) -> UInt8 { x == "ON" ? 127 : 0 }
-    
-}
-public struct BoolTrue : TransformerProtocol {
-    public subscript(_ x: UInt8) -> String? { "ON"  }
-    public subscript(_ x: String?) -> UInt8 { 127 }
-    
-}
-public struct BoolFalse : TransformerProtocol {
-    public subscript(_ x: UInt8) -> String? { "OFF"  }
-    public subscript(_ x: String?) -> UInt8 {  0 }
-    
-}
-public struct NULL: TransformerProtocol {
-    public subscript(_ x: UInt8) -> String? { nil  }
-    public subscript(_ x: String?) -> UInt8 { 255 }
-    
-}
-
-
-
-public let bool64 = Bool64()
-public let bool127 = Bool127()
-public let boolTrue = BoolTrue()
-public let boolFalse = BoolFalse()
-public let null = NULL()
-
-public enum MIDIControlMessageTransformation : CaseIterable {
-    case OnOff64
-    case OnOff127
-    case On
-    case Off
-    case Null
-    case Byte
-    
-    public var transformer : TransformerProtocol? {
-        switch self {
-        case .OnOff64: return bool64
-        case .OnOff127: return bool127
-        case .On: return boolTrue
-        case .Off: return boolFalse
-        case .Null: return null
-        default: return nil
-        }
-    }
-    
-    public func describe(_ value : UInt8) -> String {
-        switch self {
-        case .OnOff64: return (value<=63) ? "OFF" : "ON"
-        case .OnOff127: return (value==127) ? "OFF" : "ON"
-        case .On: return "ON"
-        case .Off: return "OFF"
-        case .Null: return ""
-        case .Byte: return "\(value)"
-        }
-    }
-}
-
-
-
 public enum MIDIControlMessages : UInt8, MIDIEnumeration {
     
-    public static func parse(_ : OffsetArray<UInt8>) throws -> MIDIDict {
-        throw MIDIMessageError.BadPacket
+    public static func parse(_ bytes: OffsetArray<UInt8>) throws -> MIDIDict {
+        guard bytes.count>0 else { throw MIDIMessageError.NoContent }
+        let b0=bytes[0]
+        let value=bytes.count>1 ? bytes[1] : nil
+        
+        guard let command = MIDIControlMessages(rawValue: b0), !(command.needsValue && value==nil)
+            else { throw MIDIMessageError.BadPacket}
+        
+        let out=MIDIDict()
+        out[.Command] = command
+        out[.Value] = value
+        
+        if let val = value {
+            out[.InterpretedValue]=command.transformer[val]
+        }
+        return out
     }
     
     case BankSelectMSB = 0x00
@@ -263,30 +205,8 @@ public enum MIDIControlMessages : UInt8, MIDIEnumeration {
         .DataDecrement : .Null
     ]
     
-    internal static let transformers : [MIDIControlMessages : TransformerProtocol] = [
-        .Sustain : bool64,
-        .PortamentoSwitch : bool64,
-        .Sostenuto : bool64,
-        .SoftPedal : bool64,
-        .LegatoFootSwitch : bool64,
-        .AllSoundOff : boolFalse,
-        .LocalControl : bool127,
-        .AllNotesOff : boolFalse,
-        .OmniModeOff : boolFalse,
-        .OmniModeOn : boolTrue,
-        .PolyModeOn : boolTrue,
-        .DataIncrement : null,
-        .DataDecrement : null
-    ]
-    
-    public var transformer : TransformerProtocol? {
-        return MIDIControlMessages.transformers[self]
-    }
-    
-    public var transform : MIDIControlMessageTransformation {
-        return MIDIControlMessages.transform[self] ?? .Byte
-    }
-    
+    public var transformer : TransformerProtocol { self.transform.transformer }
+    public var transform : MIDIControlMessageTransformation { MIDIControlMessages.transform[self] ?? .Byte }
     public var needsValue : Bool { transform != .Null }
     
     
