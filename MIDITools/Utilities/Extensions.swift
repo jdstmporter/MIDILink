@@ -9,9 +9,6 @@
 import Foundation
 import CoreMIDI
 
-
-
-
 extension DispatchTime {
     
     static func getTime(fromNowInSeconds n: Float) -> DispatchTime {
@@ -20,22 +17,15 @@ extension DispatchTime {
         return DispatchTime(uptimeNanoseconds: n.uptimeNanoseconds+d)
     }
     
-    init() {
-        self.init(uptimeNanoseconds: 0)
-    }
-    
-    init(from p : MIDIPacket) {
-        self.init(uptimeNanoseconds: p.timeStamp)
-    }
+    init() { self.init(uptimeNanoseconds: 0) }
+    init(from p : MIDIPacket) { self.init(uptimeNanoseconds: p.timeStamp) }
     
     public init(fromNowInSeconds n : Float) {
         let d=UInt64(n*1.0e9)
         let n=DispatchTime.now()
         self.init(uptimeNanoseconds: n.uptimeNanoseconds+d)
     }
-    
-    var timestamp : MIDITimeStamp { return uptimeNanoseconds }
-    
+    var timestamp : MIDITimeStamp { uptimeNanoseconds }
 }
 
 func conv(length : Int,_ p : UnsafeMutableRawPointer) -> UnsafeMutableBufferPointer<UInt8> {
@@ -51,7 +41,6 @@ enum MIDIPacketError : Error {
 }
 
 extension MIDIPacket {
- 
     var dataArray : [UInt8] {
         get {
             var d=self.data
@@ -64,8 +53,7 @@ extension MIDIPacket {
         }
     }
     
-    var bytes : OffsetArray<UInt8> { return OffsetArray(dataArray) }
-    
+    var bytes : OffsetArray<UInt8> { OffsetArray(dataArray) }
     var dataPointer : UnsafeMutablePointer<UInt8>? {
         var d=self.data
         return conv(length:Int(self.length),&d).baseAddress
@@ -74,7 +62,6 @@ extension MIDIPacket {
 }
 
 extension Int {
-   
     static func fromBytes(_ b: [UInt8]) -> Int {
         var s : Int = 0
         let length=MemoryLayout<Int>.size
@@ -83,22 +70,16 @@ extension Int {
         return s
     }
     
-    func bound(_ mi: Int,_ ma: Int) -> Int {
-        return Swift.min(ma,Swift.max(mi,self))
-    }
-    func bound(_ r : CountableRange<Int>) -> Int {
-        return self.bound(r.lowerBound,r.upperBound-1)
-    }
-    func bound(_ r : CountableClosedRange<Int>) -> Int {
-        return self.bound(r.lowerBound,r.upperBound)
-    }
+    func bound(_ mi: Int,_ ma: Int) -> Int { Swift.min(ma,Swift.max(mi,self)) }
+    func bound(_ r : CountableRange<Int>) -> Int { self.bound(r.lowerBound,r.upperBound-1) }
+    func bound(_ r : CountableClosedRange<Int>) -> Int { self.bound(r.lowerBound,r.upperBound) }
     
     
 }
 
 
 extension UInt8 {
-    public func hex() -> String { return String(format: "%02x", self) }
+    public func hex() -> String { String(format: "%02x", self) }
     
     init?(number : Int?) {
         if number==nil || number!>255 || number! < -256 { return nil }
@@ -118,9 +99,7 @@ extension UInt8 {
 
 extension String {
   
-    var range: NSRange {
-        return NSRange(location: 0, length: count)
-    }
+    var range: NSRange { NSRange(location: 0, length: count) }
    
     func camelToSpaced() -> String {
         if count < 1 { return self}
@@ -137,31 +116,18 @@ extension String {
         init?(_ utf : String.UTF8View) {
             let bad=utf.filter { $0>=128 }
             if bad.count > 0 { return nil }
-            else {
-                bytes=utf.map { $0 }
-            }
+            else { bytes=utf.map { $0 } }
         }
         
-        convenience init?(_ string: String) {
-            self.init(string.utf8)
-        }
+        convenience init?(_ string: String) { self.init(string.utf8)}
+        init(_ b : [UInt8]) { bytes=b }
         
-        init(_ b : [UInt8]) {
-            bytes=b
-        }
+        var startIndex: Int { 0 }
+        var endIndex: Int { bytes.count }
+        func index(after i: Int) -> Int { Swift.min(i+1,endIndex) }
+        subscript(_ index : Int) -> UInt8 { bytes[index] }
         
-        var startIndex: Int { return 0 }
-        var endIndex: Int { return bytes.count }
-        
-        func index(after i: Int) -> Int {
-            return Swift.min(i+1,endIndex)
-        }
-        
-        subscript(_ index : Int) -> UInt8 {
-            return bytes[index]
-        }
-        
-        var string : String { return String(bytes: bytes, encoding: .ascii)! }
+        var string : String { String(bytes: bytes, encoding: .ascii)! }
         
         func padding(toLength l: Int, withPad p: UInt8) -> ASCIIView {
             let b=Array(bytes.prefix(l))
@@ -170,7 +136,7 @@ extension String {
         }
     }
     
-    var ascii : ASCIIView? { return ASCIIView(self) }
+    var ascii : ASCIIView? { ASCIIView(self) }
 }
 
 

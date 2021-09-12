@@ -35,37 +35,33 @@ public class MIDIBase : CustomStringConvertible, Hashable {
     public var model : String { return this.getSafe(stringProperty: kMIDIPropertyModel) ?? "" }
     public var manufacturer : String { return this.getSafe(stringProperty: kMIDIPropertyManufacturer) ?? "" }
     
-    public var kind : MIDIObjectKind { return type.kind }
-    public var mode : MIDIObjectMode { return type.mode }
-    public var disposition : MIDIObjectLocation { return type.location }
+    public var kind : MIDIObjectKind {  type.kind }
+    public var mode : MIDIObjectMode {  type.mode }
+    public var disposition : MIDIObjectLocation { type.location }
     
-    public var isSource : Bool { return mode == .source }
-    public var isDestination : Bool { return mode == .destination }
+    public var isSource : Bool { mode == .source }
+    public var isDestination : Bool { mode == .destination }
     
     
-    public var Object : MIDIObjectRef { return this }
-    public var UID : String { return String(format:"%08X",uid) }
-    public var typeName : String { return "\(kind)" }
+    public var Object : MIDIObjectRef { this }
+    public var UID : String { String(format:"%08X",uid) }
+    public var typeName : String { "\(kind)" }
     
-    public var targetName : String {
-            return "\(UID)-\(mode.name)"
-    }
+    public var targetName : String { "\(UID)-\(mode.name)" }
     
     public func test(reason: MIDIError.Reason, _ m: MIDIObjectMode) throws {
         if mode != m { throw MIDIError(reason: reason) }
     }
     public var description : String {
-        return String(format:"[%08x] %@ %@ %@",uid,name,model,manufacturer)
+        String(format:"[%08x] %@ %@ %@",uid,name,model,manufacturer)
     }
     
-    public static func ==(_ l : MIDIBase, _ r : MIDIBase) -> Bool { return l.uid == r.uid }
-    public static func !=(_ l : MIDIBase, _ r : MIDIBase) -> Bool { return l.uid != r.uid }
-    public func hash(into hasher: inout Hasher) {
-        return uid.hash(into: &hasher)
-    }
-    public var hashValue : Int { return uid.hashValue }
+    public static func ==(_ l : MIDIBase, _ r : MIDIBase) -> Bool { l.uid == r.uid }
+    public static func !=(_ l : MIDIBase, _ r : MIDIBase) -> Bool { l.uid != r.uid }
+    public func hash(into hasher: inout Hasher) { uid.hash(into: &hasher) }
+    public var hashValue : Int { uid.hashValue }
     
-    public var thru : MIDIThruConnectionEndpoint { return MIDIThruConnectionEndpoint(endpointRef: this, uniqueID: uid) }
+    public var thru : MIDIThruConnectionEndpoint { MIDIThruConnectionEndpoint(endpointRef: this, uniqueID: uid) }
     
 }
 
@@ -87,11 +83,9 @@ public class MIDIEndpoint : MIDIBase {
             entity=nil
         }
         else if error != noErr { throw MIDIError(reason: .CannotLoadEntity, status: error) }
-        else {
-            entity=try MIDIEntity(fromObject:e)
-        }
+        else { entity=try MIDIEntity(fromObject:e) }
     }
-    public var device : MIDIDevice? { return entity?.device }
+    public var device : MIDIDevice? { entity?.device }
     
     
     
@@ -106,13 +100,9 @@ public class MIDIEntity : MIDIBase {
         
         var d : MIDIObjectRef = 0
         let error=MIDIEntityGetDevice(this, &d);
-        if error==kMIDIObjectNotFound {
-            device=nil
-        }
+        if error==kMIDIObjectNotFound { device=nil }
         else if error != noErr { throw MIDIError(reason: .CannotLoadDevice, status: error) }
-        else {
-            device=try MIDIDevice(fromObject:d)
-        }
+        else { device=try MIDIDevice(fromObject:d) }
         
         
     }
@@ -124,7 +114,7 @@ public class MIDIDevice : MIDIBase {
     
     public init(fromUID u: MIDIUniqueID) throws {
         try super.init(u)
-        if !type.isDevice { throw MIDIError(reason: .CannotLoadDevice)}
+        if !type.isDevice { throw MIDIError(reason: .CannotLoadDevice) }
     }
     public convenience init(fromObject obj: MIDIObjectRef) throws {
         try self.init(fromUID: obj.uid)

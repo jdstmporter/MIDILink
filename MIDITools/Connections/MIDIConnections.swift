@@ -23,17 +23,17 @@ public class ActiveMIDIObject  {
         endpoint=e
     }
     
-    public var name : String { return endpoint.name }
-    public var model : String { return endpoint.model }
-    public var manufacturer : String { return endpoint.manufacturer }
-    public var UID : String { return endpoint.UID }
-    public var isSource : Bool { return endpoint.isSource }
-    public var isDestination : Bool { return endpoint.isDestination }
-    public var mode : MIDIObjectMode { return endpoint.mode }
-    public var uid : MIDIUniqueID { return endpoint.uid }
-    public var Object : MIDIObjectRef { return endpoint.Object }
+    public var name : String {  endpoint.name }
+    public var model : String {  endpoint.model }
+    public var manufacturer : String {  endpoint.manufacturer }
+    public var UID : String {  endpoint.UID }
+    public var isSource : Bool {  endpoint.isSource }
+    public var isDestination : Bool {  endpoint.isDestination }
+    public var mode : MIDIObjectMode {  endpoint.mode }
+    public var uid : MIDIUniqueID {  endpoint.uid }
+    public var Object : MIDIObjectRef {  endpoint.Object }
     
-    public var isActive : Bool { return false }
+    public var isActive : Bool {  false }
     public func process(_ packets: MIDIPacketList) {}
     public func inject(_ packets: MIDIPacketList) throws {}
     
@@ -123,7 +123,7 @@ public class MIDISource : ActiveMIDIObject {
     
     public override func process(_ packets : MIDIPacketList) {
         if !isSource { return }
-        let p=packets.filter(realTime: filtered)
+        let p=packets.filter { !filtered || $0.data.0 < 0xf8 } //packets.filter(realTime: filtered)
         if p.count==0 { return }
         
         DispatchQueue.main.async {
@@ -147,7 +147,7 @@ public class MIDISource : ActiveMIDIObject {
         
     }
     
-    public override var isActive: Bool { return active.value }
+    public override var isActive: Bool {  active.value }
 }
 
 public func activateMIDIObject(_ endpoint: MIDIBase) throws -> ActiveMIDIObject {
@@ -223,8 +223,8 @@ public class MIDIThru : CustomStringConvertible {
         thru=nil
     }
     
-    public var active : Bool { return thru != nil }
-    public var description: String { return "\(source) -> \(sink) : \(active)" }
+    public var active : Bool {  thru != nil }
+    public var description: String {  "\(source) -> \(sink) : \(active)" }
     
     
 }

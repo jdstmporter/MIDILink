@@ -17,12 +17,10 @@ public class OffsetArray<T> {
         self.offset = Int(offset)
     }
     
-    public func shift(_ inc : UInt) -> OffsetArray<T> {
-        return OffsetArray<T>(array, offset: UInt(offset)+inc)
-    }
+    public func shift(_ inc : UInt) -> OffsetArray<T> { OffsetArray<T>(array, offset: UInt(offset)+inc) }
     
-    public subscript(_ idx : Int) -> T { return array[offset+idx] }
-    public var count : Int { return array.count-offset }
+    public subscript(_ idx : Int) -> T { array[offset+idx] }
+    public var count : Int { array.count-offset }
     
 }
 
@@ -35,7 +33,7 @@ public class KVPair<K,V>  : CustomStringConvertible where K : Hashable, K: Namea
         self.key=key
         self.value=value
     }
-    public var description: String { return "\(key.str) = \(value)" }
+    public var description: String { "\(key.str) = \(value)" }
 }
 
 
@@ -62,13 +60,8 @@ public class OrderedDictionary<K,V> : Sequence, CustomStringConvertible where K 
     }
     
     public init() {}
-    
-    public init(_ e : Iterator.Element) {
-        append(e)
-    }
-    public init(_ es : [Iterator.Element]) {
-        append(es)
-    }
+    public init(_ e : Iterator.Element) { append(e) }
+    public init(_ es : [Iterator.Element]) { append(es) }
     
     public func append(_ e : Iterator.Element) { self[e.key]=e.value }
     public func append(_ es : [Iterator.Element]) { es.forEach { self[$0.key] = $0.value } }
@@ -77,15 +70,15 @@ public class OrderedDictionary<K,V> : Sequence, CustomStringConvertible where K 
         self.append(items)
     }
     
-    public var count : Int { return order.count }
+    public var count : Int { order.count }
     public func at(_ idx : Int) -> KVPair<K,V>? {
         guard idx>=0 && idx<count else { return nil }
         let k=order[idx]
         guard let v = dict[k] else { return nil }
         return KVPair(k,v)
     }
-    public func index(of key : K) -> Int? { return order.firstIndex(of: key) }
-    public var isEmpty : Bool { return order.isEmpty }
+    public func index(of key : K) -> Int? { order.firstIndex(of: key) }
+    public var isEmpty : Bool { order.isEmpty }
     public func removeAll() {
         dict.removeAll()
         order.removeAll()
@@ -97,7 +90,7 @@ public class OrderedDictionary<K,V> : Sequence, CustomStringConvertible where K 
     
     
     public subscript(_ key : K) -> V? {
-        get { return dict[key] }
+        get { dict[key] }
         set {
             if let value=newValue {
                 if !order.contains(key) { order.append(key) }
@@ -110,12 +103,10 @@ public class OrderedDictionary<K,V> : Sequence, CustomStringConvertible where K 
         }
     }
     
-    public var keySet : Set<K> { return Set(order) }
-    public func has(_ k : K) -> Bool { return order.contains(k) }
+    public var keySet : Set<K> { Set(order) }
+    public func has(_ k : K) -> Bool { order.contains(k) }
     
-    public __consuming func makeIterator() -> OrderedDictionary<K, V>.Iterator {
-        return Iterator(self)
-    }
+    public __consuming func makeIterator() -> OrderedDictionary<K, V>.Iterator { Iterator(self) }
     
     public var description: String { self.map { $0.description }.joined(separator:", ") }
 }

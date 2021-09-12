@@ -9,22 +9,10 @@
 import Foundation
 import CoreMIDI
 
-public enum MIDIMessageError : Error {
-    case NoContent
-    case BadPacket
-    case CannotParseSystemMessage
-    case UnknownMessage
-    case NoCommand
-    case NoNote
-    case NoValue
-    case BadBend
-}
-
 
 
 public class MIDIMessageParser : CustomStringConvertible, Sequence {
     public typealias Iterator = MIDIDict.Iterator
-    
     fileprivate let terms : MIDIDict
     
     public init() { self.terms=MIDIDict() }
@@ -34,7 +22,6 @@ public class MIDIMessageParser : CustomStringConvertible, Sequence {
     
     public func append(_ d : MIDIDict) { self.terms.append(d) }
     public func append(_ d : MIDIMessageParser) { self.append(d.terms) }
-    
     public var dict : MIDIDict { terms }
     
     public subscript<T>(_ key : MIDITerms) -> T? where T : Nameable {

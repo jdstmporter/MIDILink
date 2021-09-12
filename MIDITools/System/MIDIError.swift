@@ -8,45 +8,68 @@
 
 import Foundation
 
-public class MIDIError : Error, CustomStringConvertible {
-    
-    public enum Reason {
-        case CannotReadProperty
-        case CannotLoadEndPoint
-        case CannotLoadEntity
-        case CannotLoadDevice
-        case CannotLoadObject
-        case CannotCreateApplication
-        case CannotCreateOutputPort
-        case CannotCreateInputPort
-        case CannotLinkInputPort
-        case CannotLinkOutputPort
-        case CannotUnlinkInputPort
-        case CannotUnlinkOutputPort
-        case CannotSendPackets
-        case Other
-    }
-    
-    public let reason : MIDIError.Reason
+
+public class BaseError<R> : Error, CustomStringConvertible {
+    public typealias Reason=R
+    public let reason : Reason?
     public let status : OSStatus
+    public private(set) var description : String
     
-    public init(reason: MIDIError.Reason,status: OSStatus = 0) {
+    required public init(reason: Reason,status: OSStatus = 0) {
         self.reason=reason
         self.status=status
+        self.description="\(reason) with status code \(status)"
+        
+    }
+    
+    required public init(_ message : String) {
+        self.reason = nil
+        self.status = 0
+        self.description = message
     }
     
     public init(status: OSStatus = 0) {
-        self.reason = .Other
+        self.reason=nil
         self.status=status
+        self.description="Error with status code \(status)"
     }
     
-    public var description : String {
-        return "\(reason) with status code \(status)"
-    }
-    
-    public typealias Block = () -> OSStatus
-    public static func Try(reason: MIDIError.Reason, block: MIDIError.Block) throws {
+    typealias Block = () -> OSStatus
+    static func Try(reason: Reason, block: Block) throws {
         let error=block()
-        if error != noErr { throw MIDIError(reason: reason, status: error) }
+        if error != noErr { throw Self(reason: reason, status: error) }
+    }
+    static func Try(_ message: String, block: Block) throws {
+        if block() != noErr { throw Self(message) }
     }
 }
+
+public enum MIDIErrorReason {
+    case CannotReadProperty
+    case CannotLoadEndPoint
+    case CannotLoadEntity
+    case CannotLoadDevice
+    case CannotLoadObject
+    case CannotCreateApplication
+    case CannotCreateOutputPort
+    case CannotCreateInputPort
+    case CannotLinkInputPort
+    case CannotLinkOutputPort
+    case CannotUnlinkInputPort
+    case CannotUnlinkOutputPort
+    case CannotSendPackets
+    case Other
+}
+public enum MIDIMessageReason {
+    case NoContent
+    case BadPacket
+    case CannotParseSystemMessage
+    case UnknownMessage
+    case NoCommand
+    case NoNote
+    case NoValue
+    case BadBend
+}
+public typealias MIDIError = BaseError<MIDIErrorReason>
+public typealias MIDIMessageError = BaseError<MIDIMessageReason>
+

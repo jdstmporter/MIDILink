@@ -8,18 +8,13 @@
 import Cocoa
 
 class MIDIIndicatorView : NSView {
-    
-    public var status : Bool=false {
-        didSet {
-            self.needsDisplay=true
-        }
-    }
+    static let ON_COLOUR : NSColor = .green
+    public var status : Bool=false { didSet { self.needsDisplay=true } }
     
     
     init(status s: Bool = false) {
         super.init(frame: NSZeroRect)
         initialise(status: status)
-        
     }
     
     required init?(coder: NSCoder) {
@@ -32,14 +27,12 @@ class MIDIIndicatorView : NSView {
         status=s
     }
     
-    
-    
     override func draw(_ dirtyRect: NSRect) {
         NSColor.clear.setFill()
         bounds.fill()
         
         if status {
-            NSColor.green.setFill()
+            MIDIIndicatorView.ON_COLOUR.setFill()
             let size=bounds.size
             let scale = Swift.max(1,Swift.min(size.width,size.height)-4)
             let offsetX = (size.width-scale)/2

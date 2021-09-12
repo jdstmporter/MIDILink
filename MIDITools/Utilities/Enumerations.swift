@@ -12,27 +12,19 @@ public protocol Nameable {
     var str : String { get }
 }
 
-
 extension UInt32 : Nameable {
-    var hex : String {
-        return String(format: "%08x",self)
-    }
-    public var str : String { return hex }
+    var hex : String { String(format: "%08x",self) }
+    public var str : String { hex }
 }
 
 extension Int32 : Nameable {
-    
-    var hex : String {
-        return UInt32(truncatingIfNeeded: self).hex
-    }
-     public var str : String { return hex }
-    
+    var hex : String { UInt32(truncatingIfNeeded: self).hex }
+    public var str : String { hex }
 }
 extension UInt8 : Nameable { public var str : String { hex() } }
 extension UInt16: Nameable { public var str : String { "\(self)" }}
 extension Int16: Nameable { public var str : String { "\(self)" }}
 extension UInt64: Nameable { public var str : String { "\(self)" }}
-
 extension String : Nameable { public var str : String { self } }
 extension Bool : Nameable { public var str : String { self ? "ON" : "OFF" } }
 
@@ -42,7 +34,6 @@ public protocol NameableEnumeration : CaseIterable, Hashable, Nameable {
 }
 
 extension NameableEnumeration {
-    
     public init?(_ name : String) {
         if let item = (Self.allCases.first { $0.name==name }) { self=item }
         else { return nil }
@@ -51,13 +42,9 @@ extension NameableEnumeration {
 }
 
 public protocol StaticNamedEnumeration : NameableEnumeration {
-    
     static var names : [Self:String] { get }
 }
 
 extension StaticNamedEnumeration {
-    
-    public var name : String { return Self.names[self] ?? "" }
-    
-    
+    public var name : String { Self.names[self] ?? "" }
 }

@@ -17,7 +17,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     static let FontChangedEvent=NSNotification.Name("FontChangedEventName");
     private var tableFont : NSFont!
 
-
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let defaults = UserDefaults.standard
         defaults.set(true, forKey: "NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints")
@@ -28,10 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NSFontManager.shared.setSelectedFont(tableFont, isMultiple: false)
         NotificationCenter.default.post(name: AppDelegate.FontChangedEvent, object: nil, userInfo: ["font": tableFont as Any ])
         debugPrint("Set font")
-        
-        
-        
-        
+   
         controller.scanForEndPoints()
     }
     
@@ -45,15 +41,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NotificationCenter.default.post(name: AppDelegate.FontChangedEvent, object: nil, userInfo: ["font": tableFont as Any ])
     }
     
-    func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
-        return false
-    }
-    
-    
-    
-    @IBAction func applicationShouldOpenAboutPanel(_ sender: Any) {
-        AboutPanel.launch()
-    }
+    func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool { false }
+    @IBAction func applicationShouldOpenAboutPanel(_ sender: Any) { AboutPanel.launch() }
     
 
     

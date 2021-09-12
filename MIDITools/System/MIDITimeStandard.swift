@@ -39,7 +39,6 @@ public class TimeStandard {
         numerator=MIDITimeStamp(p.numer)
         denominator=MIDITimeStamp(p.denom)
         
-        
         startDate=Date()
         start=mach_absolute_time()
         
@@ -54,14 +53,10 @@ public class TimeStandard {
         let date=Date(timeInterval: 1.0e-9*Double(nano), since: startDate)
         return formatter.string(from: date)
     }
-
-    
     public func convert(_ date: Date) -> MIDITimeStamp {
-        return (MIDITimeStamp(from: startDate,to: date)*denominator/numerator)+start
+        (MIDITimeStamp(from: startDate,to: date)*denominator/numerator)+start
     }
     
-    public static var now : MIDITimeStamp {
-        return mach_absolute_time()
-    }
+    public static var now : MIDITimeStamp { mach_absolute_time() }
     
 }

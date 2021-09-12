@@ -150,11 +150,11 @@ class Controller : NSViewController {
     
     @IBAction func reloadAction(_ sender: Any) {
         do {
-            let m = try MIDISystem()
-            m.endpoints.forEach { debugPrint($0.description) }
-            links.reset(m.endpoints.map { $0.uid })
-            try sDelegate.load(endpoints: m.sources, links: links)
-            try dDelegate.load(endpoints: m.destinations, links: links)
+            try MIDISystem.scan()
+            MIDISystem.endpoints.forEach { debugPrint($0.description) }
+            links.reset(MIDISystem.endpoints.map { $0.uid })
+            try sDelegate.load(endpoints: MIDISystem.sources, links: links)
+            try dDelegate.load(endpoints: MIDISystem.destinations, links: links)
             DispatchQueue.main.async {
                 self.sources?.reloadData()
                 self.destinations?.reloadData()

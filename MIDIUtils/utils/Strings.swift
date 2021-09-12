@@ -33,17 +33,17 @@ public class FormattedString {
     }
     
     public var font : NSFont? {
-        get { return attributes[.font] as! NSFont? }
+        get {  attributes[.font] as! NSFont? }
         set { attributes[.font] = newValue ?? baseFont }
     }
     
     public var colour : NSColor? {
-        get { return attributes[.foregroundColor] as! NSColor? }
+        get {  attributes[.foregroundColor] as! NSColor? }
         set { attributes[.foregroundColor] = newValue ?? baseColour }
     }
     
     public var underline : Bool {
-        get { return (attributes[.underlineStyle]! as! Int) != FormattedString.nounderline }
+        get {  (attributes[.underlineStyle]! as! Int) != FormattedString.nounderline }
         set { attributes[.underlineStyle] = (newValue) ? FormattedString.underline : FormattedString.nounderline }
     }
     
@@ -54,5 +54,5 @@ public class FormattedString {
         colour = old
     }
     
-    public var str : NSAttributedString { return string }
+    public var str : NSAttributedString { string }
 }

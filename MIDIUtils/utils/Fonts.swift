@@ -9,7 +9,6 @@
 import Cocoa
 
 extension NSFont.Weight {
-    
     public init(bold : Bool) {
         self = bold ? .bold : .regular
     }

@@ -9,9 +9,6 @@
 import Foundation
 import CoreMIDI
 
-
-
-
 public protocol MIDIEnumeration : RawRepresentable, StaticNamedEnumeration, Comparable where RawValue == UInt8, AllCases == [Self] {
     
     static var _unknown : Self { get }

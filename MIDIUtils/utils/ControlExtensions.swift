@@ -11,18 +11,14 @@ import Cocoa
 
 internal extension NSProgressIndicator {
     
-    var range : Double {
-        return maxValue-minValue
-    }
+    var range : Double {maxValue-minValue}
     
     var proportion : Double {
-        get { return (doubleValue-minValue)/range }
+        get {  (doubleValue-minValue)/range }
         set(p) { doubleValue=minValue+p*range }
     }
     
-    func clear() {
-        doubleValue=minValue
-    }
+    func clear() {doubleValue=minValue}
     
     func start() {
         clear()
@@ -34,7 +30,6 @@ internal extension NSProgressIndicator {
         stopAnimation(nil)
         isHidden=true
         clear()
-        
     }
 }
 
@@ -44,17 +39,13 @@ internal extension NSView {
         get {
             if let colorRef = self.layer?.backgroundColor {
                 return NSColor(cgColor: colorRef)
-            } else {
-                return nil
-            }
+            } else {return nil}
         }
         set {
             self.wantsLayer = true
             self.layer?.backgroundColor = newValue?.cgColor
         }
     }
-    
-    
     
     func flash(duration : Float = 0.1, colour: NSColor = NSColor.black, callback : (() -> ())? = nil) {
         let group=DispatchGroup()
@@ -81,19 +72,13 @@ internal extension NSView {
 }
 
 internal extension NSControl {
-    
     var foregroundColor: NSColor? {
         get {
-            if self is NSTextField {
-                return (self as! NSTextField).textColor
-            } else {
-                return nil
-            }
+            if self is NSTextField {return (self as! NSTextField).textColor}
+            else {return nil}
         }
         set {
-            if self is NSTextField {
-                (self as! NSTextField).textColor=newValue
-            }
+            if self is NSTextField { (self as! NSTextField).textColor=newValue }
         }
     }
 }
@@ -101,14 +86,13 @@ internal extension NSControl {
 internal extension NSTableView {
     
     func reuse<T>(tag: NSUserInterfaceItemIdentifier, owner: Any?) -> T? {
-        return makeView(withIdentifier: tag, owner: owner) as! T?
+         makeView(withIdentifier: tag, owner: owner) as! T?
     }
 }
 
 internal extension NSPopUpButton {
     
     func initialiseItems(from values: [String]) {
-        
         self.removeAllItems()
         values.forEach { self.addItem(withTitle: $0) }
         //keys.enumerated().forEach { self.item(at: $0.offset)!.tag = Int($0.element) }
@@ -133,7 +117,7 @@ internal extension NSStepper {
 internal extension NSButton {
     
     var boolValue : Bool {
-        get { return state == .on }
+        get { state == .on }
         set { state = newValue ? .on : .off }
     }
 
@@ -141,7 +125,7 @@ internal extension NSButton {
 
 internal extension NSImage {
     var cgImage: CGImage? {
-        return cgImage(forProposedRect: nil, context: nil, hints: nil)
+        cgImage(forProposedRect: nil, context: nil, hints: nil)
     }
 }
 
@@ -150,9 +134,7 @@ internal extension NumberFormatter {
     struct Model : OptionSet {
         let rawValue : Int
         
-        init(rawValue rv: Int) {
-            rawValue=rv
-        }
+        init(rawValue rv: Int) {rawValue=rv}
         
         
         static let Integer = Model(rawValue: 1<<0)

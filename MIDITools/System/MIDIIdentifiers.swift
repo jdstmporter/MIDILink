@@ -65,8 +65,8 @@ extension MIDIUniqueID {
 
 extension MIDIObjectType {
     
-    public var isExternal : Bool { return (rawValue&0x10) != 0 }
-    public var isInternal : Bool { return (rawValue&0x10) == 0 }
+    public var isExternal : Bool { (rawValue&0x10) != 0 }
+    public var isInternal : Bool { (rawValue&0x10) == 0 }
     public var kind : MIDIObjectKind {
         if self == .other { return .other }
         else {
@@ -74,10 +74,10 @@ extension MIDIObjectType {
             return MIDIObjectKind.init(rawValue: v) ?? .other
         }
     }
-    public var mode : MIDIObjectMode { return kind == .source ? .source : kind == .dest ? .destination : .other }
-    public var location : MIDIObjectLocation { return (rawValue&0x10)==0 ? .int : .ext }
+    public var mode : MIDIObjectMode { kind == .source ? .source : kind == .dest ? .destination : .other }
+    public var location : MIDIObjectLocation { (rawValue&0x10)==0 ? .int : .ext }
     
-    public var isEndpoint : Bool { return kind == .source || kind == .dest }
-    public var isEntity : Bool { return kind == .entity }
-    public var isDevice : Bool { return kind == .device }
+    public var isEndpoint : Bool { kind == .source || kind == .dest }
+    public var isEntity : Bool { kind == .entity }
+    public var isDevice : Bool { kind == .device }
 }

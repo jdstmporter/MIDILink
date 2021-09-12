@@ -21,16 +21,12 @@ public class Atomic<T> {
     }
     
     public var value : T {
-        get {
-            return queue.sync { return _value }
-        }
-        set(v) {
-            queue.sync { _value = v }
-        }
+        get { queue.sync { _value } }
+        set(v) { queue.sync { _value = v } }
     }
     
     internal func update(action : (T) -> T) -> T {
-        return queue.sync {
+        queue.sync {
             _value = action(_value)
             return _value
         }
@@ -49,28 +45,13 @@ public class FIFO<T> {
         _fifo=[]
     }
     
-    public func push(value : T) {
-        queue.sync { _fifo.insert(value, at: 0) }
-    }
-    
-    public func pop() -> T? {
-        return queue.sync { return _fifo.popLast() }
-    }
-    
-    public var isEmpty : Bool {
-        return queue.sync { return _fifo.isEmpty }
-    }
-    
-    public var count : Int {
-        return queue.sync { return _fifo.count }
-    }
-    
-    public func clear() {
-        queue.sync { _fifo.removeAll() }
-    }
-    
+    public func push(value : T) { queue.sync { _fifo.insert(value, at: 0) } }
+    public func pop() -> T? { queue.sync { _fifo.popLast() } }
+    public var isEmpty : Bool { queue.sync { _fifo.isEmpty } }
+    public var count : Int { queue.sync { _fifo.count } }
+    public func clear() { queue.sync { _fifo.removeAll() } }
     public var all : [T] {
-        return queue.sync {
+        queue.sync {
             let out=_fifo
             _fifo.removeAll()
             return out
@@ -80,35 +61,18 @@ public class FIFO<T> {
 
 public class AtomicBoolean : Atomic<Bool> {
     
-    public init() {
-        super.init(false)
-    }
+    public init() { super.init(false) }
+    override public init(_ b : Bool) { super.init(b) }
     
-    override public init(_ b : Bool) {
-        super.init(b)
-    }
-    
-    public var isSet : Bool {
-        return value
-    }
+    public var isSet : Bool { value }
     
 }
 
 public class AtomicInteger : Atomic<Int> {
     
-    public init() {
-        super.init(0)
-    }
+    public init() { super.init(0) }
+    override public init(_ i : Int) { super.init(i) }
     
-    override public init(_ i : Int) {
-        super.init(i)
-    }
-    
-    public func increment() -> Int {
-        return update(action: { $0 + 1 } )
-    }
-    
-    public func decrement() -> Int {
-        return update(action: { $0 - 1 } )
-    }
+    public func increment() -> Int { update(action: { $0 + 1 } ) }
+    public func decrement() -> Int { update(action: { $0 - 1 } ) }
 }

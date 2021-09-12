@@ -21,8 +21,36 @@ func assign<T>(_ p : UnsafeMutablePointer<T>, _ b : [T]) {
 
 
 
-extension MIDIPacketList {
+extension MIDIPacketList : Sequence {
     
+    
+    public class Iterator : IteratorProtocol {
+        
+        public typealias Element = MIDIPacket
+        
+        private var packet : MIDIPacket
+        private let n : Int32
+        private var idx : Int32
+        
+        public init(_ list : MIDIPacketList) {
+            n = numericCast(list.numPackets)
+            idx = 0
+            packet = list.packet
+        }
+        
+        public func next() -> MIDIPacket? {
+            guard idx<n else { return nil }
+            idx+=1
+            let p=packet
+            packet=MIDIPacketNext(&packet).pointee
+            return p
+        }
+    }
+    public func makeIterator() -> Iterator { Iterator(self) }
+    public var count : Int { numericCast(numPackets) }
+    
+    
+    /*
     public var packets : [MIDIPacket] {
         let n=self.numPackets
         if n==0 { return [] }
@@ -48,6 +76,7 @@ extension MIDIPacketList {
         }
         return out
     }
+ */
     
     public init(packets : [MIDIPacket]) {
         var list=MIDIPacketList()

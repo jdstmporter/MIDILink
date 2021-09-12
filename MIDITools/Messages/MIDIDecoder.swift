@@ -33,23 +33,15 @@ public class MIDIDecoderBase : Sequence {
             packets=p
             iterator=packets.makeIterator()
         }
-        
-        mutating public func next() -> MIDIMessage? {
-            return iterator.next()
-        }
+        mutating public func next() -> MIDIMessage? { iterator.next() }
     }
-    
-    
-    
+   
     init() throws {
         action = { () in () }
         messages = []
         lock=NSLock()
     }
-    
-    public func makeIterator() -> Iterator {
-        return Iterator(messages)
-    }
+    public func makeIterator() -> Iterator { Iterator(messages) }
     
     public subscript(_ row: Int) -> MIDIMessage? {
         var out : MIDIMessage? = nil
@@ -60,13 +52,9 @@ public class MIDIDecoderBase : Sequence {
         }
         lock.unlock()
         return out
-        
     }
     
-    public var content : [MIDIDict] {
-        return messages.map { $0.parsed }
-    }
-
+    public var content : [MIDIDict] { messages.map { $0.parsed } }
 }
 
 
@@ -102,7 +90,6 @@ public class MIDIDummyDecoder : MIDIDecoderBase {
 public class MIDIDecoder : MIDIDecoderBase {
     
     public static let MIDIDataToDecode=Notification.Name("MIDIDataToDecode")
-    
     private let timeStandard : TimeStandard
 
     public override init() throws {
@@ -128,17 +115,13 @@ public class MIDIDecoder : MIDIDecoderBase {
                 NotificationCenter.default.post(name: MIDIDecoder.MIDIDataToDecode, object: nil)
             }
             catch {}
-           
         }
     }
-    
-    
     public func reset() {
         lock.lock()
         messages.removeAll()
         lock.unlock()
     }
-    
     public override var count : Int {
         lock.lock()
         let n=messages.count
