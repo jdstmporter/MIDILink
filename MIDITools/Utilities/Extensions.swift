@@ -33,12 +33,7 @@ func conv(length : Int,_ p : UnsafeMutableRawPointer) -> UnsafeMutableBufferPoin
     return UnsafeMutableBufferPointer(start : b,count : length)
 }
 
-enum MIDIPacketError : Error {
-    case UnknownCommandType
-    case MissingParameters
-    case CannotDoSysExYet
-    case BadMessageDescription
-}
+
 
 extension MIDIPacket {
     var dataArray : [UInt8] {

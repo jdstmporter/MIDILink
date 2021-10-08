@@ -70,6 +70,13 @@ public enum MIDIMessageReason {
     case NoValue
     case BadBend
 }
+public enum MIDIPacketReason {
+    case UnknownCommandType
+    case MissingParameters
+    case CannotDoSysExYet
+    case BadMessageDescription
+}
+
 public typealias MIDIError = BaseError<MIDIErrorReason>
 public typealias MIDIMessageError = BaseError<MIDIMessageReason>
-
+public typealias MIDIPacketError = BaseError<MIDIPacketReason>

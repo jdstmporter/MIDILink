@@ -8,6 +8,7 @@
 
 import Cocoa
 
+
 @IBDesignable
 public class VButton : NSButton {
     
@@ -25,7 +26,6 @@ public class VButton : NSButton {
     
     typealias Alignment = (h : HAlign, v: VAlign)
 
-    
     private class VButtonCell : NSButtonCell {
         
         internal var titleAlignment : Alignment?
@@ -212,15 +212,7 @@ public class VButton : NSButton {
         if font==nil { font=VButton.defaultMonospaceFont }
         
     }
-    
-    
-    
-    
- 
- 
-    
-    
-    
+  
     public func useDefaultFont(_ f : NSFont = Font.Monospace) {
         font=f
     }
@@ -235,9 +227,7 @@ public class VButton : NSButton {
     }
     
     private var buttonCell : VButtonCell? { return cell as! VButtonCell? }
-    
-    
-    
+  
     public func setBackground(colour : NSColor) {
         let c = cell as! VButtonCell?
         c?.backgroundColor=colour
