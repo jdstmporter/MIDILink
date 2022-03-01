@@ -23,7 +23,7 @@ public enum MIDISysExTypes : UInt8, MIDIEnumeration {
     public static let _unknown : MIDISysExTypes = .UNKNOWN
     
     public static func parse(_ bytes : OffsetArray<UInt8>) throws -> MIDIDict {
-        guard bytes.count >= 2 else { throw MIDIMessageError.NoContent }
+        guard bytes.count >= 2 else { throw MIDIMessageError(reason: .NoContent) }
         let out = MIDIDict()
         let command = MIDISysExTypes(bytes[0])
         

@@ -87,7 +87,7 @@ internal class RowCellSet {
         mode=endpoint.mode
         cb=handler
         
-        var terms : [String] = [endpoint.name,endpoint.model,endpoint.manufacturer].compactMap { $0 }
+        var terms : [String] = [endpoint.name,endpoint.model,endpoint.manufacturer].filter { $0.count > 0 }
         if terms.count==0 { terms.append("-") }
         cells.Name=VTextField(labelWithString: terms.joined(separator: "; "))
         

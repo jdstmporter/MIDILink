@@ -41,7 +41,7 @@ public enum MIDISystemTypes : UInt8, MIDIEnumeration {
     public static let _unknown : MIDISystemTypes = .UNKNOWN
     
     public static func parse(_ bytes: OffsetArray<UInt8>) throws -> MIDIDict {
-        guard bytes.count>0 else { throw MIDIMessageError.NoContent }
+        guard bytes.count>0 else { throw MIDIMessageError(reason: .NoContent) }
         let out=MIDIDict()
         let command=MIDISystemTypes(bytes[0])
         out[.SystemCommand] = command
@@ -55,10 +55,10 @@ public enum MIDISystemTypes : UInt8, MIDIEnumeration {
         case .Tune, .EndSysEx, .TimingClock, .Start, .Continue, .Stop, .ActiveSensing, .SystemReset :
             break
         case .SongSelect :
-            guard bytes.count >= 1 else { throw MIDIMessageError.NoContent }
+            guard bytes.count >= 1 else { throw MIDIMessageError(reason: .NoContent) }
             out[.Song]=bytes[1]
         case .SongPosition :
-            guard bytes.count >= 2 else { throw MIDIMessageError.NoContent }
+            guard bytes.count >= 2 else { throw MIDIMessageError(reason: .NoContent) }
             out[.SongPositionLO]=bytes[1]
             out[.SongPositionHI]=bytes[2]
         default:

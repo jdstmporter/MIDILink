@@ -41,7 +41,7 @@ public enum MIDITimeCodeTypes : UInt8, MIDIEnumeration {
         
     
     public static func parse(_ bytes : OffsetArray<UInt8>) throws -> MIDIDict {
-        guard bytes.count>0 else { throw MIDIMessageError.NoContent }
+        guard bytes.count>0 else { throw MIDIMessageError(reason: .NoContent) }
         let out=MIDIDict()
         out[.TimeCode]=MIDITimeCodeTypes(bytes[0]&0xf0)
         out[.Value]=bytes[0]&0x0f

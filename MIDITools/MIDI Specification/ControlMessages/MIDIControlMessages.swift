@@ -22,12 +22,12 @@ public protocol MMIDISerialiser {
 public enum MIDIControlMessages : UInt8, MIDIEnumeration {
     
     public static func parse(_ bytes: OffsetArray<UInt8>) throws -> MIDIDict {
-        guard bytes.count>0 else { throw MIDIMessageError.NoContent }
+        guard bytes.count>0 else { throw MIDIMessageError(reason: .NoContent) }
         let b0=bytes[0]
         let value=bytes.count>1 ? bytes[1] : nil
         
         guard let command = MIDIControlMessages(rawValue: b0), !(command.needsValue && value==nil)
-            else { throw MIDIMessageError.BadPacket}
+            else { throw MIDIMessageError(reason: .BadPacket) }
         
         let out=MIDIDict()
         out[.Command] = command

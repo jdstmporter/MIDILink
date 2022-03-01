@@ -58,14 +58,14 @@ public enum MIDISysExNonRealTimeTypes : UInt8, MIDIEnumeration {
     public static let _unknown : MIDISysExNonRealTimeTypes = .UNKNOWN
     
     public static func parse(_ bytes : OffsetArray<UInt8>) throws -> MIDIDict {
-        guard bytes.count > 0 else { throw MIDIMessageError.NoContent }
+        guard bytes.count > 0 else { throw MIDIMessageError(reason: .NoContent) }
         
         let command=MIDISysExNonRealTimeTypes(bytes[0])
         let out = MIDIDict()
         out[.SysExSubID1] = command
         switch command {
         case .Timecode, .SampleDumpExtensions, .Information, .FileDump, .Tuning, .General, .DownloadableSounds, .FileReference, .Visual, .Capability:
-            guard bytes.count >= 2 else { throw MIDIMessageError.NoContent }
+            guard bytes.count >= 2 else { throw MIDIMessageError(reason: .NoContent) }
             out[.SysExSubID2]=bytes[1]
         case .EOF, .Wait, .Cancel, .NAK, .ACK:
             break

@@ -40,36 +40,36 @@ public enum MIDICommands : UInt8, MIDIEnumeration {
     }
     
     public static func parse(_ bytes: OffsetArray<UInt8>) throws -> MIDIDict {
-        guard bytes.count > 0 else { throw MIDIMessageError.NoContent }
+        guard bytes.count > 0 else { throw MIDIMessageError(reason: .NoContent) }
         let out = MIDIDict()
         let command=MIDICommands(bytes[0]&0xf0)
         out[.Command]=command
         let channel = bytes[0]&0x0f
         switch command {
         case .NoteOnEvent, .NoteOffEvent:
-            guard bytes.count >= 3 else { throw MIDIMessageError.BadPacket }
+            guard bytes.count >= 3 else { throw MIDIMessageError(reason: .BadPacket) }
             out[.Channel]=channel
             out[.Note]=MIDINote(bytes[1])
             out[.Velocity]=MIDIVelocity(bytes[2])
         case .KeyPressure:
-            guard bytes.count >= 3 else { throw MIDIMessageError.BadPacket }
+            guard bytes.count >= 3 else { throw MIDIMessageError(reason: .BadPacket) }
             out[.Channel]=channel
             out[.Note]=MIDINote(bytes[1])
             out[.Pressure]=MIDIPressure(bytes[2])
         case .ProgramChange:
-            guard bytes.count >= 2 else { throw MIDIMessageError.BadPacket }
+            guard bytes.count >= 2 else { throw MIDIMessageError(reason: .BadPacket) }
             out[.Channel]=channel
             out[.Program]=MIDIProgram(bytes[1])
         case .ChannelPressure:
-            guard bytes.count >= 2 else { throw MIDIMessageError.BadPacket }
+            guard bytes.count >= 2 else { throw MIDIMessageError(reason: .BadPacket) }
             out[.Channel]=channel
             out[.Pressure]=MIDIPressure(bytes[1])
         case .PitchBend:
-            guard bytes.count >= 3 else { throw MIDIMessageError.BadPacket }
+            guard bytes.count >= 3 else { throw MIDIMessageError(reason: .BadPacket) }
             out[.Channel]=channel
             out[.Bend]=Bend(hi: bytes[2], lo: bytes[1])
         case .ControlChange:
-            guard bytes.count >= 2 else { throw MIDIMessageError.BadPacket }
+            guard bytes.count >= 2 else { throw MIDIMessageError(reason: .BadPacket) }
             out[.Channel]=channel
             let cmds=try MIDIControlMessages.parse(bytes.shift(1))
             out.append(cmds)
@@ -81,7 +81,7 @@ public enum MIDICommands : UInt8, MIDIEnumeration {
                 out[.InterpretedValue]=arr.joined(separator: ", ")
             }
         default:
-            throw MIDIMessageError.UnknownMessage
+            throw MIDIMessageError(reason: .UnknownMessage)
         }
         return out
     }
